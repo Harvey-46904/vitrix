@@ -73,7 +73,7 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $this->guard()->user())
-                ?: redirect()->intended($this->redirectPath())->with(['message' => 'Successfully logged in.', 'message_type' => 'success']);
+                ?: redirect()->intended($this->redirectPath())->with(['message' => 'Ha iniciado sesión con éxito.', 'message_type' => 'success']);
     }
 
 
