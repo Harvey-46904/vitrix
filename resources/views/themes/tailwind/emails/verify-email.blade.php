@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Welcome Email</title>
+    <title>Bienvenido Email</title>
 </head>
 
 <body>
-<h2>Welcome to the site {{$user['name']}}</h2>
+<h2>Bienvenido a Vitris {{$user['name']}}</h2>
 <br/>
-Your registered email-id is {{$user['email']}} , Please click on the below link to verify your email account
+Su identificación de correo electrónico registrada es {{$user['email']}} , Haga clic en el siguiente enlace para verificar su cuenta de correo electrónico.
 <br/>
-<a href="{{ url('user/verify/', $user['verification_code']) }}">Verify Email</a>
+<a href="{{ url('user/verify/', $user['verification_code']) }}">Verificar Correo Electronico</a>
 </body>
 
 </html>
