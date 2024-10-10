@@ -34,6 +34,27 @@
                     </div>
 
                     @csrf
+                    @if(isset($encryptedId) && $encryptedId)
+                    <div class="mt-6">
+                        <label for="email" class="block text-sm font-medium leading-5 text-gray-700">
+                            Código de referido
+                        </label>
+                        <div class="mt-1 rounded-md shadow-sm">
+                            <input id="referido" type="text" name="referido" required class="w-full form-input" value="{{ $encryptedId }}" readonly>
+                        </div>
+                        @if ($errors->has('email'))
+                            <div class="mt-1 text-red-500">
+                                {{ $errors->first('referido') }}
+                            </div>
+                        @endif
+                    </div>
+                     
+                    @else
+                        <p>No se proporcionó un ID de referido.</p>
+                    @endif
+
+                  
+
 
                     <div class="mt-6">
                         <label for="name" class="block text-sm font-medium leading-5 text-gray-700">

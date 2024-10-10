@@ -9,7 +9,7 @@ Route::get('@{username}', '\Wave\Http\Controllers\ProfileController@index')->nam
 
 // Documentation routes
 Route::view('docs/{page?}', 'docs::index')->where('page', '(.*)');
-
+Route::get('register/{referido}', '\Wave\Http\Controllers\Auth\RegisterController@showRegistrationForm')->name('register_ref');
 // Additional Auth Routes
 Route::get('logout', '\Wave\Http\Controllers\Auth\LoginController@logout')->name('wave.logout');
 Route::get('user/verify/{verification_code}', '\Wave\Http\Controllers\Auth\RegisterController@verify')->name('verify');
@@ -39,7 +39,7 @@ Route::group(['middleware' => 'wave'], function () {
 
 Route::group(['middleware' => 'auth'], function(){
 	Route::get('settings/{section?}', '\Wave\Http\Controllers\SettingsController@index')->name('wave.settings');
-
+	Route::get('settings/arbol/referidos', '\Wave\Http\Controllers\SettingsController@arbol')->name('wave.arbol');
 	Route::post('settings/profile', '\Wave\Http\Controllers\SettingsController@profilePut')->name('wave.settings.profile.put');
 	Route::put('settings/security', '\Wave\Http\Controllers\SettingsController@securityPut')->name('wave.settings.security.put');
 

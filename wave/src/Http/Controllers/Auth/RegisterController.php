@@ -4,6 +4,7 @@ namespace Wave\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Referido;
 use Carbon\Carbon;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use TCG\Voyager\Models\Role;
 use Wave\Notifications\VerifyEmail;
-
+use Illuminate\Support\Facades\Crypt;
 class RegisterController extends Controller
 {
     /*
@@ -81,6 +82,7 @@ class RegisterController extends Controller
      */
     public function create(array $data)
     {
+
         $role = Role::where('name', '=', config('voyager.user.default_role'))->first();
 
         $verification_code = NULL;
@@ -125,6 +127,24 @@ class RegisterController extends Controller
             'trial_ends_at' => $trial_ends_at
         ]);
 
+
+        //compruebo si este viene con referido
+        if (isset($data['referido']) && !empty($data['referido'])) {
+            $userId = $user->id;
+            Referido::create([
+                'user_id'=>$data['referido'],
+                'referred_user_id'=>$userId
+            ]);
+           
+        } else {
+            $userId = $user->id;
+            Referido::create([
+                'user_id'=>1,
+                'referred_user_id'=>$userId
+            ]);
+        }
+        
+
         if(setting('auth.verify_email', false)){
             $this->sendVerificationEmail($user);
         }
@@ -161,7 +181,7 @@ class RegisterController extends Controller
         $user->save();
 
 
-        return redirect()->route('wave.dashboard')->with(['message' => 'Successfully updated your profile information.', 'message_type' => 'success']);
+        return redirect()->route('wave.dashboard')->with(['message' => 'Actualizó exitosamente la información de su perfil.', 'message_type' => 'success']);
 
     }
 
@@ -169,12 +189,22 @@ class RegisterController extends Controller
         Notification::route('mail', $user->email)->notify(new VerifyEmail($user));
     }
 
-    public function showRegistrationForm()
+    public function showRegistrationForm($referido = null)
     {
-        if(setting('billing.card_upfront')){
-            return redirect()->route('wave.pricing');
+        if($referido){
+            $encryptedId =$referido;
+            if(setting('billing.card_upfront')){
+                return redirect()->route('wave.pricing');
+            }
+            return view('theme::auth.register',compact('encryptedId'));
+        }else{
+            if(setting('billing.card_upfront')){
+                return redirect()->route('wave.pricing');
+            }
+            return view('theme::auth.register');
         }
-        return view('theme::auth.register');
+       
+        
     }
 
     public function verify(Request $request, $verification_code){
@@ -185,7 +215,7 @@ class RegisterController extends Controller
         $user->email_verified_at = Carbon::now();
         $user->save();
 
-        return redirect()->route('login')->with(['message' => 'Successfully verified your email. You can now login.', 'message_type' => 'success']);
+        return redirect()->route('login')->with(['message' => 'Verificó exitosamente su correo electrónico. Ahora puedes iniciar sesión.', 'message_type' => 'success']);
     }
 
     /**
@@ -196,18 +226,19 @@ class RegisterController extends Controller
      */
     public function register(Request $request)
     {
+      
         $this->validator($request->all())->validate();
 
         event(new Registered($user = $this->create($request->all())));
 
         if(setting('auth.verify_email')){
             // send email verification
-            return redirect()->route('login')->with(['message' => 'Thanks for signing up! Please check your email to verify your account.', 'message_type' => 'success']);
+            return redirect()->route('login')->with(['message' => '¡Gracias por registrarte! Por favor revise su correo electrónico para verificar su cuenta.', 'message_type' => 'success']);
         } else {
             $this->guard()->login($user);
 
             return $this->registered($request, $user)
-                        ?: redirect($this->redirectPath())->with(['message' => 'Thanks for signing up!', 'message_type' => 'success']);
+                        ?: redirect($this->redirectPath())->with(['message' => '¡Gracias por registrarte!', 'message_type' => 'success']);
         }
     }
 

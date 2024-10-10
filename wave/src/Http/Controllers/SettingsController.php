@@ -11,14 +11,26 @@ use Illuminate\Support\Str;
 use TCG\Voyager\Http\Controllers\Controller;
 use Wave\ApiKey;
 use Wave\KeyValue;
-
+use DB;
 class SettingsController extends Controller
 {
     public function index($section = ''){
+     
         if(empty($section)){
             return redirect(route('wave.settings', 'profile'));
         }
         return view('theme::settings.index', compact('section'));
+    }
+    public function arbol(){
+        $id=auth()->user()->id;
+       $arbol=DB::table("referidos")
+       ->select('users.id','users.name')
+       ->where('user_id','=',$id)
+       ->join('users','users.id','=','referidos.referred_user_id')
+       ->get();
+      // return response(["data"=>$arbol]);
+        $section="referidos";
+        return view('theme::settings.index', compact('section','arbol'));
     }
 
     public function profilePut(Request $request){

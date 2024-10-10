@@ -21,10 +21,10 @@
 
 	        </div>
 	        <div class="relative p-5">
-	            <p class="text-base leading-loose text-gray-500">Esta es la aplicación <a href="{{ route('wave.dashboard') }}" class="underline text-wave-500">dashboard</a>, aqui se dispondra de las diferentes opciones de acuerdo al rol </p>
+	            <p class="text-base leading-loose text-gray-500">En esta seccion se ubicaran los items de los juegos principalmente </p>
 				<span class="inline-flex mt-5 rounded-md shadow-sm">
-	                <a href="" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50">
-	                   Por construir acciones
+	                <a href="{{ route('wave.settings') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50">
+	                   Acciones en construcción
 	                </a>
 				</span>
 			</div>

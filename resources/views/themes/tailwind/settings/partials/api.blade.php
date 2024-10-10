@@ -1,7 +1,7 @@
 <div class="flex flex-col px-10 py-8">
 	<form action="{{ route('wave.settings.api.post') }}" method="POST">
 		<div>
-			<label for="key_name" class="block text-sm font-medium leading-5 text-gray-700">Create a new API Key</label>
+			<label for="key_name" class="block text-sm font-medium leading-5 text-gray-700">Crear Nueva Api</label>
 			<div class="mt-1 rounded-md shadow-sm">
 				<input id="key_name" type="text" name="key_name" placeholder="Key Name" class="w-full form-input">
 			</div>

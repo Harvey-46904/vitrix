@@ -69,6 +69,6 @@ class ResetPasswordController extends Controller
         }
 
         return redirect($this->redirectPath())
-                    ->with(['message' => 'Welcome back, you have successfully reset your password.', 'message_type' => 'success']);
+                    ->with(['message' => 'Bienvenido de nuevo, has restablecido exitosamente tu contraseña.', 'message_type' => 'success']);
     }
 }

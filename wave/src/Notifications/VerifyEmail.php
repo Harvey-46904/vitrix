@@ -44,9 +44,9 @@ class VerifyEmail extends Notification
         $url = url('/user/verify/'.$this->user->verification_code);
 
         return (new MailMessage)
-                    ->line('Thanks for signing up, but before you can continue we need to verify your email.')
-                    ->action('Verify Email', $url)
-                    ->line('Thanks! See you soon.');
+                    ->line('Gracias por registrarte, pero antes de que puedas continuar necesitamos verificar tu correo electrónico.')
+                    ->action('verificación de cuenta', $url)
+                    ->line('¡Gracias! Nos vemos pronto.');
 
     }
 

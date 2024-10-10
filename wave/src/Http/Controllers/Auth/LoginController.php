@@ -56,7 +56,7 @@ class LoginController extends Controller
     {
         if(setting('auth.verify_email') && !$user->verified){
             $this->guard()->logout();
-            return redirect()->back()->with(['message' => 'Please verify your email before logging into your account.', 'message_type' => 'warning']);
+            return redirect()->back()->with(['message' => 'Verifique su correo electrónico antes de iniciar sesión en su cuenta.', 'message_type' => 'warning']);
         }
     }
 
