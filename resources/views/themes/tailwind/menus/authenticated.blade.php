@@ -13,9 +13,11 @@
                 <span class="px-3 py-1 text-xs text-red-600 bg-red-100 border border-gray-200 rounded-md">You have {{ auth()->user()->daysLeftOnTrial() }} @if(auth()->user()->daysLeftOnTrial() > 1){{ 'Days' }}@else{{ 'Day' }}@endif left on your Trial</span>
             </div>
         @endif
-
+        <a href="javascript:alertas()" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap transition duration-150 ease-in-out border border-transparent rounded-md bg-wave-variante hover:bg-wave-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-wave active:bg-wave-700">
+            Invitar
+        </a>
         @include('theme::partials.notifications')
-
+        @include('theme::partials.money')
         <!-- Profile dropdown -->
         <div @click.away="open = false" class="relative flex items-center h-full ml-3" x-data="{ open: false }">
             <div>
@@ -76,3 +78,9 @@
     </div>
 
 </div>
+<script>
+    function alertas(){
+        alert("trabajando en el link de referido cifrado")
+    }
+    
+</script>

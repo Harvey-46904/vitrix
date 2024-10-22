@@ -5,7 +5,12 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use App\Observers\UserObserver;
+use App\Observers\InversionesObserver;
 
+use App\Models\User;
+use App\Models\Inversione;
+//use TCG\Voyager\Models\User as VoyagerUser;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -25,6 +30,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        User::observe(UserObserver::class);
+        Inversione::observe(InversionesObserver::class);
         if ($this->app->environment() == 'production') {
             $this->app['request']->server->set('HTTPS', true);
         }

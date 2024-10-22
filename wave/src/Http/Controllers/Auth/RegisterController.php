@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use TCG\Voyager\Models\Role;
 use Wave\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Hash;
 class RegisterController extends Controller
 {
     /*
@@ -131,8 +132,10 @@ class RegisterController extends Controller
         //compruebo si este viene con referido
         if (isset($data['referido']) && !empty($data['referido'])) {
             $userId = $user->id;
+            
             Referido::create([
                 'user_id'=>$data['referido'],
+                
                 'referred_user_id'=>$userId
             ]);
            
