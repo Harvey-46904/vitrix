@@ -132,9 +132,11 @@ class RegisterController extends Controller
         //compruebo si este viene con referido
         if (isset($data['referido']) && !empty($data['referido'])) {
             $userId = $user->id;
-            
+            //descincriptar
+            $decryptedId = Crypt::decrypt($data['referido']);
+
             Referido::create([
-                'user_id'=>$data['referido'],
+                'user_id'=>$decryptedId,
                 
                 'referred_user_id'=>$userId
             ]);

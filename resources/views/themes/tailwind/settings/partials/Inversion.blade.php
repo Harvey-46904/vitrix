@@ -45,7 +45,7 @@
                                             </ul>
                                             <div class="card-body">
                                                 <a class="card-link btn  btn-primary" onClick="calcular({{$product}})">Calculadora</a>
-                                                <a href="#" class="card-link btn btn-success">Comprar</a>
+                                                <a href="{{route('cashinversion',['id'=>$product->id])}}" class="card-link btn btn-success">Comprar</a>
                                             </div>
                                         </div>
                                     </div>

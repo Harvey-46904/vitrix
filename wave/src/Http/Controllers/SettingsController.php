@@ -4,6 +4,7 @@ namespace Wave\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
@@ -12,6 +13,8 @@ use TCG\Voyager\Http\Controllers\Controller;
 use Wave\ApiKey;
 use Wave\KeyValue;
 use DB;
+use App\Models\User;
+
 class SettingsController extends Controller
 {
     public function index($section = ''){
@@ -22,15 +25,35 @@ class SettingsController extends Controller
         return view('theme::settings.index', compact('section'));
     }
     public function arbol(){
+       
+
+        $nivel=DB::table("configuraciones")->select('parametros')
+        ->whereIn('nombre', ['niveles_referidos', 'parametros_referidos'])
+        ->get()
+        ->map(function ($fila) {
+            // Convierte el campo 'parametros' de JSON string a un objeto
+            $fila->parametros = json_decode($fila->parametros);
+            return $fila;
+        });
+
+        $nivel_numero=$nivel[0]->parametros->niveles;
+        
+
         $id=auth()->user()->id;
        $arbol=DB::table("referidos")
        ->select('users.id','users.name')
        ->where('user_id','=',$id)
        ->join('users','users.id','=','referidos.referred_user_id')
        ->get();
+
+
+       $user = new User;
+       $referidos = $user->referidosEnTresNiveles($id,$nivel_numero);
+      
+      $totales_referidos=$referidos["conteo"];
       // return response(["data"=>$arbol]);
         $section="referidos";
-        return view('theme::settings.index', compact('section','arbol'));
+        return view('theme::settings.index', compact('section','arbol','totales_referidos'));
     }
 
     public function profilePut(Request $request){

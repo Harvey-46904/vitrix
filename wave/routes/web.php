@@ -45,7 +45,8 @@ Route::group(['middleware' => 'auth'], function(){
 
 	
 	Route::get('system/inversion', 'InversionesPaquete@mostrar_paquetes')->name('wave.paquetes');
-
+	Route::get('system/inversion/personal', 'InversionesPaquete@MisInversiones')->name('wave.paquetes.personal');
+	Route::get('system/inversion/personal/{id}', 'InversionesPaquete@MisInversionesTransaccion')->name('wave.paquetes.personal.transaccion');
 
 	Route::post('settings/api', '\Wave\Http\Controllers\SettingsController@apiPost')->name('wave.settings.api.post');
 	Route::put('settings/api/{id?}', '\Wave\Http\Controllers\SettingsController@apiPut')->name('wave.settings.api.put');
@@ -68,6 +69,24 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::view('trial_over', 'theme::trial_over')->name('wave.trial_over');
 	Route::view('cancelled', 'theme::cancelled')->name('wave.cancelled');
     Route::post('switch-plans', '\Wave\Http\Controllers\SubscriptionController@switchPlans')->name('wave.switch-plans');
+
+  /********** LogicaCasino***********/
+  Route::get('transacciones', 'CashController@index')->name('wave.transaccion');
+  Route::get('arbolreferidos', 'ReferidosController@ArbolMultiNivel')->name('referidos');
+  Route::view('cash', 'theme::Cash')->name('cashmoney');
+  /***** Logica money */
+  Route::post('balance', 'CashController@addFunds')->name('cashbalance');
+
+  Route::get('/transfer', 'CashController@tranfers')->name('payment.transfer');
+
+  Route::post('balancebono', 'CashController@addFoundBono')->name('cashbalanceBono');
+  Route::post('balanceinversion/{id}', 'CashController@addFoundinversion')->name('cashbalanceInversion');
+  Route::get('retirar', 'CashController@retirar')->name('retirar');
+  Route::get('cash/invertir/{id}', 'InversionesPaquete@CompraPaqueteInversion')->name('cashinversion');
+  Route::get('inversioncasino/{id}', 'CashController@SendInversionToEfectivo')->name('wave.paquetes.casino');
+  Route::post('retirosvitrix', 'CashController@retirosvitrix')->name('RetirosVitrix');
+
+  Route::get('/juego', "GamesController@Genius")->name("unity-game");
 });
 
 Route::group(['middleware' => 'admin.user'], function(){

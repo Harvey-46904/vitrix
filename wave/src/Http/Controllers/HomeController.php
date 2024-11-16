@@ -4,7 +4,7 @@ namespace Wave\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use DB;
 class HomeController extends Controller
 {
 
@@ -29,7 +29,16 @@ class HomeController extends Controller
             'type'          => 'website'
 
         ];
+        $juegos=self::consulta_juegos();
+        $banners=self::consulta_banners();
+        return view('theme::home', compact('seo','juegos','banners'));
+    }
 
-        return view('theme::home', compact('seo'));
+    public function consulta_juegos(){
+        return $juegos=DB::table("juegos")->get();
+    }
+
+    public function consulta_banners(){
+        return $juegos=DB::table("banners")->where("activo","=",1)->get();
     }
 }

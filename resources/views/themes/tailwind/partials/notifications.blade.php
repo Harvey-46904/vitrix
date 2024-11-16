@@ -23,7 +23,7 @@
             x-transition:leave="transition duration-50 ease-in scale-100"
             x-transition:leave-start="opacity-100 scale-100"
             x-transition:leave-end="opacity-0 scale-95"
-            class="absolute top-0 right-0 max-w-lg mt-20 overflow-hidden origin-top-right transform rounded-lg shadow-lg max-w-7xl w-104" x-cloak>
+            class="absolute top-0 contendedor_emergente max-w-lg mt-20 overflow-hidden origin-top-right transform rounded-lg shadow-lg max-w-7xl " x-cloak>
     @else
         <div class="relative top-0 right-0 w-full my-8 overflow-hidden origin-top max-w-7xl">
     @endif
@@ -55,18 +55,20 @@
                             </div>
                             <div class="flex flex-col items-start flex-1 w-0 ml-3">
                                 <p class="text-sm leading-5 text-gray-600">
-                                    <strong>{{ @$notification_data->user['username'] }} @if(isset($notification_data->type) && @$notification_data->type == 'message'){{ 'left a message' }}@else{{ 'said' }}@endif</strong>
-                                    {{ @$notification_data->body }} in <span class="notification-highlight">{{ @$notification_data->title }}</span>
+                                    <strong>{{ @$notification_data->user['username'] }} @if(isset($notification_data->type) && @$notification_data->type == 'message'){{ 'Dejó un mensaje' }}@else{{ 'Vitrix' }}@endif</strong>
+                                    {{ @$notification_data->body }} .El <span class="notification-highlight">{{ @$notification_data->title }}</span>
                                 </p>
                                 <p class="mt-2 text-sm font-medium leading-5 text-gray-500">
-                                    <span class="notification-datetime">{{ \Carbon\Carbon::parse(@$notification->created_at)->format('F, jS h:i A') }}</span>
+                                    <span class="notification-datetime">
+                                        {{ \Carbon\Carbon::parse(@$notification->created_at)->translatedFormat('j \d\e F \d\e Y h:i A') }}
+                                    </span>
                                 </p>
                             </div>
                         </a>
                         <span data-id="{{ $notification->id }}" data-listid="{{ $index+1 }}" class="flex justify-start w-full py-1 pl-16 ml-1 text-xs text-gray-500 cursor-pointer k hover:text-gray-700 mark-as-read hover:underline">
                             <svg class="absolute w-4 h-4 mt-1 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Mark as Read
+                            Marcar como leida
                         </span>
 
                     </div>

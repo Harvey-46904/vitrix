@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Inversione;
+use App\Models\Rentabilidade;
 use Illuminate\Support\Facades\Log;
 class InversionesObserver
 {
@@ -11,8 +12,50 @@ class InversionesObserver
      */
     public function created(Inversione $inversione): void
     {
-        Log::info('Observer ejecutado para usuario creado: ' . $inversione);
+       // Log::info('Observer ejecutado para usuario creado: ' . $inversione);
+        $total=(($inversione->precio_base*$inversione->porcentaje_rentabilidad)/100)+$inversione->precio_base;
+        $inversione->totalidad=$total;
+        $inversione->save();
+
+        self::CrearRentabilidades($inversione->id,$inversione->totalidad,$inversione->duracion_meses);
     }
+
+    public function CrearRentabilidades($idInversion,$total,$duracion){
+        Rentabilidade::create([
+            'id_inversion' => $idInversion,  // Asigna el valor correspondiente de tu inversión
+            'formato_rentabilidad' => json_encode(self::generarNumeros($total,$duracion))  // Asigna el valor que desees
+        ]);
+
+    }
+function generarNumeros($totalidad, $duracion) {
+    // Paso 1: Realizar la división inicial
+    $totalObjetivo = $totalidad / $duracion;
+    // Paso 2: Generar 31 números aleatorios que sumen $totalObjetivo
+    $numeros = [];
+    $sumaRestante = $totalObjetivo;
+    $limite=$totalObjetivo/31;
+    for ($i = 0; $i < 31; $i++) {
+        // Generar un número aleatorio entre 0 y la mitad del valor restante, para evitar extremos
+        $numeroAleatorio = rand(1, $limite * 10) / 10;
+        if( $numeroAleatorio ==0 ){
+            $numeros[] = 0.1;
+            $sumaRestante -= 0.1;
+        }else{
+            $numeros[] = $numeroAleatorio;
+            $sumaRestante -= $numeroAleatorio;
+        }
+    }
+    $incremento=$sumaRestante/31;
+    for ($i = 0; $i < count($numeros); $i++) {
+        $numeros[$i] = round($numeros[$i] + $incremento, 2);
+    }
+    // Asegurar que la suma total sea exactamente igual al total objetivo sumando el restante al último elemento
+    //$numeros[] = $sumaRestante;
+
+    return $numeros;
+}
+
+
 
 
     function generarGanancias($porcentaje_ganancia, $tiempo_meses) {

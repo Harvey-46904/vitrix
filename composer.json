@@ -15,10 +15,12 @@
         "devdojo/themes": "0.0.7",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
+        "kornrunner/keccak": "^1.1",
         "lab404/laravel-impersonate": "^1.7",
         "laravel/framework": "^10.0",
         "laravel/tinker": "^2.7",
         "livewire/livewire": "^2.4",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "tcg/voyager": "1.7",
         "tymon/jwt-auth": "@dev"
     },

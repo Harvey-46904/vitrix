@@ -22,6 +22,14 @@ Auth::routes();
 // Voyager Admin routes
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+    Route::get('referidos','ConfiguracionesController@IndexNiveles')->name("IndexNiveles");
+    Route::get('editar_referidos','ConfiguracionesController@EditNiveles')->name("EditNiveles");
+    Route::post('editar_referidos_total','ConfiguracionesController@UpdateNiveles')->name("UpdateNiveles");
+
+    Route::get('rentabilidades/{id}','InversionesPaquete@rentabilidadesInversion')->name("RentabilidadesList");
+    Route::post('updaterentabilidad/{id}','InversionesPaquete@actualizarRentabilidad')->name("UpdateRentabilidad");
+    Route::get('bonos','ConfiguracionesController@indexbono')->name("IndexBonos");
+    Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
 
 // Wave routes

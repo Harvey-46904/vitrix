@@ -14,8 +14,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="url" content="{{ url('/') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="{{ asset('vitrix/css/mystyle.css') }}" rel="stylesheet">
     <link rel="icon" href="{{ Voyager::image(setting('site.favicon', '/wave/favicon.png')) }}" type="image/x-icon">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     {{-- Social Share Open Graph Meta Tags --}}
     @if(isset($seo->title) && isset($seo->description) && isset($seo->image))
         <meta property="og:title" content="{{ $seo->title }}">
@@ -88,5 +89,7 @@
 
 	<!-- Chart.js -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('vitrix/js/myscript.js') }}"></script>
+  
 </body>
 </html>

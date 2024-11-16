@@ -1,4 +1,10 @@
-<div x-data="{ open: false }" class="flex h-full md:flex-1">
+@php
+  use Illuminate\Support\Facades\Crypt;
+  $encryptedId = Crypt::encrypt(auth()->user()->id); 
+   
+  
+@endphp
+<div x-data="{ open: false }" class="flex  md:flex-1">
     <div class="flex-1 hidden h-full space-x-8 md:flex">
         <a href="{{ route('wave.dashboard') }}" class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 transition duration-150 ease-in-out focus:outline-none border-b-2 border-transparent @if(Request::is('dashboard')){{ 'border-b-2 border-indigo-500 text-gray-900 focus:border-indigo-700 text-white' }}@else{{ 'text-gray-500 hover:border-gray-300 hover:text-gray-700 focus:text-gray-700 focus:border-gray-300' }}@endif">Dashboard</a>
         
@@ -13,7 +19,8 @@
                 <span class="px-3 py-1 text-xs text-red-600 bg-red-100 border border-gray-200 rounded-md">You have {{ auth()->user()->daysLeftOnTrial() }} @if(auth()->user()->daysLeftOnTrial() > 1){{ 'Days' }}@else{{ 'Day' }}@endif left on your Trial</span>
             </div>
         @endif
-        <a href="javascript:alertas()" class="inline-flex items-center justify-center px-4 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap transition duration-150 ease-in-out border border-transparent rounded-md bg-wave-variante hover:bg-wave-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-wave active:bg-wave-700">
+        
+        <a href="javascript:alertas()" class="inline-flex items-center justify-center px-1 py-2 text-base font-medium leading-6 text-white whitespace-no-wrap transition duration-150 ease-in-out border border-transparent rounded-md bg-wave-variante hover:bg-wave-600 focus:outline-none focus:border-indigo-700 focus:shadow-outline-wave active:bg-wave-700">
             Invitar
         </a>
         @include('theme::partials.notifications')
@@ -78,9 +85,24 @@
     </div>
 
 </div>
+
 <script>
     function alertas(){
-        alert("trabajando en el link de referido cifrado")
+      
+
+       let baseUrl = "{{ url('/') }}/register/"; // Genera la URL base automáticamente
+        let encryptedId = "{{ $encryptedId }}"; // ID cifrado pasado desde el controlador
+        let fullUrl = baseUrl + encryptedId;
+
+        // Copiar la URL al portapapeles
+        navigator.clipboard.writeText(fullUrl).then(function() {
+            // Mostrar un alert de éxito
+            alert('Enlace copiado correctamente');
+        }, function(err) {
+            // Manejo de errores si no se puede copiar
+            console.error('Error al copiar: ', err);
+        });
+       
     }
     
 </script>

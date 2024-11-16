@@ -7,9 +7,12 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\Observers\UserObserver;
 use App\Observers\InversionesObserver;
-
+use TCG\Voyager\Facades\Voyager;
 use App\Models\User;
 use App\Models\Inversione;
+
+use App\Models\UserPaquete;
+use App\Observers\UserPaquetesObserver;
 //use TCG\Voyager\Models\User as VoyagerUser;
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,7 +33,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        
+        Voyager::addAction(\App\Actions\RentabilidadesButton::class);
         User::observe(UserObserver::class);
+        UserPaquete::observe(UserPaquetesObserver::class);
+       
         Inversione::observe(InversionesObserver::class);
         if ($this->app->environment() == 'production') {
             $this->app['request']->server->set('HTTPS', true);
