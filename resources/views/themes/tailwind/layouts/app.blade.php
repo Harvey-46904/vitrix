@@ -91,13 +91,18 @@
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('vitrix/js/myscript.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
+
     <script>
-        console.log("Escuchando eventos...");
-        window.Echo.channel('public.playground') // El nombre del canal en tu evento
-    .listen('.CashBalanceVitrix', (data) => {
-        console.log("Evento recibido:", data);
-        alert("Evento recibido con datos: " + JSON.stringify(data));
-    });
+        @if(auth()->check())
+            window.Echo.private(`balances.{{ auth()->user()->id }}`) // Reemplazamos USER_ID con el id del usuario autenticado
+            .listen('.BalanceUpdated', (data) => {
+    
+                document.getElementById("balance_efectivo").innerText = `$${parseFloat(data.balance.replace(/[^0-9.-]+/g, '')).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            });
+        @else
+            console.log('Usuario no autenticado');
+        @endif
     </script>
+   
 </body>
 </html>

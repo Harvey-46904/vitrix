@@ -130,7 +130,7 @@ class CashController extends Controller
     public function FoundBalance($amount){
        // return $this->wallet->generateNewAddress();
         $userId =$id=auth()->user()->id;
-        $result = $this->cashService->AddMoneyBalance($userId, $amount);
+        $result = $this->cashService->AddMoneyBalance($userId, $amount,'Deposito');
         event(new BalanceUpdated($userId));
         if ($result) {
             return back();
@@ -171,7 +171,7 @@ class CashController extends Controller
         $userPaquete->monto_parcial=0;
         $userPaquete->save();
         //tranferir
-        $this->cashService->AddMoneyBalance($userId, $valor_gestionado);
+        $this->cashService->AddMoneyBalance($userId, $valor_gestionado,"Transferencia Rentabilidad");
         $this->cashService->AddMoneyInversion($userId, -$valor_gestionado);
         return back();
         return response(["data"=>$userPaquete]);
@@ -183,7 +183,7 @@ class CashController extends Controller
         //validar el no dineros
         switch ($opciones) {
             case  "efectivo":
-                $this->cashService->AddMoneyBalance($id,-$request->cantidad);
+                $this->cashService->AddMoneyBalance($id,-$request->cantidad,'Solicitud de retiro');
                 break;
                 case  "inversion":
                     $this->cashService->AddMoneyInversion($id,-$request->cantidad);
