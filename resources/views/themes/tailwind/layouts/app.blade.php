@@ -90,6 +90,14 @@
 	<!-- Chart.js -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('vitrix/js/myscript.js') }}"></script>
-  
+    <script src="{{ mix('js/app.js') }}"></script>
+    <script>
+        console.log("Escuchando eventos...");
+        window.Echo.channel('public.playground') // El nombre del canal en tu evento
+    .listen('.CashBalanceVitrix', (data) => {
+        console.log("Evento recibido:", data);
+        alert("Evento recibido con datos: " + JSON.stringify(data));
+    });
+    </script>
 </body>
 </html>

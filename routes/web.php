@@ -32,5 +32,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
 
+Route::get('pruebitas',function(){
+    event (new \App\Events\CashMoneyEvent());
+    return response(["data"=>"hijitos"]);
+});
+
 // Wave routes
 Wave::routes();
