@@ -20,6 +20,6 @@ class GamesController extends Controller
    public function Cars(){
 
       //return response(["data"=>"hola"]);
-      return view('Unity.unity-game');
+      return view('Unity.cars');
    }
 }
