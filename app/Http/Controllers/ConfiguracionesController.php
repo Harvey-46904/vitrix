@@ -58,4 +58,8 @@ class ConfiguracionesController extends Controller
         return response(["data"=>"bonos"]);
     }
 
+    public function finanzas(){
+        return view("vendor.voyager.finanzas.index");
+    }
+
 }

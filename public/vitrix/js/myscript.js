@@ -17,7 +17,7 @@ window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const scrollPercent = scrollTop / (document.body.scrollHeight - window.innerHeight);
     const imageIndex = Math.floor(scrollPercent * tetrisImages.length);
-console.log(`url(${tetrisImages[imageIndex]})`);
+
 
     button.style.backgroundImage = `url(${tetrisImages[imageIndex]})`;
 });

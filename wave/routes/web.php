@@ -87,6 +87,10 @@ Route::group(['middleware' => 'auth'], function(){
   Route::post('retirosvitrix', 'CashController@retirosvitrix')->name('RetirosVitrix');
 
   Route::get('/juego', "GamesController@Genius")->name("unity-game");
+
+  Route::get('/genius', "GamesController@Genius")->name("genius");
+  Route::get('/navial', "GamesController@Navial")->name("navial");
+  Route::get('/cars', "GamesController@Cars")->name("cars");
 });
 
 Route::group(['middleware' => 'admin.user'], function(){

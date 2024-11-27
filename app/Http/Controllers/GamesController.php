@@ -12,4 +12,14 @@ class GamesController extends Controller
     //return response(["data"=>"hola"]);
     return view('Unity.unity-game');
    }
+   public function Navial(){
+
+      //return response(["data"=>"hola"]);
+      return view('Unity.navial');
+   }
+   public function Cars(){
+
+      //return response(["data"=>"hola"]);
+      return view('Unity.unity-game');
+   }
 }

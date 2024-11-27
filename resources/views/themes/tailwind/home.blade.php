@@ -104,8 +104,8 @@
             @foreach ($juegos as $juego)
             <div class="col-md-3 col-10 mx-2">
                 <div class="card card-container" style="width: 18rem; background-color: #ffffff00;" 
-                @if($juego->nombre == "Genius") id="openGame" @endif
-                onmouseover="this.style.cursor='pointer';">
+               
+                onmouseover="this.style.cursor='pointer';" onclick="loadgame('{{$juego->nombre}}')">
                     <img src="{{ Voyager::image($juego->imagen) }}" class="card-img-top  card-flip" alt="...">
                 </div>
             </div>
@@ -335,6 +335,37 @@
 
 </div>
 <script>
+    function loadgame(name){
+       
+        let serial="";
+        switch (name) {
+            case "aviator":
+                serial="cars"
+            break;
+            case "Genius":
+            serial="genius"
+            break;
+            case "Monster":
+            serial="navial"
+            break;
+        }
+
+        const width = 960; // Ancho de la ventana
+        const height = 605; // Alto de la ventana
+        const left = (screen.width - width) / 2; // Centrado horizontal
+        const top = (screen.height - height) / 2; // Centrado vertical
+
+        // Abrir la ventana emergente
+        const routeName = serial; // Aquí puedes usar cualquier lógica para obtener este nombre dinámicamente.
+        const url = `{{ url('/') }}/${routeName}`;
+
+        window.open(
+            url, // URL completa
+            "UnityGame", // Nombre de la ventana
+            `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=no`
+        );
+       
+    }
     document.getElementById('openGame').addEventListener('click', function () {
         // Configuración de la ventana emergente
         const width = 960; // Ancho de la ventana

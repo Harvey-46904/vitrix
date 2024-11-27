@@ -28,7 +28,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('rentabilidades/{id}','InversionesPaquete@rentabilidadesInversion')->name("RentabilidadesList");
     Route::post('updaterentabilidad/{id}','InversionesPaquete@actualizarRentabilidad')->name("UpdateRentabilidad");
-    Route::get('bonos','ConfiguracionesController@indexbono')->name("IndexBonos");
+    Route::get('bonos_personal','ConfiguracionesController@indexbono')->name("IndexBonos");
+    Route::get('finanzas','ConfiguracionesController@finanzas')->name("IndexFinanzas");
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
 

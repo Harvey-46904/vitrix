@@ -62,7 +62,7 @@ class CashMoney
         }
     }
 
-    public function AddMoneyBonos($userId, $amount){
+    public function AddMoneyBonos($userId, $amount,$reason){
         DB::beginTransaction();
 
         try {
@@ -88,7 +88,7 @@ class CashMoney
             Transaccions::create([
                 'user_id' => $userId,
                 'amount' => $amount,
-                'type' => 'Bono', // Define el tipo de transacción
+                'type' => $reason, // Define el tipo de transacción
                 'balance_after' => $userBalance->balance,
             ]);
 

@@ -58,7 +58,6 @@ class CashController extends Controller
 
     public function addFunds(Request $request)
     {
-       
         //return response(["data"=>$request->all()]);
           // Validar que se haya seleccionado al menos una opción o ingresado texto en la caja de texto
           $request->validate([
@@ -90,7 +89,7 @@ class CashController extends Controller
             'monto' => 'required|numeric|min:1', // El campo monto es obligatorio y debe ser un número mayor o igual a 1.
         ]);
     
-        return self::FoundBalanceBono($request->id_user,$request->monto);
+        return self::FoundBalanceBono($request->id_user,$request->monto,'Bono de Vitrix');
     }
     public function addFoundinversion($id,Request $request){
         $id_inversion=$id;
@@ -128,8 +127,21 @@ class CashController extends Controller
 
 
     public function FoundBalance($amount){
+        $bonos=DB::table("bonos")->select('estado','Precio_USDT')->where('nombre','Bono de Bienvenida')->first();
+        
        // return $this->wallet->generateNewAddress();
         $userId =$id=auth()->user()->id;
+       
+       
+        //debo consultar si la opcion esta activa primero 
+        $hasTransactions = DB::table('user_transaccion')
+        ->where('user_id', $userId)
+        ->exists();
+            
+            if (!$hasTransactions) {
+                $recompenza=$bonos->estado=='0'?'none':self::FoundBalanceBono($userId,$bonos->Precio_USDT,'Bono de bienvenida');
+          
+            }
         $result = $this->cashService->AddMoneyBalance($userId, $amount,'Deposito');
         event(new BalanceUpdated($userId));
         if ($result) {
@@ -138,8 +150,8 @@ class CashController extends Controller
             return response()->json(['error' => 'Hubo un error al procesar la transacción'], 500);
         }
     }
-    public function FoundBalanceBono($userId,$amount){
-        $result = $this->cashService->AddMoneyBonos($userId, $amount);
+    public function FoundBalanceBono($userId,$amount,$reason){
+        $result = $this->cashService->AddMoneyBonos($userId, $amount,$reason);
         if ($result) {
             return back()->with('success', 'Monto bono depositado correctamente');
         } else {

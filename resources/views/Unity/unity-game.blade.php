@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | LampGenius</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="Games/TemplateData/style.css">
+    <link rel="stylesheet" href="Games/Genius/TemplateData/style.css">
     <style>
       body {
         margin: 0;
@@ -76,7 +76,7 @@
       const loadingScreen = document.getElementById("loading-screen");
       const unityContainer = document.getElementById("unity-container");
 
-      const buildUrl = "Games/Build";
+      const buildUrl = "Games/Genius//Build";
       const loaderUrl = buildUrl + "/genius.loader.js";
       const config = {
         arguments: [],
