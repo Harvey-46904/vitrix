@@ -91,6 +91,8 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/genius', "GamesController@Genius")->name("genius");
   Route::get('/navial', "GamesController@Navial")->name("navial");
   Route::get('/cars', "GamesController@Cars")->name("cars");
+  Route::get('/get-token', "GamesController@getToken")->name("GetToken");
+  
 });
 
 Route::group(['middleware' => 'admin.user'], function(){

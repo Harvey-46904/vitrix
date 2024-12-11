@@ -18,4 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return auth()->user();
 });
 
+Route::middleware('auth:api')->post('/play-genius', "GamesController@GeniusPlayGame")->name("PlayGenius");
+Route::middleware('auth:api')->post('/play-genius-salva', "GamesController@ApuestaSalvaGame")->name("PlayGeniusSalva");
+
 Wave::api();

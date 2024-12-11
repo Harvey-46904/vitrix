@@ -1,6 +1,6 @@
 /node_modules
 /public/hot
-/public/storage
+#/public/storage
 /storage/*.key
 /vendor
 .env
@@ -22,5 +22,5 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 .DS_Store
-/wave/vendor/
+#/wave/vendor/
 /public/wave/docs

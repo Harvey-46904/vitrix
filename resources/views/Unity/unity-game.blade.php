@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="es-es">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Unity Web Player | LampGenius</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico">
     <link rel="stylesheet" href="Games/Genius/TemplateData/style.css">
     <style>
       body {
@@ -70,12 +70,16 @@
       </div>
       <div id="unity-warning"></div>
     </div>
+    <h1>{{ $token}}</h1>
 
     <script>
       const canvas = document.querySelector("#unity-canvas");
       const loadingScreen = document.getElementById("loading-screen");
       const unityContainer = document.getElementById("unity-container");
-
+    
+      // Obtener el token desde Laravel
+      const token = @json($token);
+    
       const buildUrl = "Games/Genius//Build";
       const loaderUrl = buildUrl + "/genius.loader.js";
       const config = {
@@ -89,7 +93,7 @@
         productVersion: "1.0",
         showBanner: unityShowBanner,
       };
-
+    
       function unityShowBanner(msg, type) {
         const warningBanner = document.querySelector("#unity-warning");
         const div = document.createElement("div");
@@ -101,9 +105,9 @@
           warningBanner.removeChild(div);
         }, 5000);
       }
-
+    
       document.querySelector("#unity-loading-bar").style.display = "block";
-
+    
       const script = document.createElement("script");
       script.src = loaderUrl;
       script.onload = () => {
@@ -114,7 +118,13 @@
             document.querySelector("#unity-loading-bar").style.display = "none";
             loadingScreen.style.display = "none"; // Ocultar pantalla de carga personalizada
             unityContainer.style.display = "block"; // Mostrar Unity
+    
             unityInstance.SetFullscreen(1);
+    
+            // Pasar el token a Unity
+            unityInstance.SendMessage('scripting', 'ReceiveToken', token);
+            console.log("asignando toekn",token);
+            
           })
           .catch((message) => {
             alert(message);

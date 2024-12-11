@@ -17,6 +17,18 @@ use Exception;
 use App\Events\BalanceControl;
 class CashMoney
 {
+    public function GetMoneyBalance($userId){
+        DB::beginTransaction();
+        try {
+            $userBalance = UserBalance::where('user_id', $userId)->first();
+            DB::commit();
+            return  $userBalance->balance;
+        } catch (Exception $e) {
+            // Si ocurre algún error, se revierte todo
+            DB::rollBack();
+            return false;
+        }
+    }
     public function AddMoneyBalance($userId, $amount,$reason)
     {
         DB::beginTransaction();
