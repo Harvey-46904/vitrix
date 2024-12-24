@@ -19,7 +19,13 @@
     }
 </style>
     <div class="row justify-content-center">
-        <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-success" href="{{ route('wave.paquetes.personal') }}">MIS INVERSIONES</a>
+            </div>
+        </div>
+        <div class="col-md-12">
+           
             <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
                 <ol class="carousel-indicators">
                     @foreach ($products->chunk(2) as $index => $chunk)
@@ -31,8 +37,8 @@
                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                             <div class="row justify-content-center">
                                 @foreach ($chunk as $product)
-                                    <div class="col-md-5">
-                                        <div class="card text-center my-4" style="width: 18rem;  background-color: #3471b385;" >
+                                    <div class="col-md-5 text-secondary">
+                                        <div class="card text-center my-4" style=" background-color: #3471b385;" >
                                             <img class="card-img-top mx-auto d-block w-50 h-50" src="{{ Voyager::image('wave/marco.png') }}" alt="Card image cap">
                                             <div class="card-body">
                                                 <h5 class="card-title text-light"><b>{{ $product->nombre }}</b></h5>

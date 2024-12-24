@@ -12,19 +12,19 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
            <div class="row justify-content-center text-center pt-3">
-            <div class="col-md-2 col-6 text-light bg-rosa-transparente mx-2 neon-shadow ">
+            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
                 Efectivo USDT
                 <h1  class="letragrande text-rosa">{{$balances["efectivo"]}}</h1>
             </div>
-            <div class="col-md-2 col-6 text-light bg-rosa-transparente mx-2 neon-shadow ">
+            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
                 Inversiones USDT
                 <h1  class="letragrande text-rosa">{{$balances["inversion"]}}</h1>
             </div>
-            <div class="col-md-2 col-6 text-light bg-rosa-transparente mx-2 neon-shadow ">
+            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
                 Referidos USDT
                 <h1  class="letragrande text-rosa">{{$balances["referidos"]}}</h1>
             </div>
-            <div class="col-md-2 col-6 text-light bg-rosa-transparente mx-2 neon-shadow ">
+            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
                 Bonos USDT
                 <h1  class="letragrande text-rosa">{{$balances["bonos"]}}</h1>
             </div>

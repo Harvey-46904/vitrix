@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center text-secondary">
         <div class="col-md-12">
             <table class="table table-striped bg-light">
                 <thead>

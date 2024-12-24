@@ -26,68 +26,13 @@
 
     </div>
 
-    <div class="container text-light py-5">
-        <div class="row justify-content-between ">
-            <div class="col-md-2 col-5 m-2 bg-azul-secundario rounded  p-3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <i class="fas fa-gift fa-3x mb-2" style="color: #36114e;"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="font-weight-normal h3">Free Trial</p>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-5 m-2 bg-azul-secundario rounded  p-3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <i class="fas fa-coins fa-3x mb-2" style="color: #36114e;"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="font-weight-normal h3">Crypto deposit</p>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-5 m-2 bg-azul-secundario rounded  p-3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <i class="fas fa-user-friends fa-3x mb-2" style="color: #36114e;"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="font-weight-normal h3">Referral programa</p>
-
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-2 col-5 m-2 bg-azul-secundario rounded  p-3">
-                <div class="row">
-                    <div class="col-md-12">
-                        <i class="fas fa-headset fa-3x mb-2" style="color: #36114e;"></i>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="font-weight-normal h3">Soporte 27/7</p>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  
 
 
-    <div class="container text-center text-light">
+    <div class="container text-center text-light py-2">
 
         <div class="row">
-            <div class="col-md-12 text-center">
+            <div class="col-md-12 text-center bg-gris py-3">
                 <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                 data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
                 Los Mejores Juegos</h1>
@@ -99,11 +44,11 @@
             </div>
         </div>
       
-        <div class="row justify-content-center pt-3">
+        <div class="row justify-content-between pt-3">
 
             @foreach ($juegos as $juego)
-            <div class="col-md-3 col-10 mx-2">
-                <div class="card card-container" style="width: 18rem; background-color: #ffffff00;" 
+            <div class="col-md-3 col-5 my-2">
+                <div class="card card-container" style=" background-color: #ffffff00;" 
                
                 onmouseover="this.style.cursor='pointer';" onclick="loadgame('{{$juego->nombre}}')">
                     <img src="{{ Voyager::image($juego->imagen) }}" class="card-img-top  card-flip" alt="...">
@@ -117,13 +62,13 @@
 
     </div>
 
-    <marquee behavior="scroll" direction="left" scrollamount="8" style="color: #387CBB; font-size: 1.5em; font-weight: bold;">
+    <marquee behavior="scroll" direction="left" scrollamount="8" style="color: #093b69; font-size: 1.5em; font-weight: bold;" class="bg-rosa  ">
         🎰 ¡VITRIX! Grandes premios, jackpots acumulados y diversión sin límites. ¡Apuesta y gana! 💰
     </marquee>
-    <div class="container  ">
+    <div class="container ">
         <div class="row">
-            <div class="col-md-12 text-center">
-                <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
+            <div class="col-md-12 text-center bg-gris py-3">
+                <h1 class=" invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                 data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
                 Jackpots y Premios</h1>
        
@@ -138,9 +83,9 @@
 
                 <div class="card text-center"
                     style=" background-color: #ffffff00; border: 1px solid rgb(0 0 0 / 0%);">
-                    <img src="{{asset('vitrix/img/jackpot.png') }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title text-light">Premios Ganadores</h5>
+                    
+                    <div class="card-body bg-gris neon-shadow">
+                        <h5 class="card-title text-light gamers texturizado-warning ">Premios Ganadores</h5>
                         <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                         data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
                         Juega cualquiera de nuestros juegos y podras ganar uno de nuestros jackpots</p>
@@ -152,24 +97,24 @@
             <div class="col-md-8">
                 <div class="row align-items-center">
                     <div class="col-md-7 text-center">
-                        <div class="jumbotron jumbotron-fluid bg-azul-secundario">
-                            <div class="container">
-                                <p class="lead">
-                                    Mega Jackpot <i class="fas fa-money-bill-wave" style="color: green;"></i>
+                        <div class="jumbotron jumbotron-fluid bg-azul-secundario neon-shadow">
+                            <div class="container ">
+                                <p class="lead gamers texturizado-warning">
+                                    Speed stakes <i class="fas fa-money-bill-wave" style="color: green;"></i>
                                 </p>
-                                <h1 class="display-4">$61,517.40</h1>
+                                <h1 id="speed" class="display-4">0</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <div class="jumbotron jumbotron-fluid  bg-azul-secundario">
-                                    <div class="container">
-                                        <p class="lead">
-                                            Grand Jackpot <i class="fas fa-money-bill-wave" style="color: green;"></i>
+                                <div class="jumbotron jumbotron-fluid  bg-azul-secundario neon-shadow">
+                                    <div class="container ">
+                                        <p class="lead gamers texturizado-warning">
+                                            Genie's Rise <i class="fas fa-money-bill-wave" style="color: green;"></i>
                                         </p>
-                                        <h1 class="display-4">$517.40</h1>
+                                        <h1 id="genie" class="display-4">0</h1>
                                     </div>
                                 </div>
                             </div>
@@ -177,12 +122,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <div class="jumbotron jumbotron-fluid bg-azul-secundario">
-                                    <div class="container">
-                                        <p class="lead">
-                                            Minor Jackpot <i class="fas fa-money-bill-wave" style="color: green;"></i>
+                                <div class="jumbotron jumbotron-fluid bg-azul-secundario neon-shadow">
+                                    <div class="container ">
+                                        <p class="lead gamers texturizado-warning">
+                                            Nebula Race <i class="fas fa-money-bill-wave" style="color: green;"></i>
                                         </p>
-                                        <h1 class="display-4">$50.2</h1>
+                                        <h1 id="nebula" class="display-4">0</h1>
                                     </div>
                                 </div>
                             </div>
@@ -194,95 +139,13 @@
         </div>
     </div>
 
-    <marquee behavior="scroll" direction="left" scrollamount="8" style="color: #9e57cc; font-size: 1.5em; font-weight: bold;">
+    <marquee behavior="scroll" direction="left" scrollamount="8" style="color: #1d0030; font-size: 1.5em; font-weight: bold;" class="bg-rosa">
         🎰 ¡VITRIX! Invierte con nosotros, obten recompenzas. ¡Apuesta y gana! 💰
     </marquee>
-    <div class="container text-center py-4">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Inversiones</h1>
-       
-                <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Haz crecer tu dinero con nuestras opciones de inversión seguras y rentables. Aumenta tus ganancias y maximiza tu retorno.</p>
-
-            </div>
-        </div>
-        <div class="row text-light justify-content-center pt-3">
-            <div class="col-md-4 align-self-center">
-                <div class="card " style=" background-color: #061727;">
-                    <div class="card-body bg-rosa">
-                        <p class="card-text font-weight-normal ">Alta Rentabilidad</p>
-                    </div>
-                    <img src="{{asset('vitrix/img/vectores/a.png') }}"
-                        class="card-img-top vector rounded mx-auto d-block" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Genera ingresos pasivos con nuestras estrategias diseñadas para maximizar
-                            tus ganancias a corto y largo plazo.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style=" background-color: #061727;">
-                    <div class="card-body bg-rosa">
-                        <p class="card-text ">Seguridad de Fondo</p>
-                    </div>
-                    <img src="{{asset('vitrix/img/vectores/b.png') }}"
-                        class="card-img-top vector rounded mx-auto d-block" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Contamos con tecnología avanzada de encriptación y protección de datos para
-                            que tu inversión esté siempre segura.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card" style=" background-color: #061727;">
-                    <div class="card-body bg-rosa">
-                        <p class="card-text">Soporte 24/7</p>
-                    </div>
-                    <img src="{{asset('vitrix/img/vectores/c.png') }}"
-                        class="card-img-top vector rounded mx-auto d-block" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Nuestro equipo de soporte está disponible a cualquier hora para resolver
-                            tus dudas y asistirte en todo momento.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row text-light justify-content-center pt-2">
-            <div class="col-md-6 ">
-                <div class="card" style="background-color: #061727;">
-                    <div class="card-body bg-rosa">
-                        <p class="card-text">Acceso a Criptomonedas</p>
-                    </div>
-                    <img src="{{asset('vitrix/img/vectores/d.png') }}"
-                        class="card-img-top vector rounded mx-auto d-block" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Diversifica tu portafolio con acceso a criptomonedas, acciones, y otros
-                            activos desde una sola plataforma.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card" style=" background-color: #061727;">
-                    <div class="card-body bg-rosa">
-                        <p class="card-text">Educación para Inversores</p>
-                    </div>
-                    <img src="{{asset('vitrix/img/vectores/e.png') }}"
-                        class="card-img-top vector rounded mx-auto d-block" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Aprende a invertir de forma inteligente con guías, webinars, y recursos
-                            para mejorar tus conocimientos financieros.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
     <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
+        <div class="row ">
+            <div class="col-md-12 text-center bg-gris py-3">
                 <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                 data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
                 Tabla de Ganadores</h1>
@@ -297,36 +160,29 @@
         <div class="row pt-4">
             <div class="col-md-6">  <img src="{{asset('vitrix/img/Designer.jpeg') }}"
                 class=" img-fluid" alt="..."></div>
-            <div class="col-md-6">
-                <h2 class="text-light">Top Semanal</h2>
-                <table class="table table-striped table-dark">
+            <div class="col-md-6 bg-gris neon-shadow">
+                <h1 class="gamers texturizado-primary">Apresurate faltan</h1>
+                <h1 class="gamers texturizado-warning" id="fechaFin">{{$eventos["evento"]->fecha_fin}}</h1>
+                <table class="table table-dark">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
+                            <th scope="col">Jugador</th>
+                            <th scope="col">Tiempo</th>
+                            <th scope="col">Puntuación</th>
                         </tr>
                     </thead>
                     <tbody>
+                        @foreach ($eventos["lista"] as $item)
                         <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>{{$item->user->name}}</td>
+                            <td>  <i class="fas fa-clock"></i>{{$item->tiempo}}</td>
+                            <td>  <i class="fas fa-star"></i>{{$item->puntuacion}}</td>
                         </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
+                        @endforeach
+                        
+                
                     </tbody>
                 </table>
             </div>
@@ -381,4 +237,58 @@
         );
     });
 </script>
+
+<script type="module">
+    import { CountUp } from 'https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.0/countUp.min.js';
+  
+    document.addEventListener('DOMContentLoaded', function () {
+      // Obtén el valor dinámico desde Laravel
+      const balanceFinal = {{ $balance }}; // Asegúrate de que $balance está disponible en el Blade
+        const balancegenie=12000;
+        const balancenebula={{$eventos["Bote"]}};
+      // Inicializa CountUp.js
+      const options = {
+        duration: 1, // Duración de la animación en segundos
+        decimalPlaces: 2, // Número de decimales
+        useEasing: true, // Usa una animación suave
+      };
+      const counter = new CountUp('speed', balanceFinal, options);
+      const counter1 = new CountUp('genie', balancegenie, options);
+      const counter2 = new CountUp('nebula', balancenebula, options);
+
+      counter.start();
+      counter1.start();
+      counter2.start();
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Obtén la fecha de finalización desde el HTML
+      const fechaFin = document.getElementById('fechaFin').innerText.trim();
+  
+      // Convierte la fecha de fin (que está en formato string) a un objeto Date
+      const fechaFinObj = new Date(fechaFin);
+  
+      // Obtén la fecha y hora actuales
+      const fechaActual = new Date();
+  
+      // Calcula la diferencia en milisegundos
+      const diferencia = fechaFinObj - fechaActual;
+  
+      // Si la fecha ya pasó, no mostrar nada
+      if (diferencia <= 0) {
+        document.getElementById('fechaFin').innerHTML = "¡El evento ha finalizado!";
+        return;
+      }
+  
+      // Convierte la diferencia de milisegundos a días, horas, minutos y segundos
+      const diasRestantes = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horasRestantes = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutosRestantes = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundosRestantes = Math.floor((diferencia % (1000 * 60)) / 1000);
+  
+      // Muestra el tiempo restante en un formato legible
+      document.getElementById('fechaFin').innerHTML = `${diasRestantes} días, ${horasRestantes} horas para finalizar el evento`;
+    });
+  </script>
 @endsection

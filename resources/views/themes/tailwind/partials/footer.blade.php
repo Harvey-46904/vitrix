@@ -3,7 +3,7 @@
 <footer class="@if(Request::is('/')){{ 'bg-black' }}@else{{ 'bg-black' }}@endif">
     <div class="px-8 pt-16 mx-auto lg:px-12 xl:px-16 max-w-7xl">
         <div class="flex flex-wrap items-start justify-between pb-20">
-            <a href="#_" class="flex items-center w-auto text-lg font-bold md:w-1/6">
+            <a href="" class="flex items-center w-auto text-lg font-bold md:w-1/6">
                 @if(Voyager::image(theme('footer_logo')))
                     <img class="h-32" src="{{ Voyager::image(theme('footer_logo')) }}" alt="Company name">
                 @else
@@ -18,19 +18,19 @@
                     <h3 class="font-semibold text-white">Productos</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('casino')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Casino</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('inversion')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Inversión</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('referidos')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Referidos</span>
                             </a>
@@ -42,13 +42,13 @@
                     <h3 class="font-semibold text-white">Sobre Nosotros</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('historia')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Nuestra Hisotira</span>
+                                <span class="text-white">Nuestra Historia</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('compañia')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Compañia</span>
                             </a>
@@ -61,21 +61,21 @@
                     <h3 class="font-semibold text-white">Recursos</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('ayuda')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Centro de ayuda</span>
                             </a>
                         </li>
                         
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('noticias')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Noticias</span>
                             </a>
                         </li>
                         
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('sitemap')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Sitemap</span>
                             </a>
@@ -86,20 +86,20 @@
                     <h3 class="font-semibold text-white">Contactos</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('novedades')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Novedades</span>
                             </a>
                         </li>
                        
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('patrocinadores')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Patrocinadores</span>
                             </a>
                         </li>
                         <li>
-                            <a href="#_" class="relative inline-block text-black group">
+                            <a href="{{route('correo')}}" class="relative inline-block text-black group">
                                 <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
                                 <span class="text-white">Correo</span>
                             </a>
@@ -113,19 +113,19 @@
             <ul class="flex flex-wrap space-x-5 text-xs">
                 <li class="mb-6 text-center flex-full lg:flex-none lg:mb-0 text-white">&copy; {{ date('Y') }} {{ setting('site.title', 'Laravel Wave') }}, Inc. All rights reserved.</li>
                 <li class="lg:ml-6">
-                    <a href="#_" class="relative inline-block text-black group">
+                    <a href="{{route('privacidad')}}" class="relative inline-block text-black group">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
                         <span class="text-white">Politicas de privacidad</span>
                     </a>
                 </li>
                 <li class="ml-auto mr-auto text-center lg:ml-6 lg:mr-0">
-                    <a href="#_" class="relative inline-block text-black group">
+                    <a href="{{route('renuncias')}}" class="relative inline-block text-black group">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
                         <span class="text-white">Renuncias</span>
                     </a>
                 </li>
                 <li class="lg:ml-6">
-                    <a href="#_" class="relative inline-block text-black group">
+                    <a href="{{route('terminos')}}" class="relative inline-block text-black group">
                         <span class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
                         <span class="text-white">Terminos y Condiciones</span>
                     </a>

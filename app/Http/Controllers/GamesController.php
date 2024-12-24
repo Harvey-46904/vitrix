@@ -4,12 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Naveevento;
 use App\Services\CashMoney;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use GuzzleHttp\Client;
+use DB;
+use App\Traits\Listnave;
 class GamesController extends Controller
 {
+   use Listnave;
 
    protected $cashService;
    public function __construct(CashMoney $cashService)
@@ -18,7 +23,8 @@ class GamesController extends Controller
    }
    public function Genius(){
       $token= self::getToken();
-    return view('Unity.unity-game',compact("token"));
+   // return view('Unity.unity-game',compact("token"));
+   return view('Unity.genius',compact("token"));
    }
    public function Navial(){
       return view('Unity.navial');
@@ -87,5 +93,42 @@ class GamesController extends Controller
            'token_type' => 'Bearer',
            'expires_in' => auth('api')->factory()->getTTL() * 60, // Tiempo de expiración en segundos
        ]);
+   }
+
+  
+
+   public function CompetenciaNave(Request $request){
+      
+     
+      $naveevento = Naveevento::create([
+         'id_evento' => $this->ultimo_evento()->id, 
+         'id_jugador' => auth()->user()->id, // Reemplaza con el valor correspondiente
+         'puntuacion' => $request->puntuacion, // Reemplaza con el valor correspondiente
+         'tiempo' => $request->tiempo, // Reemplaza con el valor correspondiente
+     ]);
+     $id = $naveevento->id;
+     return $id;
+   }
+
+  
+
+   public function createRoom(Request $request)
+   {
+      //return response(["create"=>"creando room"]);
+      
+      $client = new Client();
+      $appId = '726ec537-cf35-4d9d-a625-52d19dc9cab0';
+      $region = 'eu';
+      $roomName = $request->input('roomName');
+      $maxPlayers = $request->input('maxPlayers');
+
+      $response = $client->post("https://$region.exitgames.com:443/App/$appId/CreateRoom", [
+         'json' => [
+               'RoomName' => $roomName,
+               'MaxPlayers' => $maxPlayers,
+         ],
+      ]);
+
+      return response()->json(json_decode($response->getBody(), true));
    }
 }

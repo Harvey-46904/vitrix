@@ -32,6 +32,85 @@ class InversionesPaquete extends Controller
         return view("vendor.voyager.rentabilidades.index",compact('numeros','id'));
     }
 
+    public function gamerentabilidad($id){
+        $nameruta="UpdateNivelesGames";
+        //primero consulta juego
+        $juego=DB::table("juegos")->select("nombre")->where("id",$id)->first();
+       
+        $nivel="";
+        $parametro="";
+        switch ($juego->nombre) {
+            case 'aviator':
+                $nivel="niveles_speed";
+                $parametro="parametros_speed";
+                break;
+            case 'Genius':
+                $nivel="niveles_genius";
+                $parametro="parametros_genius";
+                break;
+            case 'Monster':
+                $nivel="niveles_nebula";
+                $parametro="parametros_nebula";  
+                break;
+            
+        }
+        $nivel=DB::table("configuraciones")->select('parametros')
+        ->whereIn('nombre', [ $nivel,  $parametro])
+        ->get()
+        ->map(function ($fila) {
+            // Convierte el campo 'parametros' de JSON string a un objeto
+            $fila->parametros = json_decode($fila->parametros);
+            return $fila;
+        });
+
+        $nivel_numero=$nivel[0]->parametros->niveles;
+        $nivel_parametros=$nivel[1]->parametros->parametros;
+        
+        $configuracion_referidos=[
+            "nivel"=>$nivel_numero,
+            "parametros"=>$nivel_parametros,
+            "ruta"=>$nameruta,
+            "id_game"=>$id
+        ];
+        //return response(["data"=>$configuracion_referidos]);
+
+        return view("vendor.voyager.referidos.index",compact('configuracion_referidos'));
+        return response(["data"=>$id]);
+    }
+
+    public function UpdateNivelesGames(Request $request,$id){
+     
+       $juego=DB::table("juegos")->select("nombre")->where("id",$id)->first();
+       
+       $nivel="";
+       $parametro="";
+       switch ($juego->nombre) {
+           case 'aviator':
+               $nivel="niveles_speed";
+               $parametro="parametros_speed";
+               break;
+           case 'Genius':
+               $nivel="niveles_genius";
+               $parametro="parametros_genius";
+               break;
+           case 'Monster':
+               $nivel="niveles_nebula";
+               $parametro="parametros_nebula";  
+               break;
+           
+       }
+        DB::table("configuraciones")
+        ->where('nombre', $nivel)
+        ->update(['parametros' => json_encode(['niveles' =>$request->nivel])]);
+
+     DB::table("configuraciones")
+        ->where('nombre',  $parametro)
+        ->update(['parametros' => json_encode(['parametros' => $request->parametros])]);
+        return redirect('/admin/juegos')->with('success', 'Configuraciones actualizadas exitosamente.');
+        return redirect()->route('IndexNiveles')->with('success', 'Configuraciones actualizadas exitosamente.');
+        return response(["data"=>"datos actualizados"]);
+}
+
     public function actualizarRentabilidad($id,Request $request){
         //return response(["data"=>$id,"rentabilidades"=>$request->parametros]);
 

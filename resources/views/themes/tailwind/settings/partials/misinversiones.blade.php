@@ -19,7 +19,7 @@
                         @foreach ($tabs as $index => $tab)
                         <div class="tab-pane fade {{ $index === 0 ? 'show active' : '' }}" id="list-{{ $tab->id }}"
                             role="tabpanel" aria-labelledby="list-{{ $tab->id }}-list">
-                            <div class="jumbotron">
+                            <div class="jumbotron text-secondary">
                                 <p class=" py-2">
                                     Rentabilidad acumulada de este paquete <b class="text-rosa">{{$tab->monto_depositar}} USD</b>
                                 </p>

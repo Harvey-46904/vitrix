@@ -3,36 +3,129 @@
 
 @section('content')
 
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1 class="text-light gamers">Bienvenido <b> {{Auth::user()->name}}</b> </h1>
+		</div>
+	</div>
 
-	<div class="flex flex-col px-8 mx-auto my-6 lg:flex-row max-w-7xl xl:px-5">
-	    <div class="flex flex-col justify-start flex-1 mb-5 overflow-hidden bg-white border rounded-lg lg:mr-3 lg:mb-0 border-gray-150">
-	        <div class="flex flex-wrap items-center justify-between p-5 bg-white border-b border-gray-150 sm:flex-no-wrap">
-				<div class="flex items-center justify-center w-12 h-12 mr-5 rounded-lg bg-wave-100">
-					<svg class="w-6 h-6 text-wave-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+	<div class="row neon-shadow align-items-center my-3 p-3">
+		<div class="col-md-4">
+			<div class="card  bg-gris">
+				<div class="card-body text-center ">
+					<h5 class="card-title gamers texturizado-warning">RENTABILIDAD</h5>
+					<p class="card-text text-light">Recuerda que debes tener activa tu membresia IBOX para retirar tus
+						rentabilidades</p>
+					<a href="#" class="btn my-1  bg-azul-secundario">Comprar Membresia</a>
 				</div>
-				<div class="relative flex-1">
-	                <h3 class="text-lg font-medium leading-6 text-gray-700">
-	                    Bienvenido a su dashboard
-	                </h3>
-	                <p class="text-sm leading-5 text-gray-500 mt">
-	                    Vitrix
-	                </p>
-				</div>
-
-	        </div>
-	        <div class="relative p-5">
-	            <p class="text-base leading-loose text-gray-500">En esta seccion se ubicaran los items de los juegos principalmente 
-					{{ auth()->user()->unreadNotifications->count()}}
-				</p>
-				<span class="inline-flex mt-5 rounded-md shadow-sm">
-	                <a href="{{ route('wave.settings') }}" class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-700 transition duration-150 ease-in-out bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:text-gray-800 active:bg-gray-50">
-	                   Acciones en construcción
-	                </a>
-				</span>
 			</div>
 		</div>
-		
+
+		<div class="col-md-5">
+
+			<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+				<div class="carousel-inner">
+					@foreach ($banners as $index => $imagen)
+					<div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+						<img class="w-100" src="{{ Voyager::image($imagen->imagen) }}" alt="Slide {{ $index + 1 }}">
+					</div>
+					@endforeach
+				</div>
+				<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+
+			</div>
+
+		</div>
+		<div class="col-md-3 text-center gamers rangos bg-gris rounded">
+			<h3 class="texturizado-warning">Rango Actual</h3>
+			<br>
+			<b class="texturizado-warning">Bronce</b>
+		</div>
+	</div>
+	<div class="row justify-content-between">
+		<x-tabla-eventos :eventos="$eventos" />
 
 	</div>
+	<div class="row">
+		<div class="col-md-12 text-center ">
+			<div class="row bg-gris mt-2">
+				<div class="col-md-12">
+					<h2 class="text-light gamers texturizado-primary">Los juegos con mas ganancias</h2>
+				</div>
+			</div>
+
+			<div class="row justify-content-center pt-3">
+
+				@foreach ($juegos as $juego)
+				<div class="col-md-2 col-5 mx-2 ">
+
+					<img src="{{ Voyager::image($juego->imagen) }}" class="card-img-top  card-flip py-2" width="10%"
+						height="10%">
+
+				</div>
+				@endforeach
+
+			</div>
+		</div>
+	</div>
+	<div class="row bg-gris mt-2">
+		<div class="col-md-12">
+			<h2 class="text-light gamers texturizado-primary ">Apuesta al ganador en nuestras competencias online</h2><br>
+		</div>
+	</div>
+
+	
+	<div class="row  justify-content-center">
+
+		<div class="col-md-6">
+			<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+				<!-- Indicadores -->
+				<ol class="carousel-indicators">
+					@foreach ($salas as $index => $sala)
+					<li data-target="#carouselExampleIndicators" data-slide-to="{{ $index }}"
+						class="{{ $loop->first ? 'active' : '' }}"></li>
+					@endforeach
+				</ol>
+
+				<!-- Contenido del carrusel -->
+				<div class="carousel-inner">
+					@foreach ($salas as $index => $sala)
+					<div class="carousel-item {{ $loop->first ? 'active' : '' }}">
+						<div class="card text-center destellos neon-shadow bg-gris"
+							style="width: 18rem; margin: 0 auto; background-color: #ffffff00;">
+							<img class="card-img-top" src="{{ Voyager::image($sala->banner) }}" alt="Card image cap">
+							<div class="card-body">
+								<h5 class="card-title gamers-1 texturizado-warning">{{ $sala->nombre_sala }}</h5>
+								<p class="card-text"></p>
+								<a href="{{ route('sala.detalle', $sala->id) }}" class="btn bg-azul-secundario">Ver
+									evento</a>
+							</div>
+						</div>
+					</div>
+					@endforeach
+				</div>
+
+				<!-- Controles del carrusel -->
+				<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="sr-only">Previous</span>
+				</a>
+				<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="sr-only">Next</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 @endsection

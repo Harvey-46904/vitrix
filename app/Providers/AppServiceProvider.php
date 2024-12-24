@@ -35,6 +35,8 @@ class AppServiceProvider extends ServiceProvider
     {
         
         Voyager::addAction(\App\Actions\RentabilidadesButton::class);
+        Voyager::addAction(\App\Actions\ReferidoJuegos::class);
+        
         User::observe(UserObserver::class);
         UserPaquete::observe(UserPaquetesObserver::class);
        

@@ -54,14 +54,14 @@
 
     @include('theme::partials.header')
 
-    <main class="flex-grow overflow-x-hidden">
+    <main class="flex-grow overflow-x-hidden " >
         @yield('content')
     </main>
 
 
 
     @include('theme::partials.footer')
-
+   
     @if(config('wave.dev_bar'))
         @include('theme::partials.dev_bar')
     @endif
@@ -76,6 +76,8 @@
     </div>
     <!-- End Full Loader -->
 
+  
+     
 
     @include('theme::partials.toast')
     @if(session('message'))
@@ -104,5 +106,19 @@
         @endif
     </script>
    
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
+   <script>
+    window.
+onload
+= function() {
+  Particles.
+init
+({
+    selector: 
+'.background'
+  });
+};
+  </script>
+
 </body>
 </html>

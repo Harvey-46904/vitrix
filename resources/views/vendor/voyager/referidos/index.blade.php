@@ -74,7 +74,7 @@
                     <h5 class="card-title">Número de niveles</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{$configuracion_referidos["nivel"]}}</h6>
                     <p class="card-text">Necesarios para uso de la jerarquia en nivel de referidos</p>
-                  
+                    
                     <a class="btn btn-success" href="{{ route('EditNiveles', ['parametros' => $configuracion_referidos]) }}">Editar niveles y porcentajes</a>
                 </div>
             </div>

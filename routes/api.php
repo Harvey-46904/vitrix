@@ -20,5 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:api')->post('/play-genius', "GamesController@GeniusPlayGame")->name("PlayGenius");
 Route::middleware('auth:api')->post('/play-genius-salva', "GamesController@ApuestaSalvaGame")->name("PlayGeniusSalva");
+Route::middleware('auth:api')->post('roomi','GamesController@createRoom')->name("room");
+Route::middleware('auth:api')->post('/play-naves','GamesController@CompetenciaNave')->name("RegistroNave");
 
 Wave::api();

@@ -70,6 +70,8 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::view('cancelled', 'theme::cancelled')->name('wave.cancelled');
     Route::post('switch-plans', '\Wave\Http\Controllers\SubscriptionController@switchPlans')->name('wave.switch-plans');
 
+
+
   /********** LogicaCasino***********/
   Route::get('transacciones', 'CashController@index')->name('wave.transaccion');
   Route::get('arbolreferidos', 'ReferidosController@ArbolMultiNivel')->name('referidos');
@@ -92,6 +94,30 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/navial', "GamesController@Navial")->name("navial");
   Route::get('/cars', "GamesController@Cars")->name("cars");
   Route::get('/get-token', "GamesController@getToken")->name("GetToken");
+  Route::get('/evento', "GamesController@ultimo_evento")->name("ultimoevento");
+  Route::get('/sala/{id}', "GamesController@ultimo_evento")->name("sala.detalle");
+  
+
+  //enlaces
+  Route::view('casino', 'theme::Accesorios.casino')->name('casino');
+  Route::view('inversion', 'theme::Accesorios.inversion')->name('inversion');
+  Route::view('referidos', 'theme::Accesorios.referidos')->name('referidos');
+
+  Route::view('historia', 'theme::Accesorios.historia')->name('historia');
+  Route::view('compañia', 'theme::Accesorios.compañia')->name('compañia');
+
+  Route::view('ayuda', 'theme::Accesorios.ayuda')->name('ayuda');
+  Route::view('noticias', 'theme::Accesorios.noticias')->name('noticias');
+  Route::view('sitemap', 'theme::Accesorios.sitemap')->name('sitemap');
+
+  Route::view('novedades', 'theme::Accesorios.novedades')->name('novedades');
+  Route::view('patrocinadores', 'theme::Accesorios.patrocinadores')->name('patrocinadores');
+  Route::view('correo', 'theme::Accesorios.correo')->name('correo');
+
+  Route::view('privacidad', 'theme::Accesorios.privacidad')->name('privacidad');
+  Route::view('renuncias', 'theme::Accesorios.renuncias')->name('renuncias');
+  Route::view('terminos', 'theme::Accesorios.terminos')->name('terminos');
+
   
 });
 

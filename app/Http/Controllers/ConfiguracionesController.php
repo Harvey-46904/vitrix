@@ -7,6 +7,7 @@ use DB;
 class ConfiguracionesController extends Controller
 {
     public function IndexNiveles(){
+        $nameruta="UpdateNiveles";
         $nivel=DB::table("configuraciones")->select('parametros')
         ->whereIn('nombre', ['niveles_referidos', 'parametros_referidos'])
         ->get()
@@ -21,7 +22,8 @@ class ConfiguracionesController extends Controller
         
         $configuracion_referidos=[
             "nivel"=>$nivel_numero,
-            "parametros"=>$nivel_parametros
+            "parametros"=>$nivel_parametros,
+            "ruta"=>$nameruta
         ];
         //return response(["data"=>$configuracion_referidos]);
 

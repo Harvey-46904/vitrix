@@ -25,13 +25,19 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('referidos','ConfiguracionesController@IndexNiveles')->name("IndexNiveles");
     Route::get('editar_referidos','ConfiguracionesController@EditNiveles')->name("EditNiveles");
     Route::post('editar_referidos_total','ConfiguracionesController@UpdateNiveles')->name("UpdateNiveles");
-
+    Route::post('editar_referidos_total_games/{id}','InversionesPaquete@UpdateNivelesGames')->name("UpdateNivelesGames");
+    
     Route::get('rentabilidades/{id}','InversionesPaquete@rentabilidadesInversion')->name("RentabilidadesList");
+
+    Route::get('rentabilidadesjuegos/{id}','InversionesPaquete@gamerentabilidad')->name("RentabilidadGame");
     Route::post('updaterentabilidad/{id}','InversionesPaquete@actualizarRentabilidad')->name("UpdateRentabilidad");
     Route::get('bonos_personal','ConfiguracionesController@indexbono')->name("IndexBonos");
     Route::get('finanzas','ConfiguracionesController@finanzas')->name("IndexFinanzas");
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
+
+
+Route::get('listnave',"GamesController@ListNaves");
 
 Route::get('pruebitas',function(){
     event (new \App\Events\CashMoneyEvent());

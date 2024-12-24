@@ -5,9 +5,10 @@ namespace Wave\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use DB;
+use App\Traits\Listnave;
 class HomeController extends Controller
 {
-
+    use Listnave;
     /**
      * Show the application dashboard.
      *
@@ -29,9 +30,12 @@ class HomeController extends Controller
             'type'          => 'website'
 
         ];
+        $balance = 61517;
         $juegos=self::consulta_juegos();
         $banners=self::consulta_banners();
-        return view('theme::home', compact('seo','juegos','banners'));
+        $eventos = $this->ListNaves(); // Llama a tu función
+
+        return view('theme::home', compact('seo','juegos','banners','balance','eventos'));
     }
 
     public function consulta_juegos(){

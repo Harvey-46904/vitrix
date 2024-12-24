@@ -1,61 +1,85 @@
-.card-container {
-    perspective: 1000px;
-  }
-  .card-flip {
-    width: 100%;
-    transition: transform 0.6s;
-    transform-style: preserve-3d;
-  }
-  .card-container:hover .card-flip {
-    transform: rotateY(180deg);
-  }
-  .card-image img {
-    width: 100%;
-    height: auto;
-  }
+body {
+  background-image: url('../img/fondos/fondovitrix.png'); 
+  background-size: cover; /* Asegura que la imagen cubra todo el fondo */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+  background-attachment: fixed; /* Fija el fondo al scroll */
+ 
 
-  .bg-azul-secundario {
-   
-    background: linear-gradient(45deg, #387CBB, #9e57cc);
-    color: white;
-  }
-  .text-azul-variante {
-    color: rgb(42, 140, 232); /* Usa el primer color del gradiente */
+}
+.card-container {
+  perspective: 1000px;
+}
+
+.card-flip {
+  width: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+}
+
+.card-container:hover .card-flip {
+  transform: rotateY(180deg);
+}
+
+.card-image img {
+  width: 100%;
+  height: auto;
+}
+
+.bg-azul-secundario {
+
+  background: linear-gradient(45deg, #387CBB, #9e57cc);
+  color: white;
+}
+
+.text-azul-variante {
+  color: rgb(42, 140, 232);
+  /* Usa el primer color del gradiente */
 }
 
 .text-rosa {
-    color: #9e57cc;
+  color: #9e57cc;
 }
-  .bg-azul-variante{
-    background-image: linear-gradient(to right, rgb(42, 140, 232), rgb(158, 87, 204));
-    color: white;
-  }
 
-  .bg-rosa {
-    background-color:  #9e57cc;
-    color: white;
-  }
-  .bg-rosa-transparente {
-    background-color:  #9d57cc31;
-    color: white;
-  }
-  .bg-fondo-morado {
-    background-color:  #360071;
-    color: white;
-  }
-  .bg-fondo-azul {
-    background-color:  #387CBB;
-    color: white;
-  }
- .vector{
+.bg-azul-variante {
+  background-image: linear-gradient(to right, rgb(42, 140, 232), rgb(158, 87, 204));
+  color: white;
+}
+
+.bg-rosa {
+  background-color: #9e57cc;
+  color: white;
+}
+.bg-gris {
+  background-color: #222222de;
+  color: white;
+}
+
+.bg-rosa-transparente {
+  background-color: #9d57cc31;
+  color: white;
+}
+
+.bg-fondo-morado {
+  background-color: #360071;
+  color: white;
+}
+
+.bg-fondo-azul {
+  background-color: #387CBB;
+  color: white;
+}
+
+.vector {
   width: 50%;
   height: 50%;
-  
- }
 
- .carousel-inner img {
+}
+
+.carousel-inner img {
   object-fit: cover;
-  height: 100%; /* Ajusta la altura al tamaño del carrusel */
+  height: 100%;
+  /* Ajusta la altura al tamaño del carrusel */
 }
 
 #tetrisButton {
@@ -71,18 +95,21 @@
   cursor: pointer;
   transition: background-image 0.3s ease;
   z-index: 1000;
-  outline: none; /* Elimina el borde del clic */
+  outline: none;
+  /* Elimina el borde del clic */
 }
+
 .contendedor_emergente {
   right: -150px;
   width: 24rem;
 }
+
 .contendedor_emergente_money {
   right: -106px;
   width: 24rem;
 }
 
-.anchor{
+.anchor {
   height: 9.5rem;
 }
 
@@ -90,16 +117,139 @@
   width: 4rem;
   height: 4rem;
 }
+
 .neon-shadow {
-  box-shadow: 0 0 10px rgba(58, 123, 253, 0.8),  /* Sombra cercana */
-              0 0 20px rgba(58, 123, 253, 0.6),  /* Sombra intermedia */
-              0 0 30px rgba(58, 123, 253, 0.4),  /* Sombra más distante */
-              0 0 40px rgba(58, 123, 253, 0.2);  /* Sombra difusa */
-  border-radius: 5px; /* Si quieres bordes redondeados */
+  box-shadow: 0 0 10px rgba(58, 123, 253, 0.8),
+    /* Sombra cercana */
+    0 0 20px rgba(58, 123, 253, 0.6),
+    /* Sombra intermedia */
+    0 0 30px rgba(58, 123, 253, 0.4),
+    /* Sombra más distante */
+    0 0 40px rgba(58, 123, 253, 0.2);
+  /* Sombra difusa */
+  border-radius: 5px;
+  /* Si quieres bordes redondeados */
 }
 
 .letragrande {
   font-size: 2rem;
   font-weight: 300;
   line-height: 1.2;
+}
+
+.moving-svg {
+  position: relative;
+  /* Necesario para mover el elemento con `left` */
+  animation: move-left-right 2s infinite linear;
+  /* Aplica la animación */
+}
+
+/* Definimos la animación */
+@keyframes move-left-right {
+  0% {
+    transform: translateX(0);
+    /* Posición inicial */
+  }
+
+  50% {
+    transform: translateX(50px);
+    /* Mueve hacia la derecha */
+  }
+
+  100% {
+    transform: translateX(0);
+    /* Regresa a la posición inicial */
+  }
+}
+
+@font-face {
+  font-family: 'gamer';
+  src: url('../fonts/Gamer.ttf') format('truetype');
+}
+
+.gamers {
+  font-family: 'gamer', sans-serif;
+  font-size: 48px;
+}
+
+.gamers-1 {
+  font-family: 'gamer', sans-serif;
+  font-size: 30px;
+}
+
+.fa-clock,
+.fa-star {
+  margin-right: 5px;
+  /* Espacio entre el ícono y el texto */
+  color: #007bff;
+  /* Cambia el color del ícono */
+}
+
+.rangos {
+  background-image: url('../img/rangos/bronce.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+
+
+.destellos {
+  background-image: url('../img/fondos/destello.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+
+.destellos-a {
+  background-image: url('../img/fondos/destellosb.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+
+.texturizado-warning {
+  font-weight: bold;
+  background: linear-gradient(to right, #ffd900, #c0b304);
+  /* Degradado de colores */
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.texturizado-primary {
+  font-weight: bold;
+  background: linear-gradient(to right, rgb(42, 140, 232), rgb(158, 87, 204));
+  /* Degradado de colores */
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.background {
+
+  position:
+    absolute;
+
+  display:
+    block;
+
+  top: 0;
+
+  left: 0;
+
+  z-index: 0;
 }

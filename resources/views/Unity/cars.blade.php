@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity WebGL Player | New Unity Project</title>
+    <title>Cars</title>
     <link rel="shortcut icon" href="Games/Cars/TemplateData/favicon.ico">
     <link rel="stylesheet" href="Games/Cars/TemplateData/style.css">
     <script src="Games/Cars/TemplateData/UnityProgress.js"></script>

@@ -3,11 +3,15 @@
 
 <div class="page-content container-fluid">
     Configuración de referidos
-
+   
     <div class="row  justify-center items-center">
         <div class="col-md-6 col-12 text-center ">
-            
-            <form action="{{route('UpdateNiveles')}}" method="POST" class="p-4">
+            @if(isset($configuracion_referidos['id_game']))
+            <form action="{{route($configuracion_referidos['ruta'],['id'=>$configuracion_referidos['id_game']])}}" method="POST" class="p-4">
+            @else
+            <form action="{{route($configuracion_referidos['ruta'])}}" method="POST" class="p-4">
+            @endif
+           
                 @csrf
                 <div class="mb-3">
                     <h5>Formulario dinámico con <span id="nivelLabel">{{ $configuracion_referidos['nivel'] }}</span> niveles </h5>
