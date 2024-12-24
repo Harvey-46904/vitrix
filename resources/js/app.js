@@ -9,6 +9,6 @@ window.Echo = new Echo({
     encrypted: true,
     wsHost: window.location.hostname,
     wsPort: 6001,
-    forceTLS: false,
+    forceTLS: true,
     disableStats: true,
 });
