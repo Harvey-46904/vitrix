@@ -31,18 +31,24 @@ return [
     'connections' => [
 
         'pusher' => [
-        'driver' => 'pusher',
-        'key' => env('PUSHER_APP_KEY'),
-        'secret' => env('PUSHER_APP_SECRET'),
-        'app_id' => env('PUSHER_APP_ID'),
-        'options' => [
-            'cluster' => env('PUSHER_APP_CLUSTER'),
-            'encrypted' => true, // Cambia a true si usas wss
-            'host' => '127.0.0.1',
-            'port' => 6001,
-            'scheme' => 'https', // Asegúrate de que use https
-            'useTLS' => true, // Usar TLS
-        ],
+            'driver' => 'pusher',
+            'key' => env('PUSHER_APP_KEY'),
+            'secret' => env('PUSHER_APP_SECRET'),
+            'app_id' => env('PUSHER_APP_ID'),
+            'options' => [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'encrypted' => true,
+                'host' => '127.0.0.1',
+                'port' => 6001,
+                'scheme' => 'https',  // Usar 'https' para WebSockets seguros
+                'useTLS' => true,
+                'curl_options' => [
+                    CURLOPT_SSL_VERIFYHOST => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                ],
+            ]
+        ], 'client_options' => [
+            'verify' => true
         ],
         
         'ably' => [

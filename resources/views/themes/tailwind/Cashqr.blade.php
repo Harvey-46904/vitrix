@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="pt-20 mx-auto prose text-center max-w-7xl">
-	<div class="container text-light ">
+	<div class="container text-light bg-gris ">
 		<div class="row justify-content-center my-5 ">
 			
 			<div class="col-md-6 neon-shadow">

@@ -127,8 +127,9 @@ class CashController extends Controller
 
 
     public function FoundBalance($amount){
-        $bonos=DB::table("bonos")->select('estado','Precio_USDT')->where('nombre','Bono de Bienvenida')->first();
         
+        $bonos=DB::table("bonos")->select('estado','Precio_USDT')->where('nombre','Bono de Bienvenida')->first();
+      
        // return $this->wallet->generateNewAddress();
         $userId =$id=auth()->user()->id;
        
@@ -142,8 +143,11 @@ class CashController extends Controller
                 $recompenza=$bonos->estado=='0'?'none':self::FoundBalanceBono($userId,$bonos->Precio_USDT,'Bono de bienvenida');
           
             }
+           
         $result = $this->cashService->AddMoneyBalance($userId, $amount,'Deposito');
+       
         event(new BalanceUpdated($userId));
+       
         if ($result) {
             return back();
         } else {

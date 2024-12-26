@@ -64,7 +64,7 @@ class CashMoney
             ]);
            
             // Si todo sale bien, se confirma la transacción
-            event(new BalanceControl($userId, $fondo_total));
+            //event(new BalanceControl($userId, $fondo_total));
             DB::commit();
             return true;
         } catch (Exception $e) {
