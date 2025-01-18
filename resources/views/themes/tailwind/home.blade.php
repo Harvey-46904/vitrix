@@ -206,8 +206,8 @@
             break;
         }
 
-        const width = 960; // Ancho de la ventana
-        const height = 605; // Alto de la ventana
+        const width = 965; // Ancho de la ventana
+        const height = 610; // Alto de la ventana
         const left = (screen.width - width) / 2; // Centrado horizontal
         const top = (screen.height - height) / 2; // Centrado vertical
 
