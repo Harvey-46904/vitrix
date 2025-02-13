@@ -11,7 +11,7 @@
   <script>
     document.getElementById("btnAbrirTronLink").addEventListener("click", function() {
       const params = {
-        "url": "https://www.tronlink.org/", //target DApp
+        "url": "https://www.vitrix.io/", //target DApp
         "action": "open",
         "protocol": "tronlink",
         "version": "1.0"
