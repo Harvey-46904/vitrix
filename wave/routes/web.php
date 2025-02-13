@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::get('settings/arbol/referidos', '\Wave\Http\Controllers\SettingsController@arbol')->name('wave.arbol');
 	Route::post('settings/profile', '\Wave\Http\Controllers\SettingsController@profilePut')->name('wave.settings.profile.put');
 	Route::put('settings/security', '\Wave\Http\Controllers\SettingsController@securityPut')->name('wave.settings.security.put');
-
+    Route::get('iboxs', 'ReferidosController@ibox')->name('wave.ibox');
 	
 	Route::get('system/inversion', 'InversionesPaquete@mostrar_paquetes')->name('wave.paquetes');
 	Route::get('system/inversion/personal', 'InversionesPaquete@MisInversiones')->name('wave.paquetes.personal');
@@ -83,8 +83,10 @@ Route::group(['middleware' => 'auth'], function(){
 
   Route::post('balancebono', 'CashController@addFoundBono')->name('cashbalanceBono');
   Route::post('balanceinversion/{id}', 'CashController@addFoundinversion')->name('cashbalanceInversion');
+  Route::post('balanceibox/{id}', 'IboxController@addFoundibox')->name('cashbalanceIbox');
   Route::get('retirar', 'CashController@retirar')->name('retirar');
   Route::get('cash/invertir/{id}', 'InversionesPaquete@CompraPaqueteInversion')->name('cashinversion');
+  Route::get('cash/ibox/{id}', 'InversionesPaquete@CompraPaqueteIbox')->name('cashibox');
   Route::get('inversioncasino/{id}', 'CashController@SendInversionToEfectivo')->name('wave.paquetes.casino');
   Route::post('retirosvitrix', 'CashController@retirosvitrix')->name('RetirosVitrix');
 

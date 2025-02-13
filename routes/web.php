@@ -36,9 +36,11 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
 
+Route::get('qr','CashController@generateQRs');
+
 
 Route::get('listnave',"GamesController@ListNaves");
-
+Route::get('roomi','GamesController@createRoom')->name("room");
 Route::get('pruebitas',function(){
     event (new \App\Events\CashMoneyEvent());
     return response(["data"=>"hijitos"]);

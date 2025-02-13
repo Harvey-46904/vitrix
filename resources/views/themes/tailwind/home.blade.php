@@ -6,8 +6,8 @@
 
 
 <div class="container-fluid">
-   
-    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+
+    <div id="carouselExampleControls" class="carousel slide " data-ride="carousel" style="width: 100%">
         <div class="carousel-inner">
             @foreach ($banners as $index => $imagen)
             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
@@ -26,31 +26,27 @@
 
     </div>
 
-  
 
 
     <div class="container text-center text-light py-2">
 
-        <div class="row">
-            <div class="col-md-12 text-center bg-gris py-3">
+        <div class="row justify-content-center ">
+            <div class="col-md-8 text-center py-1 ">
                 <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Los Mejores Juegos</h1>
-       
-                <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Ofrecemos recompenzas en todos nuestros juegos para que puedas divertirte</p>
+                    data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+                    Los Mejores Juegos</h1>
+
+
 
             </div>
         </div>
-      
-        <div class="row justify-content-between pt-3">
+
+        <div class="row justify-content-center pt-3 neon-shadow">
 
             @foreach ($juegos as $juego)
             <div class="col-md-3 col-5 my-2">
-                <div class="card card-container" style=" background-color: #ffffff00;" 
-               
-                onmouseover="this.style.cursor='pointer';" onclick="loadgame('{{$juego->nombre}}')">
+                <div class="card card-container p-3" style=" background-color: #ffffff00;"
+                    onmouseover="this.style.cursor='pointer';" onclick="loadgame('{{$juego->nombre}}')">
                     <img src="{{ Voyager::image($juego->imagen) }}" class="card-img-top  card-flip" alt="...">
                 </div>
             </div>
@@ -62,33 +58,35 @@
 
     </div>
 
-    <marquee behavior="scroll" direction="left" scrollamount="8" style="color: #093b69; font-size: 1.5em; font-weight: bold;" class="bg-rosa  ">
+    <marquee behavior="scroll" direction="left" scrollamount="8"
+        style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
         🎰 ¡VITRIX! Grandes premios, jackpots acumulados y diversión sin límites. ¡Apuesta y gana! 💰
     </marquee>
     <div class="container ">
         <div class="row">
-            <div class="col-md-12 text-center bg-gris py-3">
+            <div class="col-md-12 text-center py-3">
                 <h1 class=" invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Jackpots y Premios</h1>
-       
+                    data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+                    Jackpots y Premios</h1>
+
                 <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Descubre nuestros emocionantes jackpots y premios especiales que podrían cambiar tu vida. ¡Apuesta y sé el próximo gran ganador!</p>
+                    data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+                    Descubre nuestros emocionantes jackpots y premios especiales que podrían <b
+                        class="text-warning">cambiar tu vida.</b> ¡Apuesta y
+                    sé el próximo gran <b class="text-warning">ganador</b>!</p>
 
             </div>
         </div>
         <div class="row align-items-center">
             <div class="col-md-4">
 
-                <div class="card text-center"
-                    style=" background-color: #ffffff00; border: 1px solid rgb(0 0 0 / 0%);">
-                    
+                <div class="card text-center" style=" background-color: #ffffff00; border: 1px solid rgb(0 0 0 / 0%);">
+
                     <div class="card-body bg-gris neon-shadow">
                         <h5 class="card-title text-light gamers texturizado-warning ">Premios Ganadores</h5>
                         <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
-                        data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                        Juega cualquiera de nuestros juegos y podras ganar uno de nuestros jackpots</p>
+                            data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+                            Juega cualquiera de nuestros juegos y podras ganar uno de nuestros jackpots</p>
 
                         <a href="#" class="btn  bg-azul-variante mt-4">Jugar</a>
                     </div>
@@ -97,7 +95,7 @@
             <div class="col-md-8">
                 <div class="row align-items-center">
                     <div class="col-md-7 text-center">
-                        <div class="jumbotron jumbotron-fluid bg-azul-secundario neon-shadow">
+                        <div class="jumbotron jumbotron-fluid i neon-shadow">
                             <div class="container ">
                                 <p class="lead gamers texturizado-warning">
                                     Speed stakes <i class="fas fa-money-bill-wave" style="color: green;"></i>
@@ -109,7 +107,7 @@
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <div class="jumbotron jumbotron-fluid  bg-azul-secundario neon-shadow">
+                                <div class="jumbotron jumbotron-fluid  t neon-shadow">
                                     <div class="container ">
                                         <p class="lead gamers texturizado-warning">
                                             Genie's Rise <i class="fas fa-money-bill-wave" style="color: green;"></i>
@@ -122,7 +120,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <div class="jumbotron jumbotron-fluid bg-azul-secundario neon-shadow">
+                                <div class="jumbotron jumbotron-fluid s neon-shadow">
                                     <div class="container ">
                                         <p class="lead gamers texturizado-warning">
                                             Nebula Race <i class="fas fa-money-bill-wave" style="color: green;"></i>
@@ -139,27 +137,33 @@
         </div>
     </div>
 
-    <marquee behavior="scroll" direction="left" scrollamount="8" style="color: #1d0030; font-size: 1.5em; font-weight: bold;" class="bg-rosa">
+
+    <marquee behavior="scroll" direction="left" scrollamount="8"
+        style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
         🎰 ¡VITRIX! Invierte con nosotros, obten recompenzas. ¡Apuesta y gana! 💰
     </marquee>
-   
+
+
     <div class="container">
         <div class="row ">
-            <div class="col-md-12 text-center bg-gris py-3">
+            <div class="col-md-12 text-center  py-3">
                 <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                Tabla de Ganadores</h1>
-       
+                    data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+                    Tabla de Ganadores</h1>
+
                 <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
-                data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-              
-                Conoce a nuestros ganadores más recientes y descubre cómo tú también puedes aparecer en la lista de triunfadores. ¡Tu nombre podría ser el siguiente!</p>
+                    data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+
+                    Conoce a nuestros <b class="text-warning">ganadores</b> más recientes y descubre cómo tú también
+                    puedes aparecer en la lista de
+                    <b class="text-warning">triunfadores</b>. ¡Tu nombre <b class="text-warning">azz</b> podría ser el
+                    siguiente!
+                </p>
 
             </div>
         </div>
         <div class="row pt-4">
-            <div class="col-md-6">  <img src="{{asset('vitrix/img/Designer.jpeg') }}"
-                class=" img-fluid" alt="..."></div>
+            <div class="col-md-6"> <img src="{{asset('vitrix/img/marcotetris.png') }}" class=" img-fluid" alt="..."></div>
             <div class="col-md-6 bg-gris neon-shadow">
                 <h1 class="gamers texturizado-primary">Apresurate faltan</h1>
                 <h1 class="gamers texturizado-warning" id="fechaFin">{{$eventos["evento"]->fecha_fin}}</h1>
@@ -177,12 +181,12 @@
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
                             <td>{{$item->user->name}}</td>
-                            <td>  <i class="fas fa-clock"></i>{{$item->tiempo}}</td>
-                            <td>  <i class="fas fa-star"></i>{{$item->puntuacion}}</td>
+                            <td> <i class="fas fa-clock"></i>{{$item->tiempo}}</td>
+                            <td> <i class="fas fa-star"></i>{{$item->puntuacion}}</td>
                         </tr>
                         @endforeach
-                        
-                
+
+
                     </tbody>
                 </table>
             </div>
@@ -260,8 +264,8 @@
       counter1.start();
       counter2.start();
     });
-  </script>
-  <script>
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', function () {
       // Obtén la fecha de finalización desde el HTML
       const fechaFin = document.getElementById('fechaFin').innerText.trim();
@@ -290,5 +294,5 @@
       // Muestra el tiempo restante en un formato legible
       document.getElementById('fechaFin').innerHTML = `${diasRestantes} días, ${horasRestantes} horas para finalizar el evento`;
     });
-  </script>
+</script>
 @endsection

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Naveevento;
@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Crypt;
 use GuzzleHttp\Client;
 use DB;
 use App\Traits\Listnave;
+use App\Services\PhotonService;
 class GamesController extends Controller
 {
    use Listnave;
@@ -112,23 +113,27 @@ class GamesController extends Controller
 
   
 
-   public function createRoom(Request $request)
+   public function createRoom(Request $request, PhotonService $photonService)
    {
-      //return response(["create"=>"creando room"]);
-      
-      $client = new Client();
-      $appId = '726ec537-cf35-4d9d-a625-52d19dc9cab0';
-      $region = 'eu';
-      $roomName = $request->input('roomName');
-      $maxPlayers = $request->input('maxPlayers');
-
-      $response = $client->post("https://$region.exitgames.com:443/App/$appId/CreateRoom", [
-         'json' => [
-               'RoomName' => $roomName,
-               'MaxPlayers' => $maxPlayers,
-         ],
-      ]);
-
-      return response()->json(json_decode($response->getBody(), true));
+      $url = "https://wt-e4c18d407aa73a40e4182aaf00a2a2eb-0.run.webtask.io/realtime-webhooks-1.2";
+      $headers = [
+          'X-Secret' => 'YWxhZGRpbjpvcGVuc2VzYW1l',
+          'X-Origin' => 'Photon',
+      ];
+  
+      try {
+          $response = Http::withHeaders($headers)->get($url);
+  
+          if ($response->successful()) {
+              // Procesar la respuesta exitosa
+              return response()->json($response->json());
+          } else {
+              // Procesar errores de respuesta
+              return response()->json(['error' => $response->body()], $response->status());
+          }
+      } catch (\Exception $e) {
+          // Manejar excepciones
+          return response()->json(['error' => $e->getMessage()], 500);
+      }
    }
 }

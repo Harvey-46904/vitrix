@@ -47,7 +47,11 @@ body {
 }
 
 .bg-rosa {
-  background-color: #9e57cc;
+  background-color: #00aeff;
+  color: white;
+}
+.bg-blue{
+  background-color: #0007bf;
   color: white;
 }
 .bg-gris {
@@ -219,6 +223,82 @@ body {
   /* Evita que la imagen se repita */
 }
 
+.circle-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+}
+.circle-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.miembros {
+  background-image: url('../img/fondos/member.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+.l {
+  background-image: url('../img/fondos/L.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+.t {
+  background-image: url('../img/fondos/T.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+.i {
+  background-image: url('../img/fondos/I.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+.s {
+  background-image: url('../img/fondos/S.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+.regalo {
+  background-image: url('../img/fondos/ibox.png');
+  /* Ruta de la imagen */
+  background-size: cover;
+  /* Ajusta la imagen para cubrir todo el div */
+  background-position: center;
+  /* Centra la imagen en el div */
+  background-repeat: no-repeat;
+  /* Evita que la imagen se repita */
+}
+
 .texturizado-warning {
   font-weight: bold;
   background: linear-gradient(to right, #ffd900, #c0b304);
@@ -252,4 +332,78 @@ body {
   left: 0;
 
   z-index: 0;
+}
+
+.neon-basico {
+  box-shadow: 0 0 7px 1px rgb(42, 140, 232);
+  /* Es un color rosa estilo Neón */
+}
+.neon-purple {
+  box-shadow: 0 0 7px 1px rgb(136, 7, 196);
+  /* Es un color rosa estilo Neón */
+}
+
+.table tbody tr {
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 5px 1px rgba(0, 162, 255, 0.6), 
+              0 0 10px 2px rgba(0, 162, 255, 0.4);
+  background-color: rgba(0, 162, 255, 0.1) !important;
+}
+
+/* Cambio de color cuando pasas el mouse */
+.table tbody tr:hover {
+  box-shadow: 0 0 10px 2px rgba(0, 255, 100, 0.8), 
+              0 0 20px 4px rgba(0, 255, 100, 0.5), 
+              0 0 30px 6px rgba(0, 255, 100, 0.3);
+  background-color: rgba(0, 255, 100, 0.2) !important;
+  transform: scale(1.02);
+}
+
+/* Hacer los iconos más grandes */
+.table i {
+  font-size: 1.3rem; /* Aumentar tamaño de iconos */
+  margin-right: 5px;
+}
+
+.neon-table {
+  position: relative;
+  border-collapse: collapse;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(128, 0, 128, 0.8); /* Brillo neón morado */
+}
+
+.neon-table th, .neon-table td {
+  background-color: #1a1a1a; /* Fondo oscuro para resaltar el neón */
+  color: white;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.neon-border {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  pointer-events: none;
+  border: 2px solid transparent;
+  box-shadow: 0 0 15px purple;
+}
+
+.neon-border::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px dotted white; /* Puntos blancos alrededor */
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from {
+    box-shadow: 0 0 10px white;
+  }
+  to {
+    box-shadow: 0 0 20px white;
+  }
 }

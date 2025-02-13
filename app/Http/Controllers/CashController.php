@@ -235,5 +235,30 @@ class CashController extends Controller
         ->get();
         return view('theme::notifications.Transacciones',compact('transacciones'));
     }
+    public function generateQRs(){
+        return view("theme::pay");
+        // Datos del contrato y parámetros para la función logicusdt
+        $contractAddress = "TTnQXYX1HF2LZFgyTFXSRAncfMnQ8BLM7y"; // Reemplaza con la dirección de tu contrato
+        $amount = 1000000; // Cantidad en SUN (1 USDT = 1,000,000 SUN)
+        $reason = "casino"; // Puede ser "casino", "bono", etc.
+
+        /**
+         * Construir la URL para interactuar con el contrato.
+         * En este ejemplo usamos la URL de Tronscan, la cual al abrirse en una billetera compatible
+         * llevará al usuario a la pantalla para interactuar con el contrato.
+         * 
+         * La URL tiene el siguiente formato:
+         * https://tronscan.org/#/contract/{CONTRACT_ADDRESS}/interact?method=logicusdt&params=[{MONTO},"{RAZON}"]
+         */
+        $url = "https://tronscan.org/#/contract/{$contractAddress}/interact?method=logicusdt&params=[{$amount},\"{$reason}\"]";
+            return response($url);
+        // Generar el código QR de 300x300 píxeles con la URL
+        $qrCode = QrCode::size(300)->generate($url);
+
+        // Retornar el QR como una imagen SVG para que pueda mostrarse en el navegador
+        return response($qrCode)
+        ->header('Content-Type', 'image/svg+xml')
+        ->header('Content-Disposition', 'attachment; filename="qrcode.svg"');
+    }
 
 }

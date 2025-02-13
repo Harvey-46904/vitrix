@@ -3,7 +3,7 @@
 @section('content')
 
 
-<div class="container bg-gris neon-shadow py-2 my-2 ">
+<div class="container  neon-shadow py-2 my-2 ">
 	<div class="row">
 		<div class="col-md-12">
 			@include('theme::settings.partials.' . $section)

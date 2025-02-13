@@ -127,6 +127,13 @@ class InversionesPaquete extends Controller
        // return response(["data"=>$paquete]);
         return view('theme::CashInversion',compact('paquete'));
     }
+    public function CompraPaqueteIbox($id){
+        $paquete=DB::table("iboxes")
+        ->where('id',$id)
+        ->first();
+       // return response(["data"=>$paquete]);
+        return view('theme::CashIbox',compact('paquete'));
+    }
 
     public function MisInversiones(){
         $id=auth()->user()->id;

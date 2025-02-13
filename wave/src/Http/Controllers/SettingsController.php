@@ -24,6 +24,8 @@ class SettingsController extends Controller
         }
         return view('theme::settings.index', compact('section'));
     }
+
+  
     public function arbol(){
        
 
