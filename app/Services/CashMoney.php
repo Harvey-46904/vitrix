@@ -8,7 +8,7 @@ use App\Models\UserBalance;
 use App\Models\UserBono;
 use App\Models\UserInversion;
 use App\Models\UserIbox;
-
+use App\Models\UserCard;
 use App\Models\Transaccions; 
 use Illuminate\Support\Facades\DB;
 use Exception;
@@ -152,7 +152,55 @@ class CashMoney
             return false;
         }
     }
+    public function AddMoneyCards($userId, $amount,$reason)
+    {
+        DB::beginTransaction();
 
+        try {
+            // Busca el balance actual del usuario
+            $userBalance = UserCard::where('user_id', $userId)->first();
+           
+            $fondo_total=0;
+          
+            if ($userBalance) {
+               
+                // Suma el nuevo monto al balance existente
+                $newBalance = $userBalance->balance + $amount;
+
+                // Actualiza el balance en la base de datos
+                $userBalance->balance = $newBalance;
+                $fondo_total=$userBalance->balance;
+                $userBalance->save();
+               
+
+            } else {
+                
+                // Si no tiene un balance, crea uno nuevo para el usuario
+                $userBalance = UserCard::create([
+                    'user_id' => $userId,
+                    'balance' => $amount
+                ]);
+            }
+
+            // Crea el registro de transacción
+            Transaccions::create([
+                'user_id' => $userId,
+                'amount' => $amount,
+                'type' => $reason, // Define el tipo de transacción
+                'balance_after' => $userBalance->balance,
+            ]);
+           
+            // Si todo sale bien, se confirma la transacción
+            //event(new BalanceControl($userId, $fondo_total));
+            DB::commit();
+            return true;
+        } catch (Exception $e) {
+            // Si ocurre algún error, se revierte todo
+            DB::rollBack();
+            //return $e->getMessage();
+            return false;
+        }
+    }
     ///
     public function PayRefery($userId, $amount){
         DB::beginTransaction();

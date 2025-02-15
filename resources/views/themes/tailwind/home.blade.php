@@ -95,24 +95,24 @@
             <div class="col-md-8">
                 <div class="row align-items-center">
                     <div class="col-md-7 text-center">
-                        <div class="jumbotron jumbotron-fluid i neon-shadow">
+                        <div class="jumbotron jumbotron-fluid i neon-shadow bg-black">
                             <div class="container ">
                                 <p class="lead gamers texturizado-warning">
                                     Speed stakes <i class="fas fa-money-bill-wave" style="color: green;"></i>
                                 </p>
-                                <h1 id="speed" class="display-4">0</h1>
+                                <h1 id="speed" class="display-4 text-light">0</h1>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-5">
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <div class="jumbotron jumbotron-fluid  t neon-shadow">
+                                <div class="jumbotron jumbotron-fluid  t  bg-black neon-shadow">
                                     <div class="container ">
                                         <p class="lead gamers texturizado-warning">
                                             Genie's Rise <i class="fas fa-money-bill-wave" style="color: green;"></i>
                                         </p>
-                                        <h1 id="genie" class="display-4">0</h1>
+                                        <h1 id="genie" class="display-4 text-light">0</h1>
                                     </div>
                                 </div>
                             </div>
@@ -120,12 +120,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-center">
-                                <div class="jumbotron jumbotron-fluid s neon-shadow">
+                                <div class="jumbotron jumbotron-fluid s bg-black neon-shadow">
                                     <div class="container ">
                                         <p class="lead gamers texturizado-warning">
                                             Nebula Race <i class="fas fa-money-bill-wave" style="color: green;"></i>
                                         </p>
-                                        <h1 id="nebula" class="display-4">0</h1>
+                                        <h1 id="nebula" class="display-4 text-light">0</h1>
                                     </div>
                                 </div>
                             </div>

@@ -135,6 +135,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserIbox::class);
     }
+    public function balance_card()
+    {
+        return $this->hasOne(UserCard::class);
+    }
     
 
 }

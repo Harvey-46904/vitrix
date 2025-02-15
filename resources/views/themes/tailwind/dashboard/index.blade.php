@@ -14,6 +14,11 @@
         style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
         🎰 Los rangos Vitrix te diferencia entre los demas jugadores sigue jugando para aumentar niveles💰
     </marquee>
+	
+		<div class="col-md-12 text-center">
+			<h1 class="text-light gamers">Rangos Vitrix  </h1>
+		</div>
+	
 		<div class="col-3 col-md-3 ">
 		  <div class="circle-image">
 			<img src="./vitrix/img/rangos/bronce.png" alt="Imagen 1">
@@ -41,8 +46,8 @@
 			<div class="card neon-purple miembros" style="background-color: #ffffff00;">
 				<div class="card-body text-center ">
 					<h5 class="card-title gamers texturizado-warning">SALDO IBOX</h5>
-					<h5 class="card-title gamers texturizado-primary">$1500</h5>
-					<p class="card-text text-light">Recuerda que debes tener activa tu membresia IBOX para retirar tus
+					<h5 class="card-title gamers texturizado-primary">${{number_format(auth()->user()->balance_card->balance, 2) }}</h5>
+					<p class="card-text text-light">Recuerda que debes tener saldo IBOX para retirar tus
 						rentabilidades</p>
 					<a href="{{route('wave.ibox')}}" class="btn my-1  bg-azul-secundario">Comprar Membresia</a>
 				</div>
@@ -174,5 +179,51 @@
 	</div>
 </div>
 
+<script>
+    function loadgame(name){
+       
+        let serial="";
+        switch (name) {
+            case "aviator":
+                serial="cars"
+            break;
+            case "Genius":
+            serial="genius"
+            break;
+            case "Monster":
+            serial="navial"
+            break;
+        }
 
+        const width = 965; // Ancho de la ventana
+        const height = 610; // Alto de la ventana
+        const left = (screen.width - width) / 2; // Centrado horizontal
+        const top = (screen.height - height) / 2; // Centrado vertical
+
+        // Abrir la ventana emergente
+        const routeName = serial; // Aquí puedes usar cualquier lógica para obtener este nombre dinámicamente.
+        const url = `{{ url('/') }}/${routeName}`;
+
+        window.open(
+            url, // URL completa
+            "UnityGame", // Nombre de la ventana
+            `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=no`
+        );
+       
+    }
+    document.getElementById('openGame').addEventListener('click', function () {
+        // Configuración de la ventana emergente
+        const width = 960; // Ancho de la ventana
+        const height = 605; // Alto de la ventana
+        const left = (screen.width - width) / 2; // Centrado horizontal
+        const top = (screen.height - height) / 2; // Centrado vertical
+
+        // Abrir la ventana emergente
+        window.open(
+            "{{ route('unity-game') }}", // URL de la vista del juego
+            "UnityGame", // Nombre de la ventana
+            `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=no`
+        );
+    });
+</script>
 @endsection

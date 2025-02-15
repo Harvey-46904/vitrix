@@ -16,7 +16,14 @@
         "protocol": "tronlink",
         "version": "1.0"
       };
-      const deepLink = "tronlinkoutside://pull.activity?param=" + encodeURIComponent(JSON.stringify(params));
+
+
+      const paramsbeta={
+        "action": "open",
+        "protocol": "tronlink",
+        "version": "1.0"
+      }
+      const deepLink = "tronlinkoutside://pull.activity?param=" + encodeURIComponent(JSON.stringify(paramsbeta));
       window.location.href = deepLink;
     });
   </script>

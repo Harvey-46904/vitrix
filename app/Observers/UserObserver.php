@@ -9,7 +9,7 @@ use App\Models\UserBalance;
 use App\Models\UserBono;
 use App\Models\UserInversion;
 use App\Models\UserIbox;
-
+use App\Models\UserCard;
  
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
@@ -46,6 +46,12 @@ class UserObserver
             'balance' => $encryptedBalance,
             'balance_hash' => $balanceHash,
         ]);
+        UserCard::create([
+            'user_id' => $user->id,
+            'balance' => $encryptedBalance,
+            'balance_hash' => $balanceHash,
+        ]);
+        
         
     }
 

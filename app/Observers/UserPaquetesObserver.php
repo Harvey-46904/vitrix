@@ -15,6 +15,8 @@ class UserPaquetesObserver
             'user_paquetes_id' =>$userPaquete->id,
             'amount' => 0,
             'razon' => "Inicio Inversión",
+            'created_at'=>now(),
+            'updated_at'=>now()
         ];
     
         // Insertar en la tabla "paquete"

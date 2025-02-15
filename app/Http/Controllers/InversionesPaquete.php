@@ -149,6 +149,7 @@ class InversionesPaquete extends Controller
 
     public function MisInversionesTransaccion($id){
         $transacciones = DB::table("paquete_transaccion")
+       // ->select("paquete_transaccion.*")
         ->where("user_paquetes_id",$id)
         ->get();
         $section="misinversionestabla";

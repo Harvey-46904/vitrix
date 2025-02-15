@@ -9,7 +9,7 @@ class TransaccionsPaquete extends Model
 {
     protected $table = 'paquete_transaccion';
     use HasFactory;
-    protected $fillable = ['user_paquetes_id', 'amount','razon'];
+    protected $fillable = ['user_paquetes_id', 'amount','razon','created_at','updated_at'];
 
     public function userpaquete()
     {
