@@ -6,6 +6,7 @@
     <title>Unity Web Player | navejitana</title>
     <link rel="shortcut icon" href="Games/Navial/TemplateData/favicon.ico">
     <link rel="stylesheet" href="Games/Navial/TemplateData/style.css">
+    <link href="{{ asset('vitrix/css/mystyle.css') }}" rel="stylesheet">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -25,7 +26,11 @@
     </div>
     <script>
       var canvas = document.querySelector("#unity-canvas");
-
+      const token = @json($token);
+      const pris = @json($precio);
+      const data = JSON.stringify({ token, pris });
+      console.log(data);
+      
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
@@ -101,6 +106,7 @@
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
+                unityInstance.SendMessage('scripting', 'ReceiveToken', data);
                 document.querySelector("#unity-loading-bar").style.display = "none";
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                   unityInstance.SetFullscreen(1);

@@ -14,10 +14,10 @@ class Referidos
         $this->cashService = $cashService;
       
     }
-    public function ReferidosLevel($iduser){
+    public function ReferidosLevel($iduser,$razon){
         $user = new User;
        
-        $configuraciones=self::ObtenerNivelesPorcentajes();
+        $configuraciones=self::ObtenerNivelesPorcentajes($razon);
         $recompenza=$user->referidoPrincipalHaciaArriba($iduser,  $configuraciones["nivel"]);
             // Crear el arreglo combinado
             $resultado = [];
@@ -36,16 +36,16 @@ class Referidos
            
         
     }
-    public function PagosIboxReferidos($id_user,$montototal){
+    public function PagosIboxReferidos($id_user,$montototal,$razon){
         DB::beginTransaction();
         try {
-            $pagos=self::ReferidosLevel($id_user);
+            $pagos=self::ReferidosLevel($id_user,$razon);
             foreach ($pagos as $item) {
                 // Acceder a cada valor individualmente
                 $nivel = $item['nivel'];
                 $porcentaje = $item['porcentaje'];
                 $recargaribox=($montototal* $porcentaje)/100;
-                $this->cashService->PayRefery($nivel,$recargaribox);
+                $this->cashService->PayRefery($nivel,$recargaribox,$razon);
             }
             // Si todo sale bien, se confirma la transacción
             DB::commit();
@@ -67,9 +67,10 @@ class Referidos
        
     }
 
-    public function ObtenerNivelesPorcentajes(){
+    public function ObtenerNivelesPorcentajes($razon){
+
         $nivel=DB::table("configuraciones")->select('parametros')
-        ->whereIn('nombre', ['niveles_referidos', 'parametros_referidos'])
+        ->whereIn('nombre', ['niveles_'.$razon, 'parametros_'.$razon])
         ->get()
         ->map(function ($fila) {
             // Convierte el campo 'parametros' de JSON string a un objeto
@@ -85,5 +86,10 @@ class Referidos
             "parametros"=>$nivel_parametros
         ];
     }
+
+  
+
+
+
 
 }

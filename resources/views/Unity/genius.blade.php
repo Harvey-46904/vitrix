@@ -27,7 +27,7 @@
     <script>
       var canvas = document.querySelector("#unity-canvas");
       const token = @json($token);
-      console.log(token);
+     
       
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -106,7 +106,7 @@
         
               }).then((unityInstance) => {
                 unityInstance.SendMessage('scripting', 'ReceiveToken', token);
-                console.log("asignando toekn",token);
+                
                 document.querySelector("#unity-loading-bar").style.display = "none";
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                   unityInstance.SetFullscreen(1);

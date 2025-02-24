@@ -17,10 +17,17 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return auth()->user();
 });
-
+//genius
 Route::middleware('auth:api')->post('/play-genius', "GamesController@GeniusPlayGame")->name("PlayGenius");
 Route::middleware('auth:api')->post('/play-genius-salva', "GamesController@ApuestaSalvaGame")->name("PlayGeniusSalva");
+
+//nave
+Route::middleware('auth:api')->post('/play-naves', "GamesController@NavesPlayGame")->name("PlayNaves");
+
+Route::middleware('auth:api')->post('/play-naves-salva','GamesController@CompetenciaNave')->name("RegistroNave");
+
+
 Route::middleware('auth:api')->get('roomi','GamesController@createRoom')->name("room");
-Route::middleware('auth:api')->post('/play-naves','GamesController@CompetenciaNave')->name("RegistroNave");
+
 Route::get('roomi','GamesController@createRoom')->name("room");
 Wave::api();

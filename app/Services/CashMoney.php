@@ -202,7 +202,7 @@ class CashMoney
         }
     }
     ///
-    public function PayRefery($userId, $amount){
+    public function PayRefery($userId, $amount,$razon){
         DB::beginTransaction();
 
         try {
@@ -228,7 +228,7 @@ class CashMoney
             Transaccions::create([
                 'user_id' => $userId,
                 'amount' => $amount,
-                'type' => 'Nivel Referido', // Define el tipo de transacción
+                'type' => 'Pago ref-'.$razon, // Define el tipo de transacción
                 'balance_after' => $userBalance->balance,
             ]);
 

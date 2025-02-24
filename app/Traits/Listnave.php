@@ -17,8 +17,14 @@ trait Listnave
         $comision=$ultimo_evento->comision;
         $naveeventos = Naveevento::with(['user:id,name'])
         ->where("id_evento", $ultimo_evento->id)
-        ->orderBy('puntuacion', 'asc') // Ordenar por puntuacion de mayor a menor
-        ->get();
+        ->take(5)->get();
+     
+    
+    // Ordenar en PHP después de descifrar
+    $naveeventos = $naveeventos->sortByDesc(function ($evento) {
+        return (int) $evento->puntuacion; // Asegurar que es un número
+    })->values(); // Reindexar el array
+        //return response(["hola"=>$naveeventos]);
         $totalRegistros = $naveeventos->count();
         $Premio=$precio*$totalRegistros;
         $GananciaCasino=($Premio*$comision)/100;

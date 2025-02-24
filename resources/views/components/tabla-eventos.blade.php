@@ -11,12 +11,12 @@
         
     </div>
     
-    <div class="row  justify-content-center py-2 ">
-        <div class="col-md-5 bg-blue d-flex align-items-center rounded text-center">
-            <img src="{{ asset('vitrix/img/relogs.png') }}" width="60" height="60" class="me-2">
-            <h1 class="gamers texturizado-warning mb-0">{{ $eventos["evento"]->fecha_fin }}</h1>
+  
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h1 class="gamers texturizado-warning mb-0" >{{ $eventos["evento"]->nombre }}</h1>
+            <h1 class="gamers texturizado-primary mb-0" id="fechaFin">{{ $eventos["evento"]->fecha_fin }}</h1>
         </div>
-
     </div>
 
     <div class="neon-border"></div>
@@ -43,3 +43,33 @@
         </tbody>
     </table>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Obtén la fecha de finalización desde el HTML
+      const fechaFin = document.getElementById('fechaFin').innerText.trim();
+  
+      // Convierte la fecha de fin (que está en formato string) a un objeto Date
+      const fechaFinObj = new Date(fechaFin);
+  
+      // Obtén la fecha y hora actuales
+      const fechaActual = new Date();
+  
+      // Calcula la diferencia en milisegundos
+      const diferencia = fechaFinObj - fechaActual;
+  
+      // Si la fecha ya pasó, no mostrar nada
+      if (diferencia <= 0) {
+        document.getElementById('fechaFin').innerHTML = "¡El evento ha finalizado!";
+        return;
+      }
+  
+      // Convierte la diferencia de milisegundos a días, horas, minutos y segundos
+      const diasRestantes = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+      const horasRestantes = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutosRestantes = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+      const segundosRestantes = Math.floor((diferencia % (1000 * 60)) / 1000);
+  
+      // Muestra el tiempo restante en un formato legible
+      document.getElementById('fechaFin').innerHTML = `<b class="text-primary">Quedan</b> ${diasRestantes} días, ${horasRestantes} horas y ${minutosRestantes} Minutos para finalizar el evento`;
+    });
+</script>

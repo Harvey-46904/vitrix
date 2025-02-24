@@ -212,18 +212,30 @@
        
     }
     document.getElementById('openGame').addEventListener('click', function () {
-        // Configuración de la ventana emergente
-        const width = 960; // Ancho de la ventana
-        const height = 605; // Alto de la ventana
-        const left = (screen.width - width) / 2; // Centrado horizontal
-        const top = (screen.height - height) / 2; // Centrado vertical
+    // Obtener el ancho y alto de la pantalla del usuario
+    const screenWidth = window.screen.availWidth;
+    const screenHeight = window.screen.availHeight;
 
-        // Abrir la ventana emergente
-        window.open(
-            "{{ route('unity-game') }}", // URL de la vista del juego
-            "UnityGame", // Nombre de la ventana
-            `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=no`
-        );
-    });
+    // Definir el ancho y alto de la ventana emergente
+    const width = Math.min(960, screenWidth);  // Máximo 960 o el tamaño de la pantalla
+    const height = Math.min(650, screenHeight); // Máximo 650 o el tamaño de la pantalla
+
+    // Calcular posición para centrar la ventana
+    const left = (screenWidth - width) / 2;
+    const top = (screenHeight - height) / 2;
+
+    // Abrir la ventana emergente sin scroll y con tamaño adecuado
+    const popup = window.open(
+        "{{ route('unity-game') }}", // URL de la vista del juego
+        "UnityGame", // Nombre de la ventana
+        `width=${width},height=${height},top=${top},left=${left},resizable=yes,scrollbars=no`
+    );
+
+    // Intentar maximizar la ventana (algunos navegadores pueden bloquear esto)
+    if (popup) {
+        popup.moveTo(0, 0);
+        popup.resizeTo(screenWidth, screenHeight);
+    }
+});
 </script>
 @endsection

@@ -156,7 +156,7 @@
 
                     Conoce a nuestros <b class="text-warning">ganadores</b> más recientes y descubre cómo tú también
                     puedes aparecer en la lista de
-                    <b class="text-warning">triunfadores</b>. ¡Tu nombre <b class="text-warning">azz</b> podría ser el
+                    <b class="text-warning">triunfadores</b>. ¡Tu nombre <b class="text-warning">{{ Auth::user()->name ?? 'Vitrix' }}</b> podría ser el
                     siguiente!
                 </p>
 
@@ -164,9 +164,10 @@
         </div>
         <div class="row pt-4">
             <div class="col-md-6"> <img src="{{asset('vitrix/img/marcotetris.png') }}" class=" img-fluid" alt="..."></div>
-            <div class="col-md-6 bg-gris neon-shadow">
-                <h1 class="gamers texturizado-primary">Apresurate faltan</h1>
-                <h1 class="gamers texturizado-warning" id="fechaFin">{{$eventos["evento"]->fecha_fin}}</h1>
+            <div class="col-md-6 bg-gris neon-shadow text-center">
+                <h1 class="gamers texturizado-primary">Evento Nebula Race</h1>
+                <h1 class="gamers texturizado-warning">{{$eventos["evento"]->nombre}}</h1>
+                <h1 class="gamers texturizado-primary" id="fechaFin">{{$eventos["evento"]->fecha_fin}}</h1>
                 <table class="table table-dark">
                     <thead>
                         <tr>
@@ -292,7 +293,7 @@
       const segundosRestantes = Math.floor((diferencia % (1000 * 60)) / 1000);
   
       // Muestra el tiempo restante en un formato legible
-      document.getElementById('fechaFin').innerHTML = `${diasRestantes} días, ${horasRestantes} horas para finalizar el evento`;
+      document.getElementById('fechaFin').innerHTML = `<b class="text-primary">Quedan</b> ${diasRestantes} días, ${horasRestantes} horas y ${minutosRestantes} Minutos para finalizar el evento`;
     });
 </script>
 @endsection

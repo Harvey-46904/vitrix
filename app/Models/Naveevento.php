@@ -18,10 +18,12 @@ class Naveevento extends Model
     }
     public function getPuntuacionAttribute($value)
     {
-        return Crypt::decryptString($value);
+        return (int)Crypt::decryptString($value);
+       
     }
     public function setTiempoAttribute($value)
     {
+        $value= str_replace(',', ';', $value);
         $this->attributes['tiempo'] = Crypt::encryptString($value);
     }
     public function getTiempoAttribute($value)

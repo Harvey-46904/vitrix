@@ -96,7 +96,7 @@ class CashController extends Controller
         
         $userId =auth()->user()->id;
         //primero pagamos a referidos
-        self::PagosReferidos($userId,$request->respuesta);
+        self::PagosReferidos($userId,$request->respuesta,"referidos");
         //ahora creamos su paquete en la tabla
         //para ello consultamos primero el paquete id
         $consulta=DB::table("inversiones")->select()->where("id",$id_inversion)->first();
@@ -119,8 +119,8 @@ class CashController extends Controller
        
        
     }
-    public function PagosReferidos($userId,$Monto){
-        return  $this->referidosService->PagosIboxReferidos($userId,$Monto);
+    public function PagosReferidos($userId,$Monto,$razon){
+        return  $this->referidosService->PagosIboxReferidos($userId,$Monto,$razon);
     }
 
 
