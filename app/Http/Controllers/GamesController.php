@@ -1,34 +1,33 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Apuesta;
+use App\Models\IntentoFraude;
 use App\Models\Naveevento;
 use App\Models\User;
-use App\Models\Apuesta;
 use App\Services\CashMoney;
 use App\Services\PhotonService;
+use App\Services\Referidos;
 use App\Traits\Listnave;
-
+use DB;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Illuminate\Contracts\Encryption\DecryptException;
 
-use App\Models\IntentoFraude;
-
-use App\Services\Referidos;
 class GamesController extends Controller
 {
     use Listnave;
 
     protected $cashService;
     protected $referidosService;
-    public function __construct(CashMoney $cashService,Referidos $referidosService)
+    public function __construct(CashMoney $cashService, Referidos $referidosService)
     {
-        
-        $this->cashService = $cashService;
-        $this->referidosService=$referidosService;
+
+        $this->cashService      = $cashService;
+        $this->referidosService = $referidosService;
     }
     public function Genius()
     {
@@ -38,107 +37,128 @@ class GamesController extends Controller
     }
     public function Navial()
     {
-        $evento=$this->ultimo_evento();
-        $token = self::getToken();
-        $precio=self::cifrarMultiplicador($evento->precio);
-       
-        return view('Unity.navial',compact("token","precio"));
+        $evento = $this->ultimo_evento();
+        $token  = self::getToken();
+        $precio = self::cifrarMultiplicador($evento->precio);
+
+        return view('Unity.navial', compact("token", "precio"));
     }
-    public function Cars()
+    public function Cars($id)
     {
-        return view('Unity.cars');
+
+        
+        $user   = Auth::user();
+        $userId = $user->id;
+        
+        ///obtengo el nombre de la sala sin espacio y junto
+        $name      = DB::table("salas")->select("nombre_sala", "player_one", "plater_two")->where("id", $id)->first();
+        $name_sala = strtolower(str_replace(' ', '_', $name->nombre_sala));
+
+        $player_one = $name->player_one; // Por ejemplo, obtenemos estos valores de la base de datos
+        $player_two = $name->plater_two;
+        $id_user    = $userId; // El id_user con el que quieres comparar
+
+// Verificar si ambos jugadores son iguales al id_user
+        if ($player_one == $id_user || $player_two == $id_user) {
+      
+            $token = self::getToken();
+            $nickname=$user->username;
+
+           // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
+            return view('Unity.cars', compact('token', 'nickname', 'name_sala'));
+        } else {
+            return redirect('/');
+        }
+        
     }
 
     public function GeniusPlayGame(Request $request)
     {
-        
+
         $valor_apostado = $request->apuesta;
         $user           = Auth::user();
         $userId         = $user->id;
-       
-        $cash           = $this->cashService->GetMoneyBalance($userId);
+
+        $cash = $this->cashService->GetMoneyBalance($userId);
         if (! $user) {
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
         if ($cash >= $valor_apostado) {
 
-            $multiplos=self::calcularMultiplicador($userId);
-            $apuesta=Apuesta::create([
-                'user_id'=>$userId,
-                'game_id'=>2,
-                'bet_amount'=> $valor_apostado,
-                'win_amount'=>0,
-                'outcome'=>"Perdida"
+            $multiplos = self::calcularMultiplicador($userId);
+            $apuesta   = Apuesta::create([
+                'user_id'    => $userId,
+                'game_id'    => 2,
+                'bet_amount' => $valor_apostado,
+                'win_amount' => 0,
+                'outcome'    => "Perdida",
             ]);
             $validationhash = [
                 'userId'         => $userId,
                 'valor_apostado' => $valor_apostado,
-                'apuesta'=>$apuesta->id,
-                'multiplos'=>$multiplos
+                'apuesta'        => $apuesta->id,
+                'multiplos'      => $multiplos,
             ];
             $arrayJson       = json_encode($validationhash);
             $arrayEncriptado = Crypt::encrypt($arrayJson);
             $this->cashService->AddMoneyBalance($userId, -$valor_apostado, "Apuesta Genius");
-            $this->referidosService->PagosIboxReferidos($userId,$valor_apostado,"genius");
+            $this->referidosService->PagosIboxReferidos($userId, $valor_apostado, "genius");
             return response()->json([
-                'status' => 'Suerte',
-                'user'   => $arrayEncriptado,
-                'idapuesta'=>$multiplos
+                'status'    => 'Suerte',
+                'user'      => $arrayEncriptado,
+                'idapuesta' => $multiplos,
             ]);
         } else {
             return response()->json([
-                'status' => 'No tiene fondos',
-                'user'   => "no user",
-                'idapuesta'=>1245515
+                'status'    => 'No tiene fondos',
+                'user'      => "no user",
+                'idapuesta' => 1245515,
             ]);
         }
     }
 
     public function cifrarMultiplicador($multiplicador)
     {
-        $claveSecreta = 14545816115; 
+        $claveSecreta = 14545816115;
         return (float) (($multiplicador * 100) + $claveSecreta);
     }
     public function descifrarMultiplicador($valorCifrado)
     {
-        $claveSecreta = 14545816115; 
+        $claveSecreta = 14545816115;
         return (float) (($valorCifrado - $claveSecreta) / 100);
     }
     public function calcularMultiplicador($userId)
     {
         $frpActual = Apuesta::calcularFRPDeJugador($userId); // Obtener el FRP actual
-       
-        // Definir los límites de los multiplicadores
+
+                                  // Definir los límites de los multiplicadores
         $multiplicadorMin = 1.01; // Mínimo (evita valores demasiado bajos)
-        $multiplicadorMax = 3.0; // Máximo (controla pagos altos)
-    
+        $multiplicadorMax = 3.0;  // Máximo (controla pagos altos)
+
         // Ajustar el multiplicador según el FRP
         if ($frpActual > 98) {
             $multiplicadorMax = 1.5; // Si el FRP es alto, reducimos el multiplicador
         } elseif ($frpActual < 95) {
             $multiplicadorMax = 3.0; // Si el FRP es bajo, permitimos multiplicadores más altos
         }
-    
+
         // Generar un multiplicador aleatorio en el rango ajustado
-        $mul =round(mt_rand($multiplicadorMin * 100, $multiplicadorMax * 100) / 100, 2);
+        $mul = round(mt_rand($multiplicadorMin * 100, $multiplicadorMax * 100) / 100, 2);
         return self::cifrarMultiplicador($mul);
     }
 
     public function NavesPlayGame(Request $request)
     {
-       // return response(["sda"=>self::cifrarMultiplicador(10)]);
+        // return response(["sda"=>self::cifrarMultiplicador(10)]);
         $valor_apostado = $request->apuesta;
         $user           = Auth::user();
         $userId         = $user->id;
         $cash           = $this->cashService->GetMoneyBalance($userId);
 
-       
         if (! $user) {
             return response()->json(['error' => 'Usuario no autenticado'], 401);
         }
         if ($cash >= $valor_apostado) {
-
-           
 
             $validationhash = [
                 'userId'         => $userId,
@@ -147,7 +167,7 @@ class GamesController extends Controller
             $arrayJson       = json_encode($validationhash);
             $arrayEncriptado = Crypt::encrypt($arrayJson);
             $this->cashService->AddMoneyBalance($userId, -$valor_apostado, "Apuesta Nebula Race");
-            $this->referidosService->PagosIboxReferidos($userId,$valor_apostado,"nebula");
+            $this->referidosService->PagosIboxReferidos($userId, $valor_apostado, "nebula");
             return response()->json([
                 'status' => 'Suerte',
                 'user'   => $arrayEncriptado,
@@ -169,46 +189,44 @@ class GamesController extends Controller
         try {
             $arrayJsonDesencriptado = Crypt::decrypt($arrayEncriptado);
             // Si llega aquí, es porque el hash es válido
-           // return response()->json(['success' => true, 'data' => $arrayJsonDesencriptado]);
+            // return response()->json(['success' => true, 'data' => $arrayJsonDesencriptado]);
         } catch (DecryptException $e) {
             // El hash no es válido o fue alterado
-            $user           = Auth::user();
-            $userId         = $user->id;
+            $user   = Auth::user();
+            $userId = $user->id;
             IntentoFraude::create([
-                'usuario_id' => $userId,
-                'motivo' => "Posible hash alterado",
-                'direccion_ip' => $request->ip(),
+                'usuario_id'     => $userId,
+                'motivo'         => "Posible hash alterado",
+                'direccion_ip'   => $request->ip(),
                 'agente_usuario' => $request->header('User-Agent'),
-                'detectado_en' => now(),
+                'detectado_en'   => now(),
             ]);
             return response()->json(['success' => false, 'message' => 'El hash proporcionado no es válido'], 400);
         }
-       // $arrayJsonDesencriptado = Crypt::decrypt($arrayEncriptado);
-        $arrayDesencriptado     = json_decode($arrayJsonDesencriptado, true);
-        $multiplicador          = str_replace(',', '.', $multiplicador);
-        $multiplicador          = (float) $multiplicador;
-        $ganancia               = $arrayDesencriptado["valor_apostado"] * $multiplicador;
-        $ganancia               = number_format($ganancia, 2, '.', '');
-        $userId                 = $arrayDesencriptado["userId"];
-        $idapuesta              =$arrayDesencriptado["apuesta"];
-        $multiplos              =$arrayDesencriptado["multiplos"];
-        $multiplos =self::descifrarMultiplicador($multiplos);
-        if( $multiplos >= $multiplicador){
-            Apuesta::where('id', $idapuesta)->update(['win_amount' => $ganancia,'outcome'=>"Ganadora"]);
+        // $arrayJsonDesencriptado = Crypt::decrypt($arrayEncriptado);
+        $arrayDesencriptado = json_decode($arrayJsonDesencriptado, true);
+        $multiplicador      = str_replace(',', '.', $multiplicador);
+        $multiplicador      = (float) $multiplicador;
+        $ganancia           = $arrayDesencriptado["valor_apostado"] * $multiplicador;
+        $ganancia           = number_format($ganancia, 2, '.', '');
+        $userId             = $arrayDesencriptado["userId"];
+        $idapuesta          = $arrayDesencriptado["apuesta"];
+        $multiplos          = $arrayDesencriptado["multiplos"];
+        $multiplos          = self::descifrarMultiplicador($multiplos);
+        if ($multiplos >= $multiplicador) {
+            Apuesta::where('id', $idapuesta)->update(['win_amount' => $ganancia, 'outcome' => "Ganadora"]);
             $this->cashService->AddMoneyBalance($userId, $ganancia, "Ganancia Genius");
-        }else{
+        } else {
             IntentoFraude::create([
-                'usuario_id' => $userId,
-                'motivo' => "Limite multiplicador: LIMITE:".$multiplos." el valor de usuario ".$multiplicador ,
-                'direccion_ip' => $request->ip(),
+                'usuario_id'     => $userId,
+                'motivo'         => "Limite multiplicador: LIMITE:" . $multiplos . " el valor de usuario " . $multiplicador,
+                'direccion_ip'   => $request->ip(),
                 'agente_usuario' => $request->header('User-Agent'),
-                'detectado_en' => now(),
+                'detectado_en'   => now(),
             ]);
-            return response(["des"=>"alteracion"]);
+            return response(["des" => "alteracion"]);
         }
-       
-        
-       
+
         return response(["data" => $ganancia]);
     }
 
@@ -231,35 +249,80 @@ class GamesController extends Controller
 
     public function CompetenciaNave(Request $request)
     {
-       // return response(["data"=>$request->all()]);
+        // return response(["data"=>$request->all()]);
         $arrayEncriptado = $request->hash;
         try {
             $arrayJsonDesencriptado = Crypt::decrypt($arrayEncriptado);
             // Si llega aquí, es porque el hash es válido
-           // return response()->json(['success' => true, 'data' => $arrayJsonDesencriptado]);
+            // return response()->json(['success' => true, 'data' => $arrayJsonDesencriptado]);
         } catch (DecryptException $e) {
             // El hash no es válido o fue alterado
-            $user           = Auth::user();
-            $userId         = $user->id;
+            $user   = Auth::user();
+            $userId = $user->id;
             IntentoFraude::create([
-                'usuario_id' => $userId,
-                'motivo' => "Posible hash alterado",
-                'direccion_ip' => $request->ip(),
+                'usuario_id'     => $userId,
+                'motivo'         => "Posible hash alterado",
+                'direccion_ip'   => $request->ip(),
                 'agente_usuario' => $request->header('User-Agent'),
-                'detectado_en' => now(),
+                'detectado_en'   => now(),
             ]);
             return response()->json(['success' => false, 'message' => 'El hash proporcionado no es válido'], 400);
         }
-        $arrayDesencriptado     = json_decode($arrayJsonDesencriptado, true);
-        $userId                 = $arrayDesencriptado["userId"];
-        $naveevento = Naveevento::create([
+        $arrayDesencriptado = json_decode($arrayJsonDesencriptado, true);
+        $userId             = $arrayDesencriptado["userId"];
+        $naveevento         = Naveevento::create([
             'id_evento'  => $this->ultimo_evento()->id,
-            'id_jugador' => $userId,  
-            'puntuacion' => $request->puntuacion, 
-            'tiempo'     => $request->tiempo, 
+            'id_jugador' => $userId,
+            'puntuacion' => $request->puntuacion,
+            'tiempo'     => $request->tiempo,
         ]);
         $id = $naveevento->id;
         return $id;
+    }
+
+    public function Salaspropias($id)
+    {
+        $eventosala = DB::table("salas")->select()->where("id", $id)->first();
+        $eventosala = DB::table('salas')
+            ->join('users as u1', 'salas.player_one', '=', 'u1.id')
+            ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
+            ->select(
+                'salas.*',
+                'u1.name as player_one_name',
+                'u2.name as player_two_name'
+            )
+            ->where("salas.id", $id)->first();
+
+        return view('Unity.SalaGame', compact("eventosala"));
+        return response(["data" => $eventosala]);
+    }
+
+    public function sports()
+    {
+
+        $user    = Auth::user();
+        $id_user = $user->id;
+        // Consulta 1: cuando el id_user aparece en player_one o player_two
+        $salasConJugador = DB::table('salas')
+            ->where('player_one', $id_user)
+            ->orWhere('plater_two', $id_user)
+            ->get();
+
+        // Consulta 2: cuando el id_user no aparece ni en player_one ni en player_two
+        $salasSinJugador = DB::table('salas')
+            ->join('users as u1', 'salas.player_one', '=', 'u1.id')
+            ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
+            ->select(
+                'salas.*',
+                'u1.username as player_one_name',
+                'u2.username as player_two_name'
+            )
+            ->where('salas.player_one', '!=', $id_user)
+            ->where('salas.plater_two', '!=', $id_user)
+            ->get();
+
+        $section = "sports";
+        return view('theme::settings.index', compact('section', 'salasConJugador', 'salasSinJugador'));
     }
 
     public function createRoom(Request $request, PhotonService $photonService)

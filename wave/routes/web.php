@@ -43,6 +43,7 @@ Route::group(['middleware' => 'auth'], function(){
 	Route::post('settings/profile', '\Wave\Http\Controllers\SettingsController@profilePut')->name('wave.settings.profile.put');
 	Route::put('settings/security', '\Wave\Http\Controllers\SettingsController@securityPut')->name('wave.settings.security.put');
     Route::get('iboxs', 'ReferidosController@ibox')->name('wave.ibox');
+    Route::get('e-sports', 'GamesController@sports')->name('wave.esports');
 	
 	Route::get('system/inversion', 'InversionesPaquete@mostrar_paquetes')->name('wave.paquetes');
 	Route::get('system/inversion/personal', 'InversionesPaquete@MisInversiones')->name('wave.paquetes.personal');
@@ -94,10 +95,10 @@ Route::group(['middleware' => 'auth'], function(){
 
   Route::get('/genius', "GamesController@Genius")->name("genius");
   Route::get('/navial', "GamesController@Navial")->name("navial");
-  Route::get('/cars', "GamesController@Cars")->name("cars");
+  Route::get('cars/{id}', "GamesController@Cars")->name("cars");
   Route::get('/get-token', "GamesController@getToken")->name("GetToken");
   Route::get('/evento', "GamesController@ultimo_evento")->name("ultimoevento");
-  Route::get('/sala/{id}', "GamesController@ultimo_evento")->name("sala.detalle");
+  Route::get('/sala/{id}', "GamesController@Salaspropias")->name("sala.detalle");
   
 
   //enlaces

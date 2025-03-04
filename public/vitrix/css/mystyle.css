@@ -7,6 +7,19 @@ body {
  
 
 }
+.circular-image {
+  width: 100px;  /* Ajusta el tamaño según necesites */
+  height: 100px;
+  border-radius: 50%;
+  background-image: url('../img/fondos/fb.jpg'); /* Ruta de la imagen */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: 1px solid #ffffff; /* Borde opcional */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra opcional */
+}
+
+
 .card-container {
   perspective: 1000px;
 }
@@ -48,6 +61,11 @@ body {
 
 .bg-rosa {
   background-color: #00aeff;
+  color: white;
+}
+
+.bg-rosasi {
+  background-color: #9e57cc;
   color: white;
 }
 .bg-blue{

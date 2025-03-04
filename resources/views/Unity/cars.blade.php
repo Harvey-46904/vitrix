@@ -4,12 +4,24 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Cars</title>
-    <link rel="shortcut icon" href="Games/Cars/TemplateData/favicon.ico">
-    <link rel="stylesheet" href="Games/Cars/TemplateData/style.css">
-    <script src="Games/Cars/TemplateData/UnityProgress.js"></script>
-    <script src="Games/Cars/Build/UnityLoader.js"></script>
+   
+    <link rel="shortcut icon" href="{{asset('Games/Cars/TemplateData/favicon.ico')}}">
+    <link rel="stylesheet" href="{{asset('Games/Cars/TemplateData/style.css')}}">
+    <script src="{{asset('Games/Cars/TemplateData/UnityProgress.js')}}"></script>
+    <script src="{{asset('Games/Cars/Build/UnityLoader.js')}}"></script>
     <script>
-      var unityInstance = UnityLoader.instantiate("unityContainer", "Games/Cars/Build/Cars.json", {onProgress: UnityProgress});
+      var unityInstance = UnityLoader.instantiate("unityContainer", "{{asset('Games/Cars/Build/Cars.json')}}", {onProgress: UnityProgress});
+    </script>
+
+    <script>
+      
+        const token = @json($token);
+        const nickname = @json($nickname);
+        const name_sala = @json($name_sala);
+        const data = JSON.stringify({ token, nickname,name_sala });
+        console.log(data);
+
+        unityInstance.SendMessage('Scripts', 'ReceiveToken', data);
     </script>
   </head>
   <body>

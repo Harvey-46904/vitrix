@@ -111,7 +111,7 @@
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
                   unityInstance.SetFullscreen(1);
 
-                     // Pasar el token a Unity
+                    
                     
                    
                 };

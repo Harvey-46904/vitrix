@@ -27,4 +27,6 @@ class ReferidosController extends Controller
        $section="ibox";
        return view('theme::settings.index', compact('section','iboxes'));
    }
+
+  
 }
