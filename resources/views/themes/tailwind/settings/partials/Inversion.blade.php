@@ -51,7 +51,13 @@
                                             </ul>
                                             <div class="card-body">
                                                 <a class="card-link btn  btn-primary" onClick="calcular({{$product}})">Calculadora</a>
-                                                <a href="{{route('cashinversion',['id'=>$product->id])}}" class="card-link btn btn-success">Comprar</a>
+                                                <a 
+                                                data-balances={{route('cashbalanceInversionBalance', ['id' => $product->id]) }}
+                                                data-url="{{ route('cashinversion', ['id' => $product->id]) }}"
+                                                data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
+                                                data-precio="{{ $product->precio_base }}"
+                                                data-id="{{$product->id}}"
+                                                class="card-link btn btn-success compra_validacion">Comprar</a>
                                             </div>
                                         </div>
                                     </div>

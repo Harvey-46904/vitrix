@@ -160,12 +160,15 @@ class InversionesPaquete extends Controller
     public function RentabilidadDiaria(){
         // Obtiene todos los paquetes que aún no han alcanzado su meta
         $paquetes = UserPaquete::whereRaw('CAST(monto_depositar AS UNSIGNED) < CAST(paquete_meta AS UNSIGNED)')->get();
-        //return response(["data"=>$paquetes]);
+        
+       // return response(["data"=>$paquetes]);
         foreach ($paquetes as $paquete) {
             ProcessUserPaquetePayment::dispatch($paquete);
         }
 
         return response()->json(['message' => 'Pagos en proceso'], 200);
     }
+
+    
 
 }

@@ -16,7 +16,7 @@ class UserBalance extends Model
     }
     public function getBalanceAttribute($value)
     {
-        return $value ? Crypt::decryptString($value) : null;
+        return $value ? number_format(Crypt::decryptString($value), 2, '.', '') : null;
     }
 
     public function user()

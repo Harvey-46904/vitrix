@@ -31,7 +31,14 @@
 				
 				<div class="col-md-3">
 					
-					<a href="{{route('cashibox',['id'=>$ibox->id])}}" class="btn my-1  bg-azul-secundario"> COMPRAR POR <b class="text-warning">{{$ibox->precio_compra}} USD</b> </a>
+					<a  
+					data-balances={{route('cashbalanceIboxBalance', ['id' => $ibox->id]) }}
+					data-url="{{ route('cashibox', ['id' => $ibox->id]) }}"
+					data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
+					data-precio="{{ $ibox->precio_compra }}"
+					data-id="{{$ibox->id}}"
+					
+					class="btn my-1 bg-azul-secundario compra_validacion"> COMPRAR POR <b class="text-warning">{{$ibox->precio_compra}} USD</b> </a>
 				</div>
 			</div>
 		</div>

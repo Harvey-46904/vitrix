@@ -91,6 +91,43 @@ class CashController extends Controller
     
         return self::FoundBalanceBono($request->id_user,$request->monto,'Bono de Vitrix');
     }
+
+    public function addFoundinversionBalance($id){
+        
+        $id_inversion=$id;
+        $user=auth()->user();
+        $paquete_inversion=DB::table("inversiones")->where("id","=",$id)->first();
+        $precio_compra=$paquete_inversion->precio_base;
+        $userId=$user->id;
+        $balance=$user->balance_general->balance;
+      
+        if($balance>=$precio_compra){
+          
+            self::PagosReferidos($userId,$precio_compra ,"referidos");
+           
+            $consulta=$paquete_inversion;
+         
+            UserPaquete::create([
+                'user_id' => $userId,
+                'id_inversion'=>$id_inversion,
+                'monto_depositar' => 0 ,
+                'monto_parcial'=>0,
+                'monto_invertido' => $consulta->precio_base,
+                'paquete_nombre' =>$consulta->nombre ,
+                'paquete_porcentaje' =>$consulta->porcentaje_rentabilidad ,
+                'paquete_meta' => $consulta->totalidad,
+            ]
+                
+            );
+
+           // return response(["data"=>"alteracion"]);
+            $this->cashService->AddMoneyBalance($userId,-$precio_compra,'Descuento Compra Inversion con Balance');
+          
+            return response(["data"=>"Compra Realizada"]);
+        }else{
+            return response(["data"=>"alteracion"]);
+        }
+    }
     public function addFoundinversion($id,Request $request){
         $id_inversion=$id;
         
@@ -116,8 +153,6 @@ class CashController extends Controller
         return redirect()->route('wave.paquetes.personal')->with('success', 'Configuraciones actualizadas exitosamente.');
        
         return response(["data"=>$consulta,"did"=>$id_inversion]);
-       
-       
     }
     public function PagosReferidos($userId,$Monto,$razon){
         return  $this->referidosService->PagosIboxReferidos($userId,$Monto,$razon);
@@ -168,9 +203,8 @@ class CashController extends Controller
         
        $balances=[
         "efectivo"=>auth()->user()->balance_general->balance,
-        "inversion"=>auth()->user()->balance_inversion->balance,
         "referidos"=>auth()->user()->balance_ibox->balance,
-        "bonos"=>auth()->user()->balance_bono->balance
+        "cards"=>auth()->user()->balance_card->balance
        ]; 
        // return response(["data"=>$arbol]);
          $section="retiros";
@@ -193,32 +227,61 @@ class CashController extends Controller
         return response(["data"=>$userPaquete]);
     }
     public function retirosvitrix(Request $request){
-        //return response(["data"=>$request->all()]);
+        
         $id=auth()->user()->id;
         $opciones=$request->dinero;
+
+
         //validar el no dineros
+            $efectivo=auth()->user()->balance_general->balance;
+            $referidos=auth()->user()->balance_ibox->balance;
+            $cards=auth()->user()->balance_card->balance;
+            
+          $valor_retirado=  $request->cantidad;
+
         switch ($opciones) {
             case  "efectivo":
-                $this->cashService->AddMoneyBalance($id,-$request->cantidad,'Solicitud de retiro');
+                if($valor_retirado>$efectivo){
+                    return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
+                }else{
+                    $this->cashService->AddMoneyBalance($id,-$valor_retirado,'Solicitud de retiro Balance');
+                }
+                
                 break;
-                case  "inversion":
-                    $this->cashService->AddMoneyInversion($id,-$request->cantidad);
-                    break;
-                    case  "referidos":
-                        $this->cashService->PayRefery($id,-$request->cantidad);
-                        break;
-                        case  "bonos":
-                            $this->cashService->AddMoneyBonos($id,-$request->cantidad);
-                            break;
-                            default:
-            return back()->with('error', 'Configuraciones actualizadas exitosamente.');
+            case  "referidos":
+                if($valor_retirado>$referidos ){
+                    return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
+                }else{
+                        //validacion ibox
+                    if($referidos <= $cards){
+                        $this->cashService->AddMoneyCards($id,-$valor_retirado,'Consumo Ibox retiro referido');
+                        $this->cashService->PayRefery($id,-$valor_retirado,'Solicitud de retiro Referido');
+                    }else{
+                        return back()->with('error', 'No posee suficientes IBOX para realizar este retiro de referidos por favor recarge');
+                    }
+                  
+                }
+                
+                break;
+           default:
+            return back()->with('error', 'Error : por favor comuniquese con soporte');
                 break;
           
         }
+        $nivel=DB::table("configuraciones")->select('parametros')
+        ->whereIn('nombre', ["feeds"])
+        ->get()
+        ->first();
+        
+        $nivel=json_decode($nivel->parametros);
+        $valor=$nivel->parametros;
+        
+        $descuento=($valor_retirado*$valor)/100;
+        $total_final=$valor_retirado-$descuento;
         Retiro::create([
             'id_user' => $id,
             'billetera'=>$request->billetera,
-            'monto' =>$request->cantidad,
+            'monto' =>$total_final,
         ]);
 
        
@@ -259,6 +322,15 @@ class CashController extends Controller
         return response($qrCode)
         ->header('Content-Type', 'image/svg+xml')
         ->header('Content-Disposition', 'attachment; filename="qrcode.svg"');
+    }
+
+    public function feeds(Request $request){
+       
+        $parametros["parametros"] = $request->feed;
+        DB::table("configuraciones")
+        ->where("nombre", "feeds")
+        ->update(["parametros" => json_encode($parametros)]);
+        return back()->with('success', 'Configuraciones actualizadas exitosamente.');
     }
 
 }

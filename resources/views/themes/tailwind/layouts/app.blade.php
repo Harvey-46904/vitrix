@@ -91,6 +91,7 @@
 
 	<!-- Chart.js -->
 	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('vitrix/js/paymentform.js') }}"></script>
     <script src="{{ asset('vitrix/js/myscript.js') }}"></script>
     <script src="{{ mix('js/app.js') }}"></script>
 

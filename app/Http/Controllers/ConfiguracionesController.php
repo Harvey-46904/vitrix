@@ -64,4 +64,18 @@ class ConfiguracionesController extends Controller
         return view("vendor.voyager.finanzas.index");
     }
 
+    public function indexfeeds(){
+
+        $nivel=DB::table("configuraciones")->select('parametros')
+        ->whereIn('nombre', ["feeds"])
+        ->get()
+        ->first();
+        
+        $nivel=json_decode($nivel->parametros);
+        $valor=$nivel->parametros;
+        
+        return view("vendor.voyager.configuraciones.index",compact("valor"));
+        return response(["data"=>"bonos"]);
+    }
+
 }

@@ -21,7 +21,7 @@
                             role="tabpanel" aria-labelledby="list-{{ $tab->id }}-list">
                             <div class="jumbotron text-secondary">
                                 <p class=" py-2">
-                                    Rentabilidad acumulada de este paquete <b class="text-rosa">{{$tab->monto_depositar}} USD</b>
+                                    Rentabilidad acumulada de este paquete <b class="text-rosa">{{ number_format($tab->monto_depositar, 2, '.', '') }} USD</b>
                                 </p>
                                 
                                 <div class="progress bg-fondo-morado ">
@@ -46,7 +46,7 @@
                             </p>
                             @if ($tab->monto_parcial!=0)
                             <p class="lead pt-2">
-                                <a class="btn btn-success btn-lg" href="{{route('wave.paquetes.casino',['id'=>$tab->id])}}" role="button">Pasar <b class="text-rosa"> {{$tab->monto_parcial}}</b> a Casino Vitrix </a>
+                                <a class="btn btn-success btn-lg" href="{{route('wave.paquetes.casino',['id'=>$tab->id])}}" role="button">Pasar <b class="text-rosa">{{ number_format($tab->monto_parcial, 2, '.', '') }} </b> a Casino Vitrix </a>
                             </p> 
                             @endif
                               

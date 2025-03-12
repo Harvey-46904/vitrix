@@ -6,28 +6,24 @@
     @endif
     @if (session('error'))
     <div class="alert alert-danger" role="alert">
-    No dispone de fondos actualmente
+        {{ session('error') }}
        </div>
     @endif
     <div class="row justify-content-center">
         <div class="col-md-12">
            <div class="row justify-content-center text-center pt-3">
-            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
+            <div class="col-md-3 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
                 Efectivo USDT
                 <h1  class="letragrande text-rosa">{{$balances["efectivo"]}}</h1>
             </div>
-            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
-                Inversiones USDT
-                <h1  class="letragrande text-rosa">{{$balances["inversion"]}}</h1>
-            </div>
-            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
+           
+            <div class="col-md-3 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
                 Referidos USDT
-                <h1  class="letragrande text-rosa">{{$balances["referidos"]}}</h1>
+                <p>El saldo disponible para retiro de referidos es de <b class="text-warning">{{$balances["referidos"]}}</b>.</p>
+                <p>Para poder retirar este saldo de referidos, es necesario que su saldo en IBOX tenga fondos suficientes. Actualmente, su saldo en IBOX es de <b  class="text-warning">{{$balances["cards"]}}</b>.</p>
+                
             </div>
-            <div class="col-md-2 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
-                Bonos USDT
-                <h1  class="letragrande text-rosa">{{$balances["bonos"]}}</h1>
-            </div>
+            
            </div>
              
         </div>
@@ -78,9 +74,9 @@
     // Definir los balances como un objeto
     const balances = {
         efectivo: {{$balances["efectivo"]}},
-        inversion: {{$balances["inversion"]}},
-        referidos: {{$balances["referidos"]}},
-        bonos: {{$balances["bonos"]}}
+       
+        referidos: {{$balances["referidos"]}}
+      
     };
 
     // Obtener los elementos del DOM

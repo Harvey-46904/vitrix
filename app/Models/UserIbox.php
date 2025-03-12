@@ -17,7 +17,7 @@ class UserIbox extends Model
     }
     public function getBalanceAttribute($value)
     {
-        return Crypt::decryptString($value);
+        return $value ? number_format(Crypt::decryptString($value), 2, '.', '') : null;
     }
 
     public function user()

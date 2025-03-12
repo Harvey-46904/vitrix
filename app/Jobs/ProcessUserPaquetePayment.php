@@ -55,7 +55,7 @@ class ProcessUserPaquetePayment implements ShouldQueue
         }
         $porcentajeDiario = $formatoRentabilidad[$currentDay];
         //sacar porcentajes
-
+    
         $paymentAmount = $this->userPaquete->monto_invertido * ($porcentajeDiario / 100);
         
         $remaining = $this->userPaquete->paquete_meta - $this->userPaquete->monto_depositar;

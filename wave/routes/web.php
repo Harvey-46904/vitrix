@@ -83,8 +83,11 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/transfer', 'CashController@tranfers')->name('payment.transfer');
 
   Route::post('balancebono', 'CashController@addFoundBono')->name('cashbalanceBono');
+  Route::post('feeds', 'CashController@feeds')->name('feedsconfiguracion');
   Route::post('balanceinversion/{id}', 'CashController@addFoundinversion')->name('cashbalanceInversion');
+  Route::post('balanceinversionbalance/{id}', 'CashController@addFoundinversionBalance')->name('cashbalanceInversionBalance');
   Route::post('balanceibox/{id}', 'IboxController@addFoundibox')->name('cashbalanceIbox');
+  Route::post('balanceiboxbalance/{id}', 'IboxController@addFoundiboxBalance')->name('cashbalanceIboxBalance');
   Route::get('retirar', 'CashController@retirar')->name('retirar');
   Route::get('cash/invertir/{id}', 'InversionesPaquete@CompraPaqueteInversion')->name('cashinversion');
   Route::get('cash/ibox/{id}', 'InversionesPaquete@CompraPaqueteIbox')->name('cashibox');

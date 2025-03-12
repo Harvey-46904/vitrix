@@ -46,8 +46,11 @@ function generarNumeros($totalidad, $duracion) {
         }
     }
     $incremento=$sumaRestante/31;
+    //regla de 3
+    
     for ($i = 0; $i < count($numeros); $i++) {
-        $numeros[$i] = round($numeros[$i] + $incremento, 2);
+        $pilar= round($numeros[$i] + $incremento, 2);
+        $numeros[$i] = round(($pilar * 100) / $totalObjetivo, 2);
     }
     // Asegurar que la suma total sea exactamente igual al total objetivo sumando el restante al último elemento
     //$numeros[] = $sumaRestante;

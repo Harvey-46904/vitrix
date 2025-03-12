@@ -23,4 +23,27 @@ class IboxController extends Controller
         return response(["data"=>"compra realizada correctametne"]);
 
     }
+
+    public function addFoundiboxBalance($id){
+        $user=auth()->user();
+       
+        $compra_ibox=DB::table("iboxes")->where("id","=",$id)->first();
+       
+        $precio_compra=$compra_ibox->precio_compra;
+      
+        $userId=$user->id;
+       
+        $balance=$user->balance_general->balance;
+      
+        if($balance>=$precio_compra){
+           // return response(["data"=>"alteracion"]);
+            $amount=$compra_ibox->beneficio;
+            $this->cashService->AddMoneyBalance($userId,-$precio_compra,'Descuento compra Ibox');
+            $this->cashService->AddMoneyCards($userId, $amount,'Compra Ibox con Balance');
+            return response(["data"=>"Compra Realizada"]);
+        }else{
+            return response(["data"=>"alteracion"]);
+        }
+       
+    }
 }
