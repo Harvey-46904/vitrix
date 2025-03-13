@@ -9,7 +9,7 @@ class UserPaquete extends Model
 {
     protected $table = 'user_paquetes';
     use HasFactory;
-    protected $fillable = ["user_id","id_inversion","monto_depositar","monto_parcial","monto_invertido","paquete_nombre","paquete_porcentaje","paquete_meta"];
+    protected $fillable = ["user_id","id_inversion","tiempo","monto_depositar","monto_parcial","monto_invertido","paquete_nombre","paquete_porcentaje","paquete_meta"];
     	
 
     public function user()
