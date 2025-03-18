@@ -44,33 +44,27 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@tronweb3/walletconnect-tron@2.0.0/dist/index.min.js"></script>
+<script type="module">
+  import { WalletConnectWallet, WalletConnectChainID } from "/node_modules/@tronweb3/walletconnect-tron/dist/index.umd.js";
 
-<script>
-    alert("Saludos");
-    console.log("Hola Harvey, vamos, tú puedes!");
+  const wallet = new WalletConnectWallet({
+      network: WalletConnectChainID.Mainnet,
+      options: {
+          relayUrl: "wss://relay.walletconnect.com",
+          projectId: "",
+          metadata: {
+              name: "Vitrix Casino",
+              description: "Apuesta con USDT en la red TRON",
+              url: "https://vitrix.io",
+              icons: ["https://vitrix.io/storage/themes/October2024/bnwl1WSwXAvMk33o97Pq.png"]
+          }
+      }
+  });
 
-    const wallet = new window.WalletConnectWallet({
-        network: window.WalletConnectChainID.Mainnet, 
-        options: {
-            relayUrl: "wss://relay.walletconnect.com",
-            projectId: "", // Opcional, si no tienes uno puedes dejarlo vacío
-            metadata: {
-                name: "Vitrix Casino",
-                description: "Apuesta con USDT en la red TRON",
-                url: "https://vitrix.io",
-                icons: ["https://vitrix.io/storage/themes/October2024/bnwl1WSwXAvMk33o97Pq.png"]
-            }
-        }
-    });
-
-    async function connectWallet() {
-        try {
-            await wallet.connect();
-            document.getElementById("walletAddress").innerText = "Conectado: " + wallet.address;
-        } catch (error) {
-            console.error("Error al conectar la billetera:", error);
-        }
-    }
+  async function connectWallet() {
+      await wallet.connect();
+      console.log("Billetera conectada:", wallet.address);
+  }
 </script>
+
 @endsection
