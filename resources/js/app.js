@@ -15,7 +15,7 @@ window.Echo = new Echo({
     disableStats: true,
 });
 
-
+alert("saludos");
 console.log("hola harvey comoo estas vamos tu puedes");
 const wallet = new WalletConnectWallet({
     network: WalletConnectChainID.Mainnet, 
