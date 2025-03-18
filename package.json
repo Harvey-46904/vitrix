@@ -3,6 +3,7 @@
     "node": "17.x"
   },
   "dependencies": {
+    "@tronweb3/tronwallet-adapters": "^1.2.7",
     "@tronweb3/walletconnect-tron": "^3.0.0",
     "dotenv": "^16.4.5",
     "laravel-echo": "^1.17.0",

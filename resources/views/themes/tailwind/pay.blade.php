@@ -25,7 +25,7 @@
 				</div>
 				<div class="row">
           <div class="col-md-12">
-            <button onclick="connectWallet()">Conectar Billetera</button>
+            <button onclick="connectWallet()">Conectar Billetera TRON</button>
             <p id="walletAddress"></p>
           </div>
         </div>
@@ -44,27 +44,5 @@
 
 </div>
 
-<script type="module">
-  import { WalletConnectWallet, WalletConnectChainID } from "/node_modules/@tronweb3/walletconnect-tron/dist/index.umd.js";
-
-  const wallet = new WalletConnectWallet({
-      network: WalletConnectChainID.Mainnet,
-      options: {
-          relayUrl: "wss://relay.walletconnect.com",
-          projectId: "",
-          metadata: {
-              name: "Vitrix Casino",
-              description: "Apuesta con USDT en la red TRON",
-              url: "https://vitrix.io",
-              icons: ["https://vitrix.io/storage/themes/October2024/bnwl1WSwXAvMk33o97Pq.png"]
-          }
-      }
-  });
-
-  async function connectWallet() {
-      await wallet.connect();
-      console.log("Billetera conectada:", wallet.address);
-  }
-</script>
-
+<script src="{{ asset('js/tron.js') }}"></script>
 @endsection
