@@ -39,7 +39,7 @@ Route::group(['prefix' => 'admin'], function () {
 });
 
 Route::get('qr','CashController@generateQRs');
-
+Route::post('webhookblockchain','CashController@PayBlockchains')->name("WebHookBlockchain");
 
 Route::get('listnave',"GamesController@ListNaves");
 Route::get('roomi','GamesController@createRoom')->name("room");
