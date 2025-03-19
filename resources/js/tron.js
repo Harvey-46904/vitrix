@@ -64,14 +64,17 @@ function detectarDispositivo() {
 
 document.addEventListener("DOMContentLoaded", async function () {
     const esMovil = detectarDispositivo() === "movil";
-    
+
     if (esMovil) {
         document.getElementById("celular").classList.remove("d-none");
+        const dappUrl = "https://www.vitrix.io/qr";
+        const encodedDappUrl = encodeURIComponent(dappUrl);
 
+       
         // Abrir TronLink con deeplink
         document.getElementById("btnTronLink").addEventListener("click", function () {
             const params = {
-                "url": "https://www.vitrix.io/qr",
+                "url": dappUrl,
                 "action": "open",
                 "protocol": "tronlink",
                 "version": "1.0"
@@ -80,21 +83,23 @@ document.addEventListener("DOMContentLoaded", async function () {
             window.location.href = deepLink;
         });
 
-         // Abrir OKX con deeplink
-         document.getElementById("btnOKX").addEventListener("click", function () {
-            const deepLink = "okx://wallet/dapp?dappUrl=" + encodeURIComponent("https://www.vitrix.io/");
+        // Abrir OKX con deeplink
+        document.getElementById("btnOKX").addEventListener("click", function () {
+
+            const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(dappUrl));
+            window.location.href = encodedUrl;
+           
+        });
+        // Abrir TokenPocket con deeplink
+        document.getElementById("btnTokenPocket").addEventListener("click", function () {
+            const deepLink = "tpoutside://pull.activity?param=" + encodeURIComponent(JSON.stringify({
+                "url": dappUrl,
+                "action": "open",
+                "protocol": "tpdapp",
+                "version": "1.0"
+            }));
             window.location.href = deepLink;
         });
- // Abrir TokenPocket con deeplink
- document.getElementById("btnTokenPocket").addEventListener("click", function () {
-    const deepLink = "tpoutside://pull.activity?param=" + encodeURIComponent(JSON.stringify({
-        "url": "https://www.vitrix.io/",
-        "action": "open",
-        "protocol": "tpdapp",
-        "version": "1.0"
-    }));
-    window.location.href = deepLink;
-});
     } else {
         document.getElementById("computador").classList.remove("d-none");
 
