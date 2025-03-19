@@ -342,6 +342,7 @@ class CashController extends Controller
 
     public function PayBlockchains(Request $request)
     {
+      //  return response(["data"=>$request->all()]);
         $data = $request->all();
 
         // Verificar si es un evento válido
