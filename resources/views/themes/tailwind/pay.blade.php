@@ -34,9 +34,9 @@
 					</div>
 					
 					<div class="col-md-12 d-none" id="celular">
-						<a href="tronlink://wallet" class="btn btn-primary">Abrir TronLink</a>
-						<a href="okx://wallet" class="btn btn-success">Abrir OKX</a>
-						<a href="tpoutside://wc" class="btn btn-warning">Abrir TokenPocket</a>
+						<button id="btnTronLink" class="btn btn-primary">Abrir TronLink</button>
+						<button id="btnOKX" class="btn btn-success">Abrir OKX</button>
+						<button id="btnTokenPocket" class="btn btn-warning">Abrir TokenPocket</button>
 					</div>
 					<div class="col-md-12">
 						<button onclick="connectWallet()">Conectar Billetera TRON</button>
