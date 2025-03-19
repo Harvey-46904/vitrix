@@ -62,9 +62,22 @@ function detectarDispositivo() {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "movil" : "web";
 }
 
+async function obtenerBilletera() {
+    if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
+        return window.tronWeb.defaultAddress.base58; // Retorna la billetera si está conectada
+    }
+    return null;
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     const esMovil = detectarDispositivo() === "movil";
+    const billetera = await obtenerBilletera();
 
+    if (billetera) {
+        document.getElementById("walletAddress").innerText = "Conectado: " + address;
+        console.log("Billetera detectada:", billetera);
+        return; // Si ya hay una billetera conectada, no mostramos botones ni deeplinks
+    }
     if (esMovil) {
         document.getElementById("celular").classList.remove("d-none");
         const dappUrl = "https://www.vitrix.io/qr";
