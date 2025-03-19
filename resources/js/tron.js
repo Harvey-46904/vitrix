@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
         // Abrir TokenPocket con deeplink
         document.getElementById("btnTokenPocket").addEventListener("click", function () {
-            const deepLink = "tpoutside://pull.activity?param=" + encodeURIComponent(JSON.stringify({
+            const deepLink = "tpdapp://open?params=" + encodeURIComponent(JSON.stringify({
                 "url": dappUrl,
                 "action": "open",
                 "protocol": "tpdapp",
