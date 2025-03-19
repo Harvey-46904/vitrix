@@ -8,6 +8,7 @@ async function connectWallet() {
         await tronLink.connect();
         const address = tronLink.address;
         console.log('Billetera conectada:', address);
+        document.getElementById("walletAddress").innerText = "Conectado: " + address;
         // Puedes actualizar el DOM o realizar otras acciones con la dirección de la billetera
     } catch (error) {
         console.error('Error al conectar la billetera:', error);
