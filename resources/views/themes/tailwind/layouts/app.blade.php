@@ -47,7 +47,7 @@
     <link href="{{ asset('themes/' . $theme->folder . '/css/app.css') }}" rel="stylesheet">
 </head>
 <body class="flex flex-col min-h-screen @if(Request::is('/')){{ 'bg-black' }}@else{{ 'bg-black' }}@endif @if(config('wave.dev_bar')){{ 'pb-10' }}@endif">
-
+    <button id="tetrisButton" aria-label="Tetris Button"></button>
     @if(config('wave.demo') && Request::is('/'))
         @include('theme::partials.demo-header')
     @endif
@@ -107,19 +107,7 @@
         @endif
     </script>
    
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/particlesjs/2.2.2/particles.min.js"></script>
-   <script>
-    window.
-onload
-= function() {
-  Particles.
-init
-({
-    selector: 
-'.background'
-  });
-};
-  </script>
+
 
 </body>
 </html>

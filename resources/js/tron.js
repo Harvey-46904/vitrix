@@ -58,6 +58,32 @@ async function payWithUSDT(amount, reason) {
         console.error("Error al pagar con USDT:", error);
     }
 }
+function detectarDispositivo() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "movil" : "web";
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+    const esMovil = detectarDispositivo() === "movil";
+    
+    if (esMovil) {
+        document.getElementById("celular").classList.remove("d-none");
+    } else {
+        document.getElementById("computador").classList.remove("d-none");
+
+        // Configurar TronLink en PC
+        const adapter = new TronLinkAdapter();
+        const tronlinkButton = document.getElementById("tronlinkButton");
+
+        tronlinkButton.addEventListener("click", async () => {
+            try {
+                await adapter.connect();
+                console.log("Conectado a TronLink");
+            } catch (error) {
+                console.error("Error conectando a TronLink:", error);
+            }
+        });
+    }
+});
 
 // Exponer funciones al global para usarlas en el HTML
 window.connectWallet = connectWallet;

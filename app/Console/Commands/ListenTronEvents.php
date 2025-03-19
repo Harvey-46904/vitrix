@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Console\Commands;
-
 use Illuminate\Console\Command;
-use Ratchet\Client\connect;
+use Illuminate\Support\Facades\Http;
 
 class ListenTronEvents extends Command
 {
@@ -12,35 +10,15 @@ class ListenTronEvents extends Command
 
     public function handle()
     {
-        $url = "wss://nile.trongrid.io/ws"; // WebSocket de TronGrid en Nile Testnet
-
-        connect($url)->then(function ($conn) {
-            // Enviar el mensaje de suscripción
-            $subscribeMessage = [
-                "type" => "subscribe",
-                "eventName" => "ReceivedUSDT",
-                "contractAddress" => "TBq6tXJfPpbhQEBYnSh4aQyzycceFu15XJ"
-            ];
-
-            $conn->send(json_encode($subscribeMessage));
-
-            // Escuchar respuestas
-            $conn->on('message', function ($msg) use ($conn) {
-                $data = json_decode($msg, true);
-                
-                if (!empty($data['result'])) {
-                    foreach ($data['result'] as $event) {
-                        \Log::info("Evento recibido: " . json_encode($event));
-                    }
-                }
+        \Ratchet\Client\connect('wss://echo.websocket.org:443')->then(function($conn) {
+            $conn->on('message', function($msg) use ($conn) {
+                echo "Received: {$msg}\n";
+                $conn->close();
             });
-
-            $conn->on('close', function ($code = null, $reason = null) {
-                \Log::error("WebSocket desconectado: Código $code, Motivo: $reason");
-            });
-
+        
+            $conn->send('Hello World!');
         }, function ($e) {
-            \Log::error("Error en WebSocket: " . $e->getMessage());
+            echo "Could not connect: {$e->getMessage()}\n";
         });
     }
 }

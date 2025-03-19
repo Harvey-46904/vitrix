@@ -2,7 +2,7 @@
 
 @section('content')
 
-<button id="tetrisButton" aria-label="Tetris Button"></button>
+
 
 
 <div class="container-fluid">
