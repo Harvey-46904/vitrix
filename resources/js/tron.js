@@ -74,8 +74,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const billetera = await obtenerBilletera();
 
     if (billetera) {
-        document.getElementById("walletAddress").innerText = "Conectado: " + address;
         console.log("Billetera detectada:", billetera);
+        document.getElementById("walletAddress").innerText = "Conectado: " + billetera;
         return; // Si ya hay una billetera conectada, no mostramos botones ni deeplinks
     }
     if (esMovil) {

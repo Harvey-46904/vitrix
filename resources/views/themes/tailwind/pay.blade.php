@@ -39,7 +39,6 @@
 						<button id="btnTokenPocket" class="btn btn-warning">Abrir TokenPocket</button>
 					</div>
 					<div class="col-md-12">
-						<button onclick="connectWallet()">Conectar Billetera TRON</button>
 						<p id="walletAddress"></p>
 					</div>
 					<div class="col-md-12">
