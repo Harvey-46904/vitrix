@@ -28,6 +28,10 @@
             <button onclick="connectWallet()">Conectar Billetera TRON</button>
             <p id="walletAddress"></p>
           </div>
+          <div class="col-md-12">
+            <input type="number" id="usdtAmount" placeholder="Monto USDT">
+          <button onclick="payWithUSDT(document.getElementById('usdtAmount').value,'Recarga')">Pagar con USDT</button>
+          </div>
         </div>
 				<div class="row">
 					<div class="col-md-12">Envía únicamente USDT a esta dirección de contrato. su dinero se
