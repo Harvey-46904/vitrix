@@ -63,9 +63,23 @@ function detectarDispositivo() {
 }
 
 async function obtenerBilletera() {
-    if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
-        return window.tronWeb.defaultAddress.base58; // Retorna la billetera si está conectada
+    try {
+        await tronLink.connect();
+        const address = tronLink.address;
+
+        if (address && address.trim() !== "") {
+            return address;
+        }
+    } catch (error) {
+        if (error.message.includes("rejected connection")) {
+            alert("El usuario rechazó la conexión a TronLink.")
+            console.warn("El usuario rechazó la conexión a TronLink.");
+        } else {
+            alert("Error al conectar con TronLink:")
+            console.error("Error al conectar con TronLink:", error);
+        }
     }
+
     return null;
 }
 
@@ -83,7 +97,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const dappUrl = "https://www.vitrix.io/qr";
         const encodedDappUrl = encodeURIComponent(dappUrl);
 
-       
+
         // Abrir TronLink con deeplink
         document.getElementById("btnTronLink").addEventListener("click", function () {
             const params = {
@@ -101,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
             const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(dappUrl));
             window.location.href = encodedUrl;
-           
+
         });
         // Abrir TokenPocket con deeplink
         document.getElementById("btnTokenPocket").addEventListener("click", function () {
@@ -122,8 +136,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         tronlinkButton.addEventListener("click", async () => {
             try {
-                await adapter.connect();
-                console.log("Conectado a TronLink");
+                document.getElementById("walletAddress").innerText = "Conectado: " + billetera;
             } catch (error) {
                 console.error("Error conectando a TronLink:", error);
             }
