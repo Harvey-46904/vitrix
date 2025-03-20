@@ -64,18 +64,25 @@ function detectarDispositivo() {
 
 async function obtenerBilletera() {
     try {
+        // Si TronLink ya está disponible y la billetera está conectada
+        if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
+            document.getElementById("walletAddress").innerText = "Conectado: " + window.tronWeb.defaultAddress.base58;
+            return window.tronWeb.defaultAddress.base58;
+
+        }
+
+        // Si no hay billetera conectada, intentamos conectar manualmente
         await tronLink.connect();
         const address = tronLink.address;
 
         if (address && address.trim() !== "") {
+            document.getElementById("walletAddress").innerText = "Conectado: " + address;
             return address;
         }
     } catch (error) {
         if (error.message.includes("rejected connection")) {
-            alert("El usuario rechazó la conexión a TronLink.")
             console.warn("El usuario rechazó la conexión a TronLink.");
         } else {
-            alert("Error al conectar con TronLink:")
             console.error("Error al conectar con TronLink:", error);
         }
     }
@@ -89,7 +96,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     if (billetera) {
         console.log("Billetera detectada:", billetera);
-        document.getElementById("walletAddress").innerText = "Conectado: " + billetera;
         return; // Si ya hay una billetera conectada, no mostramos botones ni deeplinks
     }
     if (esMovil) {
@@ -136,7 +142,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         tronlinkButton.addEventListener("click", async () => {
             try {
-                document.getElementById("walletAddress").innerText = "Conectado: " + billetera;
+                const billetera = await obtenerBilletera();
+               
             } catch (error) {
                 console.error("Error conectando a TronLink:", error);
             }
