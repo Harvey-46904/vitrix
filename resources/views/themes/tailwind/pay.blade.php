@@ -184,9 +184,12 @@
 					</div>
 
 					<div class="col-md-12 d-none" id="celular">
-						<button id="btnTronLink" class="btn btn-primary" data-user="xyz" data-action="{{$action}}">Abrir TronLink</button>
-						<button id="btnOKX" class="btn btn-success" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir OKX</button>
+						<button id="btnTronLink" class="btn btn-primary" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir TronLink</button>
+						<!-- 
+							<button id="btnOKX" class="btn btn-success" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir OKX</button>
 						<button id="btnTokenPocket" class="btn btn-warning" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir TokenPocket</button>
+						-->
+						
 					</div>
 				
 					<div class="col-md-12">

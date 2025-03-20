@@ -132,8 +132,9 @@ document.addEventListener("DOMContentLoaded", async function () {
         document.getElementById("btnTronLink").addEventListener("click", function (event) {
             const action = event.target.getAttribute("data-action");
             const user = event.target.getAttribute("data-user");
+            const id = event.target.getAttribute("data-id");
             const params = {
-                "url": dappUrl+action+"/"+user,
+                "url": dappUrl+action+"/"+user+"/"+id,
                 "action": "open",
                 "protocol": "tronlink",
                 "version": "1.0"
