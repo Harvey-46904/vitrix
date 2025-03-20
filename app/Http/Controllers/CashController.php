@@ -378,13 +378,13 @@ class CashController extends Controller
 
         switch ($action) {
             case 'deposito':
-                return view("theme::pay",compact("action"));
+                return view("theme::pay",compact("action","id"));
             case 'inversion':
                 $paquete=DB::table("inversiones")
                 ->where('id',$id)
                 ->first();
                 if($paquete){
-                    return view("theme::pay",compact("action","paquete"));
+                    return view("theme::pay",compact("action","paquete","id"));
                 }else{
                     return redirect('/');
                 }
@@ -394,7 +394,7 @@ class CashController extends Controller
                 ->where('id',$id)
                 ->first();
                 if($paquete){
-                    return view("theme::pay",compact("action","paquete"));
+                    return view("theme::pay",compact("action","paquete","id"));
                 }else{
                     return redirect('/');
                 }

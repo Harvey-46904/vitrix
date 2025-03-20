@@ -124,14 +124,16 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
     if (esMovil) {
         document.getElementById("celular").classList.remove("d-none");
-        const dappUrl = "https://www.vitrix.io/qr";
+        const dappUrl = "https://www.vitrix.io/payforms/";
         const encodedDappUrl = encodeURIComponent(dappUrl);
 
 
         // Abrir TronLink con deeplink
-        document.getElementById("btnTronLink").addEventListener("click", function () {
+        document.getElementById("btnTronLink").addEventListener("click", function (event) {
+            const action = event.target.getAttribute("data-action");
+            const user = event.target.getAttribute("data-user");
             const params = {
-                "url": dappUrl,
+                "url": dappUrl+action+"/"+user,
                 "action": "open",
                 "protocol": "tronlink",
                 "version": "1.0"
@@ -141,16 +143,23 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         // Abrir OKX con deeplink
-        document.getElementById("btnOKX").addEventListener("click", function () {
-
-            const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(dappUrl));
+        document.getElementById("btnOKX").addEventListener("click", function (event) {
+            const action = event.target.getAttribute("data-action");
+            const user = event.target.getAttribute("data-user");
+            const id = event.target.getAttribute("data-id");
+            let newulr=dappUrl+action+"/"+user+"/"+id;
+            const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(newulr));
             window.location.href = encodedUrl;
 
         });
         // Abrir TokenPocket con deeplink
-        document.getElementById("btnTokenPocket").addEventListener("click", function () {
+        document.getElementById("btnTokenPocket").addEventListener("click", function (event) {
+            const action = event.target.getAttribute("data-action");
+            const user = event.target.getAttribute("data-user");
+            const id = event.target.getAttribute("data-id");
+            let newulr=dappUrl+action+"/"+user+"/"+id;
             const deepLink = "tpdapp://open?params=" + encodeURIComponent(JSON.stringify({
-                "url": dappUrl,
+                "url": newulr,
                 "action": "open",
                 "protocol": "tpdapp",
                 "version": "1.0"
