@@ -103,6 +103,11 @@
                 document.getElementById("balance_efectivo").innerText = `$${parseFloat(data.balance.replace(/[^0-9.-]+/g, '')).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             });
         @else
+                $(document).ready(function() {
+                    if (window.location.pathname.match(/^\/payforms\/[^/]+\/[^/]+(\/[^/]*)?$/)) { 
+    $("header").addClass("d-none"); // Oculta el header con Bootstrap
+}
+});
             console.log('Usuario no autenticado');
         @endif
     </script>

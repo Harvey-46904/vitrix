@@ -14,7 +14,7 @@ const DEST_CONTRACT = "TBq6tXJfPpbhQEBYnSh4aQyzycceFu15XJ"; //
 async function connectWallet() {
     try {
         console.log("Activador de función");
-        await tronLink.connect();
+        //await tronLink.connect();
         const address = tronLink.address;
         console.log('Billetera conectada:', address);
         document.getElementById("walletAddress").innerText = "Conectado: " + address;
@@ -25,13 +25,30 @@ async function connectWallet() {
 }
 // Función para pagar con USDT al contrato inteligente
 async function payWithUSDT(amount, reason) {
-    if (!tronLink.connected) {
-        console.log("Conéctate primero a la billetera");
-        return;
+    let billetera="";
+    if (!window.tronWeb || !window.tronWeb.defaultAddress.base58) {
+
+        const address = tronLink.address;
+        if (address && address.trim() !== "") {
+       
+            billetera=address;
+        }else{
+            console.log("Conéctate primero a la billetera");
+        }
+       
+    }else{
+        billetera= window.tronWeb.defaultAddress.base58;
     }
 
+ 
+
     const tronWeb = window.tronWeb; // TronWeb ya debe estar inyectado por TronLink
-    const sender = tronLink.address;
+    let sender=null;
+    if(billetera!=null){
+         sender = billetera;
+    }
+    console.log("billetera transaccion",sender);
+    
 
     try {
         const usdtContract = await tronWeb.contract().at(USDT_CONTRACT);
@@ -39,7 +56,7 @@ async function payWithUSDT(amount, reason) {
         const amountInSun = tronWeb.toSun(amount); // Convierte USDT a 6 decimales
 
         // 1️⃣ Aprobar el gasto de USDT por parte de tu contrato
-        await usdtContract.approve(DEST_CONTRACT, amountInSun).send({
+        let approveTx = await usdtContract.approve(DEST_CONTRACT, amountInSun).send({
             feeLimit: 100_000_000,
             from: sender
         });
@@ -66,17 +83,23 @@ async function obtenerBilletera() {
     try {
         // Si TronLink ya está disponible y la billetera está conectada
         if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
-            document.getElementById("walletAddress").innerText = "Conectado: " + window.tronWeb.defaultAddress.base58;
+            document.getElementById("walletAddress").value  = window.tronWeb.defaultAddress.base58;
+            document.getElementById("status").classList.remove("text-danger");
+            document.getElementById("status").classList.add("text-success");
+            document.getElementById("status").innerText = " Conectado";
             return window.tronWeb.defaultAddress.base58;
 
         }
 
         // Si no hay billetera conectada, intentamos conectar manualmente
-        await tronLink.connect();
+      //  await tronLink.connect();
         const address = tronLink.address;
 
         if (address && address.trim() !== "") {
-            document.getElementById("walletAddress").innerText = "Conectado: " + address;
+            document.getElementById("walletAddress").value  =address;
+            document.getElementById("status").classList.remove("text-danger");
+            document.getElementById("status").classList.add("text-success");
+            document.getElementById("status").innerText = " Conectado";
             return address;
         }
     } catch (error) {
@@ -93,7 +116,8 @@ async function obtenerBilletera() {
 document.addEventListener("DOMContentLoaded", async function () {
     const esMovil = detectarDispositivo() === "movil";
     const billetera = await obtenerBilletera();
-
+    console.log("esta respueta",billetera);
+    
     if (billetera) {
         console.log("Billetera detectada:", billetera);
         return; // Si ya hay una billetera conectada, no mostramos botones ni deeplinks
@@ -136,14 +160,24 @@ document.addEventListener("DOMContentLoaded", async function () {
     } else {
         document.getElementById("computador").classList.remove("d-none");
 
-        // Configurar TronLink en PC
-        const adapter = new TronLinkAdapter();
+       
         const tronlinkButton = document.getElementById("tronlinkButton");
 
         tronlinkButton.addEventListener("click", async () => {
             try {
-                const billetera = await obtenerBilletera();
-               
+                // Validar si TronLink está instalado
+                if (!window.tronWeb || !window.tronWeb.defaultAddress) {
+                    alert("Primero debes instalar la extensión de TronLink.");
+                    return;
+                }else{
+                       await tronLink.connect();
+                    const address = tronLink.address;
+
+                    if (address && address.trim() !== "") {
+                        document.getElementById("walletAddress").innerText = "Conectado: " + address;
+                      
+                    }
+                }
             } catch (error) {
                 console.error("Error conectando a TronLink:", error);
             }

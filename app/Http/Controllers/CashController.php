@@ -373,4 +373,36 @@ class CashController extends Controller
         return response()->json(['success' => true]);
     }
 
+    public function payforms($action, $hash, $id = null){
+
+
+        switch ($action) {
+            case 'deposito':
+                return view("theme::pay",compact("action"));
+            case 'inversion':
+                $paquete=DB::table("inversiones")
+                ->where('id',$id)
+                ->first();
+                if($paquete){
+                    return view("theme::pay",compact("action","paquete"));
+                }else{
+                    return redirect('/');
+                }
+               
+            case 'ibox':
+                $paquete=DB::table("iboxes")
+                ->where('id',$id)
+                ->first();
+                if($paquete){
+                    return view("theme::pay",compact("action","paquete"));
+                }else{
+                    return redirect('/');
+                }
+            default:
+            return redirect('/');
+        }
+      
+       
+    }
+
 }

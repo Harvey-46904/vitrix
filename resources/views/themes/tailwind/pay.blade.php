@@ -26,21 +26,169 @@
 							alt="..."></div>
 					<div class="col-md-10 align-self-center col-9 "> En Vitrix todo deposito cuenta y esto ayuda a tus
 						aliados en cada
-						juego que hagas</div>
+						pago que realizes</div>
+				</div>
+				<div class="row">
+					<div class="col-md-12 text-end ">Estado:<b class="text-danger" id="status"> Desconectado</b></div>
+					<div class="col-md-12">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Usuario</span>
+							</div>
+							<input type="text" class="form-control" placeholder="Username" aria-label="Username"
+								aria-describedby="basic-addon1" disabled value="">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Billetera</span>
+							</div>
+							<input type="text" id="walletAddress" class="form-control" placeholder="Username" aria-label="Username"
+								aria-describedby="basic-addon1" disabled value="Billetera No conectada">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="basic-addon1">Recarga</span>
+							</div>
+							<input type="text" class="form-control" placeholder="Username" aria-label="Username"
+								aria-describedby="basic-addon1"  value="{{$action}}" disabled>
+						</div>
+					</div>
+					
+					
+
+
+				</div>
+				<div class="row text-center">
+
+					@switch($action)
+					@case('deposito')
+					<div class="col-md-12">
+
+						<form action="{{route('cashbalance')}}" method="POST">
+							@csrf
+							<p class="text-rosa"> Montos Disponibles</p>
+							<h4 class="text-light">Seleccione una opción:</h4>
+
+							<!-- Opciones de respuesta (radio buttons) -->
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="respuesta" id="opcion1" value="5"
+									onclick="disableTextInput(false)">
+								<label class="form-check-label" for="opcion1">
+									5 USDT
+								</label>
+							</div>
+
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="respuesta" id="opcion2" value="10"
+									onclick="disableTextInput(false)">
+								<label class="form-check-label" for="opcion2">
+									10 USDT
+								</label>
+							</div>
+
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="respuesta" id="opcion3" value="15"
+									onclick="disableTextInput(false)">
+								<label class="form-check-label" for="opcion3">
+									15 USDT
+								</label>
+							</div>
+
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="respuesta" id="opcion4" value="20"
+									onclick="disableTextInput(false)">
+								<label class="form-check-label" for="opcion4">
+									20 USDT
+								</label>
+							</div>
+
+							<!-- Caja de texto adicional -->
+							<div class="form-group mt-3">
+								<label for="opcionExtra">Otra opción:</label>
+								<input type="number" class="form-control" id="opcionExtra" name="respuesta_extra"
+									placeholder="Escribe tu respuesta" min="1"
+									oninput="disableRadios(); checkMinValue(this)">
+							</div>
+
+							<!-- Botón de enviar -->
+							<button type="submit" class="btn btn-primary">Pagar</button>
+						</form>
+
+
+					</div>
+					@break
+
+					@case('inversion')
+					<div class="col-md-12 ">
+						<form action="{{route('cashbalanceInversion',['id'=>$paquete->id])}}" method="POST">
+							@csrf
+							<p class="text-rosa"> Montos a pagar</p>
+							<p class="text-light text-justify"> El paquete que va a comprar tiene un precio total de
+								<b class="text-azul-variante">{{$paquete->precio_base}} USDT</b>
+								.La rentabilidad que genera este paquete de inversión es del
+								<b class="text-azul-variante">{{$paquete->porcentaje_rentabilidad}}%</b>
+								, lo que significa que, en un periodo de
+								<b class="text-azul-variante">{{$paquete->duracion_meses}} Meses</b>
+								, usted recibirá un total de
+								<b class="text-azul-variante">{{$paquete->totalidad}} USDT.</b>
+							</p>
+
+							<!-- Opciones de respuesta (radio buttons) -->
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="respuesta" id="opcion1"
+									value="{{$paquete->precio_base}}" onclick="disableTextInput(false)" checked>
+								<label class="form-check-label" for="opcion1">
+									{{$paquete->precio_base}} USDT
+								</label>
+							</div>
+
+
+
+							<!-- Botón de enviar -->
+							<button type="submit" class="btn btn-primary mt-4">Pagar</button>
+						</form>
+
+					</div>
+					@break
+
+					@case('ibox')
+					<div class="col-md-12">
+						<form action="{{route('cashbalanceIbox',['id'=>$paquete->id])}}" method="POST">
+							@csrf
+							<p class="text-rosa"> Montos a pagar</p>
+
+
+							<!-- Opciones de respuesta (radio buttons) -->
+							<div class="form-check">
+								<input class="form-check-input" type="radio" name="respuesta" id="opcion1"
+									value="{{$paquete->precio_compra}}" onclick="disableTextInput(false)" checked>
+								<label class="form-check-label" for="opcion1">
+									{{$paquete->precio_compra}} USDT
+								</label>
+							</div>
+
+
+
+							<!-- Botón de enviar -->
+							<button type="submit" class="btn btn-primary mt-4">Pagar</button>
+						</form>
+
+					</div>
+					@break
+					@endswitch
+
 				</div>
 				<div class="row">
 					<div class="col-md-12 d-none" id="computador">
 						<button id="tronlinkButton" class="btn btn-primary">Abrir TronLink</button>
 					</div>
-					
+
 					<div class="col-md-12 d-none" id="celular">
 						<button id="btnTronLink" class="btn btn-primary">Abrir TronLink</button>
 						<button id="btnOKX" class="btn btn-success">Abrir OKX</button>
 						<button id="btnTokenPocket" class="btn btn-warning">Abrir TokenPocket</button>
 					</div>
-					<div class="col-md-12">
-						<p id="walletAddress"></p>
-					</div>
+				
 					<div class="col-md-12">
 						<input type="number" id="usdtAmount" placeholder="Monto USDT">
 						<button onclick="payWithUSDT(document.getElementById('usdtAmount').value,'Recarga')">Pagar con

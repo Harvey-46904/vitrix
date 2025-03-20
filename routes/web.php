@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
 
-Route::get('qr','CashController@generateQRs');
+Route::get('payforms/{action}/{hash}/{id?}','CashController@payforms')->name("payforms");
 Route::post('webhookblockchain','CashController@PayBlockchains')->name("WebHookBlockchain");
 
 Route::get('listnave',"GamesController@ListNaves");

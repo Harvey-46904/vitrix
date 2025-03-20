@@ -1,12 +1,14 @@
+const basePath = window.location.origin + '/vitrix/img/tetris/';
+
 const tetrisImages = [
-    '../vitrix/img/tetris/a.png',
-    '../vitrix/img/tetris/a.png', // Cambia estos nombres a las rutas de tus imágenes
-    '../vitrix/img/tetris/b.png',
-    '../vitrix/img/tetris/c.png',
-    '../vitrix/img/tetris/d.png',
-    '../vitrix/img/tetris/e.png',
-    '../vitrix/img/tetris/f.png',
-    '../vitrix/img/tetris/f.png'
+    basePath + 'a.png',
+    basePath + 'a.png',
+    basePath + 'b.png',
+    basePath + 'c.png',
+    basePath + 'd.png',
+    basePath + 'e.png',
+    basePath + 'f.png',
+    basePath + 'f.png'
 ];
 
 const button = document.getElementById('tetrisButton');
@@ -16,8 +18,10 @@ const button = document.getElementById('tetrisButton');
 window.addEventListener('scroll', () => {
     const scrollTop = window.scrollY;
     const scrollPercent = scrollTop / (document.body.scrollHeight - window.innerHeight);
-    const imageIndex = Math.floor(scrollPercent * tetrisImages.length);
+    let imageIndex = Math.floor(scrollPercent * tetrisImages.length);
 
+    // Asegurar que imageIndex no exceda el tamaño del array
+    imageIndex = Math.min(imageIndex, tetrisImages.length - 1);
 
     button.style.backgroundImage = `url(${tetrisImages[imageIndex]})`;
 });
