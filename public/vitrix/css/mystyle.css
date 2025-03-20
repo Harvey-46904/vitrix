@@ -431,3 +431,8 @@ body {
     box-shadow: 0 0 20px white;
   }
 }
+
+#hashid {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}

@@ -60,7 +60,9 @@
                             Balance General
                         </div>
                         <div class="col-md-9 text-center aling-items-center">
-                            <a href="{{route('cashmoney')}} " class="btn btn-success">Recargar</a>
+                            <a href="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}" class="btn btn-success">
+                                Recargar
+                            </a>
                             <a href=" {{ route('retirar') }} " class="btn btn-danger">Retirar</a>
                            
                         </div>

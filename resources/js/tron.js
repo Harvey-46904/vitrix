@@ -70,8 +70,16 @@ async function payWithUSDT(amount, reason) {
         });
 
         console.log("Pago exitoso. TX:", tx);
-        alert("Pago realizado con éxito: " + tx);
+        $("#alertaerror").addClass("d-none");
+        $("#alertacorrecto").removeClass("d-none").text("Correcto:"+" Transacción en proceso de verificación");
+        $("#hashid").removeClass("d-none").text("Hash "+tx);
+        
+       // alert("Pago realizado con éxito: " + tx);
     } catch (error) {
+
+        $("#alertaerror").removeClass("d-none").text("Error:"+error);
+        $("#alertacorrecto").addClass("d-none");
+        $("#hashid").addClass("d-none");
         console.error("Error al pagar con USDT:", error);
     }
 }
@@ -107,8 +115,10 @@ async function obtenerBilletera() {
         }
     } catch (error) {
         if (error.message.includes("rejected connection")) {
+            $("#walleterror").removeClass("d-none").text("El usuario rechazó la conexión a TronLink.");
             console.warn("El usuario rechazó la conexión a TronLink.");
         } else {
+             $("#walleterror").removeClass("d-none");
             console.error("Error al conectar con TronLink:", error);
         }
     }
@@ -192,6 +202,7 @@ document.addEventListener("DOMContentLoaded", async function () {
                     }
                 }
             } catch (error) {
+                $("#walleterror").removeClass("d-none");
                 console.error("Error conectando a TronLink:", error);
             }
         });

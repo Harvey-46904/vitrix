@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Events\BalanceUpdated;
 use App\Models\Retiro;
+use App\Models\User;
 use App\Models\UserPaquete;
 use App\Services\CashMoney;
 use App\Services\Referidos;
@@ -342,7 +343,7 @@ class CashController extends Controller
 
     public function PayBlockchains(Request $request)
     {
-      //  return response(["data"=>$request->all()]);
+        //  return response(["data"=>$request->all()]);
         $data = $request->all();
 
         // Verificar si es un evento válido
@@ -373,36 +374,45 @@ class CashController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function payforms($action, $hash, $id = null){
+    public function payforms($action, $hash, $id = null)
+    {
+        try {
+            $userId = decrypt($hash);
+            $user   = User::find($userId);
+            if (! $user) {
+                return redirect('/');
+            }
 
+            switch ($action) {
+                case 'deposito':
+                    return view("theme::pay", compact("action", "id", "user","hash"));
+                case 'inversion':
+                    $paquete = DB::table("inversiones")
+                        ->where('id', $id)
+                        ->first();
+                    if ($paquete) {
+                        return view("theme::pay", compact("action", "paquete", "id", "user","hash"));
+                    } else {
+                        return redirect('/');
+                    }
 
-        switch ($action) {
-            case 'deposito':
-                return view("theme::pay",compact("action","id"));
-            case 'inversion':
-                $paquete=DB::table("inversiones")
-                ->where('id',$id)
-                ->first();
-                if($paquete){
-                    return view("theme::pay",compact("action","paquete","id"));
-                }else{
+                case 'ibox':
+                    $paquete = DB::table("iboxes")
+                        ->where('id', $id)
+                        ->first();
+                    if ($paquete) {
+                        return view("theme::pay", compact("action", "paquete", "id", "user","hash"));
+                    } else {
+                        return redirect('/');
+                    }
+                default:
                     return redirect('/');
-                }
-               
-            case 'ibox':
-                $paquete=DB::table("iboxes")
-                ->where('id',$id)
-                ->first();
-                if($paquete){
-                    return view("theme::pay",compact("action","paquete","id"));
-                }else{
-                    return redirect('/');
-                }
-            default:
+            }
+
+        } catch (\Exception $e) {
             return redirect('/');
         }
-      
-       
+
     }
 
 }
