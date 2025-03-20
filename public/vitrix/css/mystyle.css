@@ -45,6 +45,12 @@ body {
   color: white;
 }
 
+.bg-tronlink {
+
+  background:rgb(20,93,204);
+  color: white;
+}
+
 .text-azul-variante {
   color: rgb(42, 140, 232);
   /* Usa el primer color del gradiente */

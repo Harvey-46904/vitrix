@@ -58,7 +58,7 @@
 
 
 				</div>
-				<div class="row text-center">
+				<div class="row text-center d-none" id="methodspay">
 
 					@switch($action)
 					@case('deposito')
@@ -178,13 +178,22 @@
 					@endswitch
 
 				</div>
-				<div class="row">
-					<div class="col-md-12 d-none" id="computador">
-						<button id="tronlinkButton" class="btn btn-primary">Abrir TronLink</button>
+				<div class="row text-center">
+					<div class="col-md-12 text-center d-none" id="computador">
+						
+						<button id="tronlinkButton" class="btn  bg-tronlink d-flex align-items-center">
+							<img src="https://d1muf25xaso8hp.cloudfront.net/https://meta-q.cdn.bubble.io/f1669295699744x508414720900902000/tron_link.png?w=&h=&auto=compress&dpr=1&fit=max" alt="TronLink" style="width: 40px; height: 40px; margin-right: 5px;">
+							Abrir TronLink extensión
+						</button>
 					</div>
 
-					<div class="col-md-12 d-none" id="celular">
-						<button id="btnTronLink" class="btn btn-primary" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir TronLink</button>
+					<div class="col-md-12 d-none " id="celular">
+
+						<button id="btnTronLink" class="btn  bg-tronlink d-flex align-items-center" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">
+							<img src="https://d1muf25xaso8hp.cloudfront.net/https://meta-q.cdn.bubble.io/f1669295699744x508414720900902000/tron_link.png?w=&h=&auto=compress&dpr=1&fit=max" alt="TronLink" style="width: 40px; height: 40px; margin-right: 5px;">
+							Abrir TronLink Movil
+						</button>
+						
 						<!-- 
 							<button id="btnOKX" class="btn btn-success" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir OKX</button>
 						<button id="btnTokenPocket" class="btn btn-warning" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir TokenPocket</button>

@@ -87,6 +87,8 @@ async function obtenerBilletera() {
             document.getElementById("status").classList.remove("text-danger");
             document.getElementById("status").classList.add("text-success");
             document.getElementById("status").innerText = " Conectado";
+            document.getElementById("methodspay").classList.remove("d-none");
+            
             return window.tronWeb.defaultAddress.base58;
 
         }
@@ -100,6 +102,7 @@ async function obtenerBilletera() {
             document.getElementById("status").classList.remove("text-danger");
             document.getElementById("status").classList.add("text-success");
             document.getElementById("status").innerText = " Conectado";
+            document.getElementById("methodspay").classList.remove("d-none");
             return address;
         }
     } catch (error) {
