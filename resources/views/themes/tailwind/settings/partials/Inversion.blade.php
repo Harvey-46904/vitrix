@@ -57,7 +57,7 @@
                                                 data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
                                                 data-precio="{{ $product->precio_base }}"
                                                 data-id="{{$product->id}}"
-                                                class="card-link btn btn-success compra_validacion">Comprar</a>
+                                                class="card-link btn btn-success compra_validacion">Comprar ya</a>
                                             </div>
                                         </div>
                                     </div>
