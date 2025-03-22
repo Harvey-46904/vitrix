@@ -124,7 +124,12 @@ Route::group(['middleware' => 'auth'], function(){
   Route::view('renuncias', 'theme::Accesorios.renuncias')->name('renuncias');
   Route::view('terminos', 'theme::Accesorios.terminos')->name('terminos');
 
+  Route::get('desafio/{id}', 'GamesController@desafio')->name('desafio');
+  Route::get('desafio/{action}/{id}', 'GamesController@actiondesafio')->name('actiondesafio');
+  Route::post('apuesta/{id_sala}', 'GamesController@apostarcars')->name('apostarcars');
   
+
+
 });
 
 Route::group(['middleware' => 'admin.user'], function(){

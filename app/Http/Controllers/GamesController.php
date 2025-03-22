@@ -5,6 +5,8 @@ use App\Models\Apuesta;
 use App\Models\IntentoFraude;
 use App\Models\Naveevento;
 use App\Models\User;
+use App\Models\Apuestascar;
+
 use App\Services\CashMoney;
 use App\Services\PhotonService;
 use App\Services\Referidos;
@@ -16,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
 use Tymon\JWTAuth\Facades\JWTAuth;
-
+use Livewire\Livewire;
 class GamesController extends Controller
 {
     use Listnave;
@@ -45,13 +47,16 @@ class GamesController extends Controller
     }
     public function Cars($id)
     {
-
-        
+       // return response(["data"=>"prueba"]);
         $user   = Auth::user();
         $userId = $user->id;
-        
+
         ///obtengo el nombre de la sala sin espacio y junto
-        $name      = DB::table("salas")->select("nombre_sala", "player_one", "plater_two")->where("id", $id)->first();
+        $name      = DB::table("salas")
+        ->select("nombre_sala", "player_one", "plater_two")
+        ->where("id", $id)
+        
+        ->first();
         $name_sala = strtolower(str_replace(' ', '_', $name->nombre_sala));
 
         $player_one = $name->player_one; // Por ejemplo, obtenemos estos valores de la base de datos
@@ -60,16 +65,16 @@ class GamesController extends Controller
 
 // Verificar si ambos jugadores son iguales al id_user
         if ($player_one == $id_user || $player_two == $id_user) {
-      
-            $token = self::getToken();
-            $nickname=$user->username;
 
-           // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
+            $token    = self::getToken();
+            $nickname = $user->username;
+
+            // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
             return view('Unity.cars', compact('token', 'nickname', 'name_sala'));
         } else {
             return redirect('/');
         }
-        
+
     }
 
     public function GeniusPlayGame(Request $request)
@@ -282,7 +287,11 @@ class GamesController extends Controller
 
     public function Salaspropias($id)
     {
-        $eventosala = DB::table("salas")->select()->where("id", $id)->first();
+       
+        $eventosala = DB::table("salas")
+        ->select()
+        ->where("id", $id)
+        ->first();
         $eventosala = DB::table('salas')
             ->join('users as u1', 'salas.player_one', '=', 'u1.id')
             ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
@@ -304,9 +313,12 @@ class GamesController extends Controller
         $id_user = $user->id;
         // Consulta 1: cuando el id_user aparece en player_one o player_two
         $salasConJugador = DB::table('salas')
-            ->where('player_one', $id_user)
-            ->orWhere('plater_two', $id_user)
-            ->get();
+        ->where(function ($query) use ($id_user) {
+            $query->where('player_one', $id_user)
+                  ->orWhere('plater_two', $id_user);
+        })
+        ->where('estado', 'option5')
+        ->get();
 
         // Consulta 2: cuando el id_user no aparece ni en player_one ni en player_two
         $salasSinJugador = DB::table('salas')
@@ -319,6 +331,7 @@ class GamesController extends Controller
             )
             ->where('salas.player_one', '!=', $id_user)
             ->where('salas.plater_two', '!=', $id_user)
+            ->where('estado', "option5")
             ->get();
 
         $section = "sports";
@@ -347,5 +360,101 @@ class GamesController extends Controller
             // Manejar excepciones
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function desafio($id)
+    {
+        $userId     = auth()->id(); // O el ID del usuario que quieras consultar
+        $autorizado = false;
+        $acepto     = false;
+        $salas      = DB::table("salas")
+            ->select()
+            ->where("id", $id)
+            ->where(function ($query) use ($userId) {
+                $query->where("player_one", $userId)
+                    ->orWhere("plater_two", $userId);
+            })
+            ->first();
+
+        if ($salas) {
+            $updateField = ($salas->player_one == $userId) ? "accept_one" : "accept_two";
+            $status      = $salas->$updateField;
+            if ($status == 1) {
+                $acepto = true;
+                $mesage = "Ya aceptaste el desafio";
+                return view('theme::reto', compact("salas", "autorizado", "id", "acepto", "mesage"));
+                return response(["data" => "ya acepto"]);
+            }
+            if ($status == -1) {
+                $acepto = true;
+                $mesage = "Rechazaste el desafio será para la proxima";
+                return view('theme::reto', compact("salas", "autorizado", "id", "acepto", "mesage"));
+            }
+
+            $autorizado = true;
+            return view('theme::reto', compact("salas", "autorizado", "id", "acepto"));
+        }
+        return view('theme::reto', compact("autorizado", "acepto"));
+    }
+    public function actiondesafio($action, $id)
+    {
+        $userId = auth()->id();
+
+        $sala = DB::table("salas")
+            ->select("player_one", "plater_two", "accept_one", "accept_two")
+            ->where("id", $id)
+            ->where(function ($query) use ($userId) {
+                $query->where("player_one", $userId)
+                    ->orWhere("plater_two", $userId);
+            })
+            ->first();
+
+        if ($sala) {
+            // Determinar qué columna actualizar
+            $updateField = ($sala->player_one == $userId) ? "accept_one" : "accept_two";
+
+            if ($action == "Aceptar") {
+
+                // Actualizar la columna correspondiente
+                $sala = tap(DB::table("salas")->where("id", $id))
+                    ->update([$updateField => 1])
+                    ->first();
+              
+                if($sala->accept_one==1 && $sala->accept_two==1){
+                    DB::table("salas")
+                    ->where("id", $id)
+                    ->update(["estado" => "option5"]);
+                    return back();
+                }
+                return back();
+            } else {
+                DB::table("salas")
+                    ->where("id", $id)
+                    ->update([$updateField => -1, "estado" => "option4"]);
+
+                return back();
+            }
+
+        } else {
+            return response(["data" => "No válido"]);
+        }
+    }
+
+
+    public function apostarcars(Request $request,$id_sala){
+       
+        Apuestascar::create([
+            'sala_id' => $id_sala,
+            'jugador' => 1,
+            'monto' => $request->valor,
+            'posible_ganancia' => $request->valor * $request->cuota, // Calculando la posible ganancia
+            'cuota' => $request->cuota,
+            'estado' => 'pendiente' // O el estado que manejes
+        ]);
+
+        Livewire::dispatch('actualizarCuotas');
+        return back();
+
+
     }
 }

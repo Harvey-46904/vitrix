@@ -56,11 +56,11 @@
                             <div class="flex flex-col items-start flex-1 w-0 ml-3">
                                 <p class="text-sm leading-5 text-gray-600">
                                     <strong>{{ @$notification_data->user['username'] }} @if(isset($notification_data->type) && @$notification_data->type == 'message'){{ 'Dejó un mensaje' }}@else{{ 'Vitrix' }}@endif</strong>
-                                    {{ @$notification_data->body }} .El <span class="notification-highlight">{{ @$notification_data->title }}</span>
+                                    {{ @$notification_data->body }} Consulta más detalles haciendo clic aquí <span class="notification-highlight">{{ @$notification_data->title }}</span>
                                 </p>
                                 <p class="mt-2 text-sm font-medium leading-5 text-gray-500">
                                     <span class="notification-datetime">
-                                        {{ \Carbon\Carbon::parse(@$notification->created_at)->translatedFormat('j \d\e F \d\e Y h:i A') }}
+                                     Notificación enviada el:  {{ \Carbon\Carbon::parse(@$notification->created_at)->translatedFormat('j \d\e F \d\e Y h:i A') }}
                                     </span>
                                 </p>
                             </div>

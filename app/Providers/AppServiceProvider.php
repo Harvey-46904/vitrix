@@ -13,6 +13,9 @@ use App\Models\Inversione;
 
 use App\Models\UserPaquete;
 use App\Observers\UserPaquetesObserver;
+
+use App\Models\Sala;
+use App\Observers\SalaObserver;
 //use TCG\Voyager\Models\User as VoyagerUser;
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
         
         User::observe(UserObserver::class);
         UserPaquete::observe(UserPaquetesObserver::class);
-       
+        Sala::observe(SalaObserver::class);
         Inversione::observe(InversionesObserver::class);
         if ($this->app->environment() == 'production') {
             $this->app['request']->server->set('HTTPS', true);

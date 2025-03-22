@@ -17,9 +17,24 @@
 
             </div>
         </div>
-        <div class="row justify-content-center align-items-center text-light ">
-            <div class="col-md-7">
-                <img src="{{asset('vitrix/img/usdt.png') }}" class="" alt="...">
+        <div class="row justify-content-center align-items-center text-light  ">
+            <div class="col-md-7 bg-black align-self-center" style="height: 60vh">
+
+                @php
+                use Carbon\Carbon;
+                $fechaActual = Carbon::now();
+                $fechaDB = Carbon::parse($eventosala->fecha_juego); // Suponiendo que $sala->fecha es el dato de la BD
+                @endphp
+
+                @if($fechaActual->lessThan($fechaDB))
+                <p class="text-warning">Faltan</p>
+                <p id="countdown" data-fecha="{{ $eventosala->fecha_juego }}" class="display-4 text-warning"></p>
+
+                @else
+                <p class="display-1 text-warning">La fecha ya pasó.</p>
+                @endif
+
+
             </div>
             <div class="col-md-5 aling-items-center">
                 <div class="row">
@@ -29,23 +44,50 @@
                         Hoy traemos a nuestros dos competidores <b class='text-warning'>Vitrix</b> Apuesta por el mejor
                     </p>
                 </div>
-                <div class="row bg-danger">
-                    <div class="col-md-12  texturizado-warning gamers">
-                        {{$eventosala->player_one_name}}
+              
+                <div class="row">
+                    <div class="col-md-12">
+                        @livewire('apuestas-volt', ['sala_id' => $eventosala->id])
                     </div>
-
                 </div>
-                <div class="row bg-danger mt-3">
-                    <div class="col-md-12 texturizado-warning gamers">
-                        {{$eventosala->player_two_name}}
-                    </div>
-
-                </div>
+              
 
             </div>
         </div>
 
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const countdownElement = document.getElementById("countdown");
+        const fechaObjetivo = new Date(countdownElement.dataset.fecha).getTime();
+
+        function actualizarCuentaRegresiva() {
+            const ahora = new Date().getTime();
+            const diferencia = fechaObjetivo - ahora;
+
+            if (diferencia <= 0) {
+            countdownElement.innerHTML = "¡La carrera ha comenzado! dirigiendote al evento";
+            clearInterval(intervalo);
+            setTimeout(() => {
+                location.reload(); // Recarga la página
+            }, 2000); // Espera 2 segundos antes de recargar
+            return;
+            }
+
+            const dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+            const horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
+
+            countdownElement.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+        }
+
+        // Actualizar cada segundo
+        const intervalo = setInterval(actualizarCuentaRegresiva, 1000);
+        actualizarCuentaRegresiva(); // Llamar inmediatamente para evitar el delay inicial
+    });
+</script>
 
 @endsection
