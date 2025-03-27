@@ -180,9 +180,21 @@
 						  <div class="alert alert-success d-none" id="alertacorrecto"  role="alert">
 							text
 						  </div>
+						  <div class="alert alert-warning text-break d-none" id="esperaconfirmacion" role="alert">
+							Validando su transacción en la blockchain. Por favor, no cierre ni recargue la ventana hasta que el proceso se complete.
+							<div class="progress">
+								<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progress-bar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+							</div>
+							<p>Tiempo máximo <span id="countdown">3:00</span></p>
+						</div>
 						  <div class="alert alert-success text-break d-none " id="hashid"  role="alert">
 							text
 						  </div>
+
+						  <div class="alert alert-primary d-none" id="actionfinal"  role="alert">
+							text
+						  </div>
+						 
 					</div>
 					
 				</div>
@@ -282,6 +294,9 @@ function obtenerValor() {
 }
 
 	function validador(action){
+
+		const usersId = @json($userId);
+		const id = @json($id);
 		let valor=0;
 		switch (action) {
 			case "deposito":
@@ -305,7 +320,7 @@ function obtenerValor() {
 			default:
 				break;
 		}
-		payWithUSDT(valor,action);
+		payWithUSDT(valor,action,usersId,id);
 	
 	}
 

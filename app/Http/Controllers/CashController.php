@@ -2,6 +2,8 @@
 namespace App\Http\Controllers;
 
 use App\Events\BalanceUpdated;
+use App\Models\Transaccions; 
+use App\Models\Invoice;
 use App\Models\Retiro;
 use App\Models\User;
 use App\Models\UserPaquete;
@@ -11,6 +13,7 @@ use App\Services\Wallets;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use kornrunner\Keccak;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
@@ -124,6 +127,14 @@ class CashController extends Controller
             ]
 
             );
+
+             // Crea el registro de transacción
+             Transaccions::create([
+                'user_id' => $userId,
+                'amount' => $precio_compra,
+                'type' => "Compra Paquete de inversion Balance", // Define el tipo de transacción
+                'balance_after' => 0,
+            ]);
 
             // return response(["data"=>"alteracion"]);
             $this->cashService->AddMoneyBalance($userId, -$precio_compra, 'Descuento Compra Inversion con Balance');
@@ -299,9 +310,18 @@ class CashController extends Controller
     public function index()
     {
         $id            = auth()->user()->id;
+     
+
         $transacciones = DB::table("user_transaccion")
-            ->where("user_id", $id)
-            ->get();
+        ->select('id', 'user_id', 'amount', 'type', 'created_at')
+        ->where('user_id', auth()->id())
+        ->orderBy('created_at', 'desc')
+        ->get()
+        ->groupBy('type')
+        ->map(function ($group) {
+            return $group->take(5);
+        });
+       
         return view('theme::notifications.Transacciones', compact('transacciones'));
     }
     public function generateQRs()
@@ -384,14 +404,16 @@ class CashController extends Controller
             }
 
             switch ($action) {
+
                 case 'deposito':
-                    return view("theme::pay", compact("action", "id", "user","hash"));
+                    $id = 0;
+                    return view("theme::pay", compact("action", "id", "user", "hash", "userId"));
                 case 'inversion':
                     $paquete = DB::table("inversiones")
                         ->where('id', $id)
                         ->first();
                     if ($paquete) {
-                        return view("theme::pay", compact("action", "paquete", "id", "user","hash"));
+                        return view("theme::pay", compact("action", "paquete", "id", "user", "hash", "userId"));
                     } else {
                         return redirect('/');
                     }
@@ -401,7 +423,7 @@ class CashController extends Controller
                         ->where('id', $id)
                         ->first();
                     if ($paquete) {
-                        return view("theme::pay", compact("action", "paquete", "id", "user","hash"));
+                        return view("theme::pay", compact("action", "paquete", "id", "user", "hash", "userId"));
                     } else {
                         return redirect('/');
                     }
@@ -413,6 +435,217 @@ class CashController extends Controller
             return redirect('/');
         }
 
+    }
+
+    public function GenerateInvoice(Request $request)
+    {
+        $invoice = Invoice::create([
+            'user_id' => $request->user_id, // ID del usuario
+            'hash_id' => $request->hash_id, // Hash único
+            'reason'  => $request->reason,  // Motivo de la transacción
+            'amount'  => $request->amount,  // Monto
+            'status'  => $request->status,  // Estado de la factura
+        ]);
+        return response(["data" => $invoice->id]);
+        echo "Invoice creada con ID: " . $invoice->id;
+    }
+
+    public function UpdateInvoiceStatus(Request $request)
+    {
+        // Validar que lleguen los datos necesarios
+        $request->validate([
+            'invoice_id' => 'required|exists:invoices,id',
+            'status'     => 'required|string',
+        ]);
+
+        // Buscar la invoice y actualizar el status
+        $invoice         = Invoice::find($request->invoice_id);
+        $invoice->status = $request->status;
+        $invoice->save();
+        $estado = self::ValidadorEstado($invoice);
+        //$managament = self::ManagamentPayValidation($invoice);
+        return $estado;
+    }
+
+    public function ValidadorEstado($invocacion)
+    {
+        $estado = $invocacion->status;
+        //solo hay 3 estados
+        //SUCCESS,REVERT,FAILED
+        switch ($estado) {
+            case 'SUCCESS':
+                $managament = self::ManagamentPayValidation($invocacion);
+                //aqui ya pago lo que corresponde a la gente
+
+                return $managament;
+            //break;
+            case 'REVERT':
+
+                return ["estado" => "reverte"];
+                break;
+            case 'FAILED':
+                return ["estado" => "fallo"];
+                break;
+            default:
+                # code...
+                break;
+        }
+        return response(["data" => $estado]);
+    }
+
+    public function ManagamentPayValidation($invocacion)
+    {
+        $dataevent;
+        //return response(["data" => $invocacion]);
+        //consultar si ya existe en pagos
+        $consulta = DB::table("pagos")->where("transaction_hash", $invocacion->hash_id)->select()->first();
+        if (! $consulta) {
+            $blockchainresquest = self::getTransactionEvents($invocacion->hash_id);
+            if (! empty($blockchainresquest['data'])) {
+                $events = $blockchainresquest['data'];
+
+                foreach ($events as $event) {
+                    if ($event['event_name'] === "ReceivedUSDT" && isset($event['result'])) {
+                        $sender = $event['result']['sender'] ?? null;
+                        $amount = $event['result']['amount'] ?? null;
+                        $reason = $event['result']['reason'] ?? null;
+                        $udid   = $event['result']['idus'] ?? null;
+                        $idmeta = $event['result']['idmeta'] ?? null;
+
+                        $infofinal = [
+                            'sender'           => $sender,
+                            'amount'           => $amount / 1000000,
+                            'reason'           => $reason,
+                            'transaction_hash' => $invocacion->hash_id,
+                            'user_id'          => $udid,
+                            'id_meta'          => $idmeta,
+
+                        ];
+
+                        DB::table('pagos')->insert([
+                            'sender'           => $sender,
+                            'amount'           => $amount / 1000000,
+                            'reason'           => $reason,
+                            'transaction_hash' => $invocacion->hash_id,
+                            'user_id'          => $udid,
+                            'created_at'       => now(),
+                            'updated_at'       => now(),
+                        ]);
+
+                        $pagare=self::Gestionadormoney($infofinal);
+                        $dataevent = [
+                            "estado"      => "Encontrado",
+                            "informacion" => $pagare,
+                        ];
+                        break;
+                    }
+                }
+                return $dataevent;
+            } else {
+                return $dataevent = ["estado" => "Evento no encontrado"];
+            }
+
+        } else {
+            return $dataevent = ["estado" => "Transaccion ya existente"];
+        }
+
+    }
+
+    public function getTransactionEvents($transactionHash)
+    {
+        $url = "https://nile.trongrid.io/v1/transactions/{$transactionHash}/events";
+
+        $response = Http::withHeaders([
+            'accept' => 'application/json',
+        ])->get($url);
+
+        if ($response->successful()) {
+            return $response->json(); // Devuelve los datos en formato JSON
+        } else {
+            return [
+                'error'   => true,
+                'message' => 'Error al obtener los eventos',
+                'status'  => $response->status(),
+            ];
+        }
+    }
+
+    public function Gestionadormoney($transation)
+    {
+        $razon = $transation["reason"];
+        $userId=$transation["user_id"];
+        $amount=$transation["amount"];
+        $id_meta=$transation["id_meta"];
+        $message;
+        switch ($razon) {
+            case 'deposito':
+                $result = $this->cashService->AddMoneyBalance($userId, $amount, 'Deposito');
+              
+                event(new BalanceUpdated($userId));
+
+                if ($result) {
+                    $message="Se deposito el saldo correctamente";
+                } else {
+                    $message="Error al depositar ".$razon." pongase en contacto con el administrador";
+                    
+                }
+                break;
+            case 'ibox':
+                $compra_ibox=DB::table("iboxes")->where("id","=",$id_meta)->first();
+                $amount=$compra_ibox->beneficio;
+               $result= $this->cashService->AddMoneyCards($userId, $amount,'Compra Ibox');
+                if ($result) {
+                    $message="Se deposito el saldo correctamente";
+                } else {
+                    $message="Error al depositar ".$razon." pongase en contacto con el administrador";
+                    
+                }
+                break;
+            case 'inversion':
+
+                $id_inversion = $id_meta;
+
+                $userId = auth()->user()->id;
+                //primero pagamos a referidos
+                self::PagosReferidos($userId, $amount, "referidos");
+                //ahora creamos su paquete en la tabla
+                //para ello consultamos primero el paquete id
+                $consulta = DB::table("inversiones")->select()->where("id", $id_inversion)->first();
+               $result= UserPaquete::create([
+                    'user_id'            => $userId,
+                    'id_inversion'       => $id_inversion,
+                    'monto_depositar'    => 0,
+                    'monto_parcial'      => 0,
+                    'tiempo'             => $consulta->duracion_meses,
+                    'monto_invertido'    => $consulta->precio_base,
+                    'paquete_nombre'     => $consulta->nombre,
+                    'paquete_porcentaje' => $consulta->porcentaje_rentabilidad,
+                    'paquete_meta'       => $consulta->totalidad,
+                ]
+        
+                );
+
+                 // Crea el registro de transacción
+                Transaccions::create([
+                    'user_id' => $userId,
+                    'amount' => $amount,
+                    'type' => "Compra Paquete de inversion", // Define el tipo de transacción
+                    'balance_after' => 0,
+                ]);
+              
+                if ($result) {
+                    $message="Se deposito el saldo correctamente";
+                } else {
+                    $message="Error al depositar ".$razon." pongase en contacto con el administrador";
+                    
+                }
+                break;
+
+            default:
+                $message="EL movimiento no existe";
+                break;
+        }
+        return $message;
     }
 
 }

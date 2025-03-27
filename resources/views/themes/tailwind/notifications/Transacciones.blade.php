@@ -38,28 +38,37 @@
             </div>
 			@else
 			<div class="relative">
+
+				<div id="botonera" class="d-flex flex-wrap gap-2 mb-3">
+					@foreach ($transacciones as $tipo => $items)
+						<button class="btn btn-secondary m-1" onclick="filtrar('{{ $tipo }}', this)">
+							{{ $tipo }}
+						</button>
+					@endforeach
+				</div>
+				
 				<table class="table table-striped">
 					<thead>
-					  <tr>
-						<th scope="col">#</th>
-						<th scope="col">Razón</th>
-						<th scope="col">Monto</th>
-						<th scope="col">Fecha</th>
-					  </tr>
-					</thead>
-					<tbody>
-						@foreach ($transacciones as $item)
 						<tr>
-							<th scope="row">{{ $loop->iteration }}</th> <!-- Muestra el índice -->
-							<td>{{$item->type}}</td>
-							<td>{{$item->amount}}</td>
-							<td>{{$item->created_at}}</td>
-						  </tr>
+							<th>#</th>
+							<th>Razón</th>
+							<th>Monto</th>
+							<th>Fecha</th>
+						</tr>
+					</thead>
+					<tbody id="tabla-transacciones">
+						@foreach ($transacciones as $tipo => $items)
+							@foreach ($items as $index => $item)
+								<tr class="fila-{{ $tipo }}">
+									<th>{{ $index + 1 }}</th>
+									<td>{{ $tipo }}</td>
+									<td>{{ $item->amount }}</td>
+									<td>{{ $item->created_at }}</td>
+								</tr>
+							@endforeach
 						@endforeach
-					
-					 
 					</tbody>
-				  </table>
+				</table>
 			</div>
 			@endif
 			
@@ -69,5 +78,45 @@
 	</div>
 
 </div>
+<script>
+    function filtrar(tipo, boton) {
+    let tbody = document.querySelector('tbody');
+    tbody.innerHTML = ''; // Limpiar la tabla antes de insertar los nuevos datos
 
+    if (transacciones[tipo]) { // Verificar si el tipo existe en el objeto
+        transacciones[tipo].forEach((item, index) => {
+            let row = `<tr>
+                <th scope="row">${index + 1}</th>
+                <td>${item.type}</td>
+                <td>${item.amount}</td>
+                <td>${item.created_at}</td>
+            </tr>`;
+            tbody.innerHTML += row; // Insertar fila en la tabla
+        });
+    } else {
+        tbody.innerHTML = `<tr><td colspan="4" class="text-center">No hay transacciones</td></tr>`;
+    }
+
+	 // Quitar btn-success de todos los botones y volverlos btn-primary
+	 document.querySelectorAll("#botonera button").forEach(btn => {
+            btn.classList.remove("btn-success");
+            btn.classList.add("btn-secondary");
+        });
+
+        // Marcar el botón seleccionado como btn-success
+        boton.classList.remove("btn-secondary");
+        boton.classList.add("btn-success");
+}
+
+var transacciones = @json($transacciones);
+
+// Obtener la primera clave del objeto
+var primerTipo = Object.keys(transacciones)[0];
+let primerBoton = document.querySelector("#botonera button"); 
+// Llamar a filtrar() solo si hay al menos un tipo de transacción
+if (primerTipo) {
+    filtrar(primerTipo, primerBoton);
+}
+    
+</script>
 @endsection

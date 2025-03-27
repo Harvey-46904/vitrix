@@ -2,14 +2,35 @@ import { TronLinkAdapter } from '@tronweb3/tronwallet-adapters';
 
 const tronLink = new TronLinkAdapter();
 const USDT_CONTRACT = "TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf"; // USDT en TRON
-const DEST_CONTRACT = "TBq6tXJfPpbhQEBYnSh4aQyzycceFu15XJ"; //
+const DEST_CONTRACT = "TMsMe3aF4Rv7cbV6p7gCAYB2vmDzghb5hj"; //
 
 
 //usdt
 
 //mycontoract
 
+function startCountdown(duration) {
+    let timeRemaining = duration;
+    const countdownElement = document.getElementById("countdown");
+    const progressBar = document.getElementById("progress-bar");
 
+    const interval = setInterval(() => {
+        const minutes = Math.floor(timeRemaining / 60);
+        const seconds = timeRemaining % 60;
+        countdownElement.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+        // Actualiza la barra de progreso
+        const progressPercentage = (timeRemaining / duration) * 100;
+        progressBar.style.width = progressPercentage + "%";
+
+        if (timeRemaining <= 0) {
+            clearInterval(interval);
+            countdownElement.textContent = "Tiempo agotado";
+        }
+
+        timeRemaining--;
+    }, 1000);
+}
 
 async function connectWallet() {
     try {
@@ -24,89 +45,186 @@ async function connectWallet() {
     }
 }
 // Función para pagar con USDT al contrato inteligente
-async function payWithUSDT(amount, reason) {
-    let billetera="";
+async function payWithUSDT(amount, reason, users_id,id) {
+    let billetera = "";
     if (!window.tronWeb || !window.tronWeb.defaultAddress.base58) {
-
         const address = tronLink.address;
         if (address && address.trim() !== "") {
-       
-            billetera=address;
-        }else{
+            billetera = address;
+        } else {
             console.log("Conéctate primero a la billetera");
+            return;
         }
-       
-    }else{
-        billetera= window.tronWeb.defaultAddress.base58;
+    } else {
+        billetera = window.tronWeb.defaultAddress.base58;
     }
 
- 
+    const tronWeb = window.tronWeb;
+    let sender = billetera ? billetera : null;
+    if (!sender) return console.error("No se pudo obtener la billetera");
 
-    const tronWeb = window.tronWeb; // TronWeb ya debe estar inyectado por TronLink
-    let sender=null;
-    if(billetera!=null){
-         sender = billetera;
-    }
-    console.log("billetera transaccion",sender);
-    
+    console.log("Billetera transacción:", sender);
 
     try {
         const usdtContract = await tronWeb.contract().at(USDT_CONTRACT);
         const contract = await tronWeb.contract().at(DEST_CONTRACT);
         const amountInSun = tronWeb.toSun(amount); // Convierte USDT a 6 decimales
 
-        // 1️⃣ Aprobar el gasto de USDT por parte de tu contrato
+        // 1️⃣ Aprobar el gasto de USDT
         let approveTx = await usdtContract.approve(DEST_CONTRACT, amountInSun).send({
             feeLimit: 100_000_000,
             from: sender
         });
 
-        console.log("Aprobación exitosa. Ahora enviando los fondos...");
+        console.log("Aprobación exitosa. TX:", approveTx);
 
-        // 2️⃣ Llamar a `receiveUSDT` con el monto y razón
-        let tx = await contract.receiveUSDT(amountInSun, reason).send({
+        // 2️⃣ Llamar a `receiveUSDT`
+        let tx = await contract.receiveUSDT(amountInSun, reason,users_id,id).send({
             feeLimit: 100_000_000,
             from: sender
         });
 
-        console.log("Pago exitoso. TX:", tx);
-        $("#alertaerror").addClass("d-none");
-        $("#alertacorrecto").removeClass("d-none").text("Correcto:"+" Transacción en proceso de verificación");
-        $("#hashid").removeClass("d-none").text("Hash "+tx);
-        
-       // alert("Pago realizado con éxito: " + tx);
-    } catch (error) {
+        console.log("Pago enviado. Esperando confirmación... TX:", tx);
+        const invoice = await generateInvoice(users_id, tx, reason, amount, "Pendiente");
+        let invoicevalue;
 
-        $("#alertaerror").removeClass("d-none").text("Error:"+error);
+        if (invoice) {
+            $("#alertaerror").addClass("d-none");
+            $("#alertacorrecto").removeClass("d-none").text("Transacción en proceso de verificación...");
+            $("#esperaconfirmacion").removeClass("d-none");
+            startCountdown(180);
+            $("#hashid").removeClass("d-none").text("Hash: " + tx);
+            invoicevalue=invoice.data;
+        } else {
+            console.log("⚠️ No se pudo generar la invoice.");
+            return false;
+        }
+
+        // 3️⃣ Esperar confirmación en la blockchain
+        let confirmed = false;
+        while (!confirmed) {
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Esperar 5 segundos
+
+            let txInfo = await tronWeb.trx.getTransactionInfo(tx);
+
+            if (txInfo && txInfo.receipt) {
+                console.log("🔍 Estado de la transacción:", txInfo.receipt.result);
+
+                if (txInfo.receipt.result === "SUCCESS") {
+                    confirmed = true;
+                    
+                    console.log("✅ Transacción confirmada:", txInfo);
+                    const invoicestatus = await   UpdateInvoiceStatus(invoicevalue,txInfo.receipt.result) 
+                    $("#alertacorrecto").text("Transacción confirmada correctamente.");
+                    $("#esperaconfirmacion").addClass("d-none");
+
+                    $("#actionfinal").removeClass("d-none").text("Fondos depositados Correctamente a su cuenta VITRIX");
+                    
+                } else if (txInfo.receipt.result === "REVERT" || txInfo.receipt.result === "FAILED") {
+                    console.error("❌ Transacción fallida:", txInfo);
+                    const invoicestatus = await   UpdateInvoiceStatus(invoicevalue,txInfo.receipt.result) 
+                    $("#alertaerror").removeClass("d-none").text("❌ Ocurrio un error.");
+                    $("#alertacorrecto").addClass("d-none");
+                    $("#esperaconfirmacion").addClass("d-none");
+                    $("#actionfinal").removeClass("d-none").text("Los fondos no fueron depositados");
+                    confirmed = true; // Salimos del bucle ya que falló
+                }
+            }
+        }
+    } catch (error) {
+        console.error("Error al pagar con USDT:", error);
+        $("#alertaerror").removeClass("d-none").text("Error: " + error);
         $("#alertacorrecto").addClass("d-none");
         $("#hashid").addClass("d-none");
-        console.error("Error al pagar con USDT:", error);
     }
 }
 function detectarDispositivo() {
     return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "movil" : "web";
 }
 
+
+
+
+async function UpdateInvoiceStatus(invoice,status) {
+    try {
+        const response = await fetch('/updateinvoicestatus', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                invoice_id: invoice,
+                status: status
+               
+            })
+        });
+
+        const data = await response.json(); // Convertimos la respuesta a JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al generar la invoice");
+        }
+
+        console.log("✅ Invoice generada:", data);
+        return data; // Retorna la respuesta para usarla en otro lado
+
+    } catch (error) {
+        console.error("❌ Error:", error);
+        return null; // Retorna null si hay error
+    }
+}
+async function generateInvoice(userId, hashId, reason, amount, status) {
+    try {
+        const response = await fetch('/generateinvoice', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                user_id: userId,
+                hash_id: hashId,
+                reason: reason,
+                amount: amount,
+                status: status
+            })
+        });
+
+        const data = await response.json(); // Convertimos la respuesta a JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al generar la invoice");
+        }
+
+        console.log("✅ Invoice generada:", data);
+        return data; // Retorna la respuesta para usarla en otro lado
+
+    } catch (error) {
+        console.error("❌ Error:", error);
+        return null; // Retorna null si hay error
+    }
+}
 async function obtenerBilletera() {
     try {
         // Si TronLink ya está disponible y la billetera está conectada
         if (window.tronWeb && window.tronWeb.defaultAddress.base58) {
-            document.getElementById("walletAddress").value  = window.tronWeb.defaultAddress.base58;
+            document.getElementById("walletAddress").value = window.tronWeb.defaultAddress.base58;
             document.getElementById("status").classList.remove("text-danger");
             document.getElementById("status").classList.add("text-success");
             document.getElementById("status").innerText = " Conectado";
             document.getElementById("methodspay").classList.remove("d-none");
-            
+
             return window.tronWeb.defaultAddress.base58;
 
         }
 
         // Si no hay billetera conectada, intentamos conectar manualmente
-      //  await tronLink.connect();
+        //  await tronLink.connect();
         const address = tronLink.address;
 
         if (address && address.trim() !== "") {
-            document.getElementById("walletAddress").value  =address;
+            document.getElementById("walletAddress").value = address;
             document.getElementById("status").classList.remove("text-danger");
             document.getElementById("status").classList.add("text-success");
             document.getElementById("status").innerText = " Conectado";
@@ -118,7 +236,7 @@ async function obtenerBilletera() {
             $("#walleterror").removeClass("d-none").text("El usuario rechazó la conexión a TronLink.");
             console.warn("El usuario rechazó la conexión a TronLink.");
         } else {
-             $("#walleterror").removeClass("d-none");
+            $("#walleterror").removeClass("d-none");
             console.error("Error al conectar con TronLink:", error);
         }
     }
@@ -129,8 +247,8 @@ async function obtenerBilletera() {
 document.addEventListener("DOMContentLoaded", async function () {
     const esMovil = detectarDispositivo() === "movil";
     const billetera = await obtenerBilletera();
-    console.log("esta respueta",billetera);
-    
+    console.log("esta respueta", billetera);
+
     if (billetera) {
         console.log("Billetera detectada:", billetera);
         return; // Si ya hay una billetera conectada, no mostramos botones ni deeplinks
@@ -147,7 +265,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const user = event.target.getAttribute("data-user");
             const id = event.target.getAttribute("data-id");
             const params = {
-                "url": dappUrl+action+"/"+user+"/"+id,
+                "url": dappUrl + action + "/" + user + "/" + id,
                 "action": "open",
                 "protocol": "tronlink",
                 "version": "1.0"
@@ -161,7 +279,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const action = event.target.getAttribute("data-action");
             const user = event.target.getAttribute("data-user");
             const id = event.target.getAttribute("data-id");
-            let newulr=dappUrl+action+"/"+user+"/"+id;
+            let newulr = dappUrl + action + "/" + user + "/" + id;
             const encodedUrl = "https://www.okx.com/download?deeplink=" + encodeURIComponent("okx://wallet/dapp/url?dappUrl=" + encodeURIComponent(newulr));
             window.location.href = encodedUrl;
 
@@ -171,7 +289,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const action = event.target.getAttribute("data-action");
             const user = event.target.getAttribute("data-user");
             const id = event.target.getAttribute("data-id");
-            let newulr=dappUrl+action+"/"+user+"/"+id;
+            let newulr = dappUrl + action + "/" + user + "/" + id;
             const deepLink = "tpdapp://open?params=" + encodeURIComponent(JSON.stringify({
                 "url": newulr,
                 "action": "open",
@@ -183,7 +301,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     } else {
         document.getElementById("computador").classList.remove("d-none");
 
-       
+
         const tronlinkButton = document.getElementById("tronlinkButton");
 
         tronlinkButton.addEventListener("click", async () => {
@@ -192,13 +310,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 if (!window.tronWeb || !window.tronWeb.defaultAddress) {
                     alert("Primero debes instalar la extensión de TronLink.");
                     return;
-                }else{
-                       await tronLink.connect();
+                } else {
+                    await tronLink.connect();
                     const address = tronLink.address;
 
                     if (address && address.trim() !== "") {
                         document.getElementById("walletAddress").innerText = "Conectado: " + address;
-                      
+
                     }
                 }
             } catch (error) {

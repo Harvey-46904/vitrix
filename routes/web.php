@@ -38,6 +38,10 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
 });
 
+Route::post('generateinvoice','CashController@GenerateInvoice')->name("GenerateInvoice");
+
+Route::post('updateinvoicestatus','CashController@UpdateInvoiceStatus')->name("UpdateInvoiceStatus");
+
 Route::get('payforms/{action}/{hash}/{id?}','CashController@payforms')->name("payforms");
 Route::post('webhookblockchain','CashController@PayBlockchains')->name("WebHookBlockchain");
 
