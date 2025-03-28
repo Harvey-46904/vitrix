@@ -4,6 +4,26 @@ use Illuminate\Support\Facades\Route;
 
 Route::impersonate();
 
+//enlaces
+Route::view('casino', 'theme::Accesorios.casino')->name('casino');
+Route::view('inversion', 'theme::Accesorios.inversion')->name('inversion');
+Route::view('referidos', 'theme::Accesorios.referidos')->name('referidos');
+
+Route::view('historia', 'theme::Accesorios.historia')->name('historia');
+Route::view('compañia', 'theme::Accesorios.compañia')->name('compañia');
+
+Route::view('ayuda', 'theme::Accesorios.ayuda')->name('ayuda');
+Route::view('noticias', 'theme::Accesorios.noticias')->name('noticias');
+Route::view('sitemap', 'theme::Accesorios.sitemap')->name('sitemap');
+
+Route::view('novedades', 'theme::Accesorios.novedades')->name('novedades');
+Route::view('patrocinadores', 'theme::Accesorios.patrocinadores')->name('patrocinadores');
+Route::view('correo', 'theme::Accesorios.correo')->name('correo');
+
+Route::view('privacidad', 'theme::Accesorios.privacidad')->name('privacidad');
+Route::view('renuncias', 'theme::Accesorios.renuncias')->name('renuncias');
+Route::view('terminos', 'theme::Accesorios.terminos')->name('terminos');
+//otrs
 Route::get('/', '\Wave\Http\Controllers\HomeController@index')->name('wave.home');
 Route::get('@{username}', '\Wave\Http\Controllers\ProfileController@index')->name('wave.profile');
 
@@ -105,24 +125,7 @@ Route::group(['middleware' => 'auth'], function(){
   
 
   //enlaces
-  Route::view('casino', 'theme::Accesorios.casino')->name('casino');
-  Route::view('inversion', 'theme::Accesorios.inversion')->name('inversion');
-  Route::view('referidos', 'theme::Accesorios.referidos')->name('referidos');
 
-  Route::view('historia', 'theme::Accesorios.historia')->name('historia');
-  Route::view('compañia', 'theme::Accesorios.compañia')->name('compañia');
-
-  Route::view('ayuda', 'theme::Accesorios.ayuda')->name('ayuda');
-  Route::view('noticias', 'theme::Accesorios.noticias')->name('noticias');
-  Route::view('sitemap', 'theme::Accesorios.sitemap')->name('sitemap');
-
-  Route::view('novedades', 'theme::Accesorios.novedades')->name('novedades');
-  Route::view('patrocinadores', 'theme::Accesorios.patrocinadores')->name('patrocinadores');
-  Route::view('correo', 'theme::Accesorios.correo')->name('correo');
-
-  Route::view('privacidad', 'theme::Accesorios.privacidad')->name('privacidad');
-  Route::view('renuncias', 'theme::Accesorios.renuncias')->name('renuncias');
-  Route::view('terminos', 'theme::Accesorios.terminos')->name('terminos');
 
   Route::get('desafio/{id}', 'GamesController@desafio')->name('desafio');
   Route::get('desafio/{action}/{id}', 'GamesController@actiondesafio')->name('actiondesafio');

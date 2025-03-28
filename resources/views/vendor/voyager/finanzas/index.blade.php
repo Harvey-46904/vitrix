@@ -102,73 +102,145 @@
         <div class="row  justify-content-center px-5">
             <div class="col-md-3 col-6">
                 <div class="border p-3">
-                    <i class="fas fa-sign-in-alt fa-2x text-primary"></i>
-                    <h5 class="mt-2">Ingresos</h5>
-                    <p class="font-weight-bold">$10,000</p>
+                  
+                    <i class="fas fa-money-check-alt fa-2x text-success"></i>
+                    <h5 class="mt-2">Ganancias</h5>
+                    <p class="font-weight-bold">  {{ $informacion_estadistica['juegos']['ganancia_genius']->ganancia +$informacion_estadistica['juegos']['ganancia_nebula'] }} USDT</p>
                 </div>
             </div>
             <!-- Salidas -->
             <div class="col-md-3 col-6">
                 <div class="border p-3">
-                    <i class="fas fa-sign-out-alt fa-2x text-danger"></i>
+                    <i class="fas fa-money-check-alt fa-2x text-danger"></i>
                     <h5 class="mt-2">Apuestas</h5>
-                    <p class="font-weight-bold">$5,000</p>
+                    <p class="font-weight-bold">{{ $informacion_estadistica['juegos']['total_apostado']->total_apostado }} USD</p>
                 </div>
             </div>
             <!-- Balance -->
             <div class="col-md-3 col-6">
                 <div class="border p-3">
-                    <i class="fas fa-balance-scale fa-2x text-success"></i>
-                    <h5 class="mt-2">Pagos</h5>
-                    <p class="font-weight-bold">$5,000</p>
+                    <i class="fas fa-money-check-alt fa-2x text-success"></i>
+                    <h5 class="mt-2">Pagos Recibidos</h5>
+                    <p class="font-weight-bold">{{array_sum($informacion_estadistica['pagos']['chartData']["data"] ) }} USDT</p>
                 </div>
             </div>
             <!-- Transacciones -->
             <div class="col-md-3 col-6">
                 <div class="border p-3">
                     <i class="fas fa-exchange-alt fa-2x text-warning"></i>
-                    <h5 class="mt-2">Saldo</h5>
-                    <p class="font-weight-bold">45</p>
+                    <h5 class="mt-2">Retiros Solicitados</h5>
+                    <p class="font-weight-bold">{{ $informacion_estadistica['retiros']['resumen']->total_monto }} USDT</p>
                 </div>
             </div>
         </div>
 
+        <h1>Jugadores</h1>
         <div class="row">
-            <div class="col-md-6">
-                <h1>IBOX</h1>
-                <label>Ibox mas comprado</label>
-                <ul class="list-group">
-                    <li class="list-group-item">Cras justo odio</li>
-                </ul>
+            
+            <div class="col-md-12">
+                <label> Estadísticas de Juegos</label>
+                <canvas id="usuariosChart"></canvas>
+
             </div>
+        </div>
+        <h1>Ganancias juegos</h1>
+        <div class="row  justify-content-center px-5">
+            <div class="col-md-3 col-6">
+                <div class="border p-3">
+                    <i class="fas fa-hat-wizard fa-2x text-primary"></i>
+                    <h5 class="mt-2">GENIUS</h5>
+                    <p class="font-weight-bold">{{ $informacion_estadistica['juegos']['ganancia_genius']->ganancia }}
+                        USDT</p>
+                </div>
+            </div>
+          
+            <!-- Salidas -->
+            <div class="col-md-3 col-6">
+                <div class="border p-3">
+                    <i class="fab fa-avianex fa-2x text-danger"></i>
+                    <h5 class="mt-2">NEBULA</h5>
+                    <p class="font-weight-bold">{{ $informacion_estadistica['juegos']['ganancia_nebula'] }} USDT</p>
+                </div>
+            </div>
+            <!-- Balance -->
+            <div class="col-md-3 col-6">
+                <div class="border p-3">
+                    <i class="fas fa-car fa-2x text-success"></i>
+                    <h5 class="mt-2">CARS</h5>
+                    <p class="font-weight-bold">No disponible</p>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="row">
+
             <div class="col-md-6">
-                <h1>INVERSION</h1>
+                <h1>Inversión</h1>
                 <label>inversión mas comprada</label>
                 <ul class="list-group">
-                    <li class="list-group-item">Cras justo odio</li>
-                </ul>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-6">
-                <label>Estadísticas de Jugadores</label>
-                <ul class="list-group">
-                    <li class="list-group-item">Cras justo odio</li>
-                    <li class="list-group-item">Dapibus ac facilisis in</li>
-                    <li class="list-group-item">Morbi leo risus</li>
-                    <li class="list-group-item">Porta ac consectetur ac</li>
-                    <li class="list-group-item">Vestibulum at eros</li>
+                    <li class="list-group-item">
+                        {{ $informacion_estadistica['inversiones']['maxpaquete']->paquete_nombre }}
+                    </li>
                 </ul>
             </div>
             <div class="col-md-6">
-                <label> Estadísticas de Juegos</label>
-    
+
+                <canvas id="miGrafico" width="400" height="200"></canvas>
             </div>
         </div>
+       
         <div class="row">
             <div class="col-md-12">
+                <h1>Entrada de pagos</h1>
+                <div class="row  justify-content-center px-5">
+                    <div class="col-md-6"> <canvas id="miGraficoDona"></canvas></div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12 col-12">
+                                <div class="border p-3">
+                                    <i class="fas fa-sign-in-alt fa-2x text-primary"></i>
+                                    <h5 class="mt-2">Depositos</h5>
+                                    <p class="font-weight-bold">
+                                        Total de transacciones {{
+                                        $informacion_estadistica["pagos"]['pagos_agrupado'][0]->total_transacciones }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Salidas -->
+                            <div class="col-md-12 col-12">
+                                <div class="border p-3">
+                                    <i class="fas fa-sign-out-alt fa-2x text-danger"></i>
+                                    <h5 class="mt-2">Ibox</h5>
+                                    <p class="font-weight-bold">
+                                        Total de transacciones {{
+                                        $informacion_estadistica["pagos"]['pagos_agrupado'][1]->total_transacciones }}
+                                    </p>
+                                </div>
+                            </div>
+                            <!-- Balance -->
+                            <div class="col-md-12 col-12">
+                                <div class="border p-3">
+                                    <i class="fas fa-balance-scale fa-2x text-success"></i>
+                                    <h5 class="mt-2">Inversiones</h5>
+                                    <p class="font-weight-bold">
+                                        Total de transacciones {{
+                                        $informacion_estadistica["pagos"]['pagos_agrupado'][2]->total_transacciones }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
                 <label> Transacciones & Finanzas</label>
-    
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -179,63 +251,164 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($pagos as $pago)
-                            <tr>
-                                <th scope="row">{{$pago->reason}}</th>
-                                <td>{{$pago->amount}}</td>
-                                <td>{{$pago->transaction_hash}}</td>
-                                <td>{{$pago->created_at}}</td>
-                            </tr>
-                        
+                        @foreach ($informacion_estadistica['pagos']['pagos'] as $pago)
+                        <tr>
+                            <th scope="row">{{$pago->reason}}</th>
+                            <td>{{$pago->amount}}</td>
+                            <td>{{$pago->transaction_hash}}</td>
+                            <td>{{$pago->created_at}}</td>
+                        </tr>
+
                         @endforeach
-                        
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <h1>Retiros</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <label>Total de retiros</label>
+                <h3> {{ $informacion_estadistica['retiros']['resumen']->total_retiros }}</h3>
+            </div>
+            <div class="col-md-6">
+                <label>Monto de retiros</label>
+                <h3> {{ $informacion_estadistica['retiros']['resumen']->total_monto }} USDT</h3>
+            </div>
+            <div class="col-md-12">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+
+                            <th scope="col">Wallet</th>
+                            <th scope="col">Monto</th>
+                            <th scope="col">Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($informacion_estadistica['retiros']['listaRetiros'] as $pago)
+                        <tr>
+                            <td>{{$pago->billetera}}</td>
+                            <td>{{$pago->monto}} USDT</td>
+                            <td>{{$pago->estado}}</td>
+                        </tr>
+
+                        @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
-                <label> Alertas y Seguridad</label>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <td>Larry</td>
-                            <td>the Bird</td>
-                            <td>@twitter</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="col-md-6">
+                <h3>Intentos de fraudes</h3>
+            </div>
+            <div class="col-md-6">
+
+                <h3> {{ $informacion_estadistica['fraudes']['valor']->total_fraudes }}</h3>
             </div>
         </div>
     </div>
     @else
-        <h1>Consulte un rango de fecha para poder visualizar la información</h1>
+    <h1>Consulte un rango de fecha para poder visualizar la información</h1>
     @endif
-  
-    
+
+
 </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    var chartData = @json($informacion_estadistica['inversiones']['chartData']);
+    var chartDatadona = @json($informacion_estadistica['pagos']['chartData']);
+    var chartDataline = @json($informacion_estadistica['usuarios']['chatusers']);
+</script>
+<script>
+    const ctx = document.getElementById('miGrafico').getContext('2d');
 
+    const miGrafico = new Chart(ctx, {
+        type: 'bar', // Tipo de gráfico (puedes usar 'line', 'pie', etc.)
+        data: {
+            labels: chartData.labels, // Etiquetas
+            datasets: [{
+                label: 'Paquetes comprados por usuarios',
+                data: chartData.data, // Datos de cada mes
+                backgroundColor: 'rgba(86,71,135,0.7)', // Color de las barras
+                borderColor: 'rgba(75, 192, 192, 1)', // Color del borde
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    const ctx1 = document.getElementById('miGraficoDona').getContext('2d');
+
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: chartDatadona.labels, // Etiquetas dinámicas
+            datasets: [{
+                label: 'Entrada USDT',
+                data: chartDatadona.data, // Valores dinámicos
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.7)',
+                    'rgba(54, 162, 235, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+  const ctx2 = document.getElementById('usuariosChart').getContext('2d');
+
+const usuariosChart = new Chart(ctx2, {
+    type: 'line',
+    data: {
+        labels: chartDataline.labels, // Fechas
+        datasets: [{
+            label: 'Usuarios Nuevos por Día',
+            data:chartDataline.data, // Cantidad de usuarios
+            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.3 // Suaviza las líneas
+        }]
+    },
+    options: {
+        responsive: true,
+        scales: {
+            x: { title: { display: true, text: 'Fecha' } },
+            y: { title: { display: true, text: 'Usuarios Nuevos' }, beginAtZero: true }
+        }
+    }
+});
+</script>
 @endsection
