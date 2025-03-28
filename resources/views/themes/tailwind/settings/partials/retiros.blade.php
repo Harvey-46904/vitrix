@@ -36,6 +36,9 @@
     </div>
     <div class="row mt-5 justify-content-center">
         <div class="col-md-9 neon-shadow">
+            <div class="alert alert-info my-2" role="alert">
+                Recuerde que manejamos un feed de <b>{{$valor}}%</b> por cada retiro.
+              </div>
             <form class="text-light p-3" action="{{route('RetirosVitrix')}}" method="POST">
                 @csrf
                 <div class="form-group">

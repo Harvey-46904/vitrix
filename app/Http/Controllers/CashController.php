@@ -224,10 +224,18 @@ class CashController extends Controller
             "referidos" => auth()->user()?->balance_ibox?->balance ?? 0,
             "cards"     => auth()->user()?->balance_card?->balance ?? 0,
         ];
+
+        $nivel = DB::table("configuraciones")->select('parametros')
+            ->whereIn('nombre', ["feeds"])
+            ->get()
+            ->first();
+
+        $nivel = json_decode($nivel->parametros);
+        $valor = $nivel->parametros;
         // return response(["data"=>$arbol]);
         $section = "retiros";
         // return response(["data"=>$mispaquetes]);
-        return view('theme::settings.index', compact('section', 'balances'));
+        return view('theme::settings.index', compact('section', 'balances',"valor"));
     }
 
     public function SendInversionToEfectivo($id)
