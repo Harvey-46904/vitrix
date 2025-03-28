@@ -36,6 +36,8 @@ Route::group(['prefix' => 'admin'], function () {
     
     Route::get('finanzas','ConfiguracionesController@finanzas')->name("IndexFinanzas");
     Route::get('pagarrentabilidad','InversionesPaquete@RentabilidadDiaria')->name("Rentabilidad");
+
+    Route::get('pagares','CashController@pagare')->name("pagare");
 });
 
 Route::post('generateinvoice','CashController@GenerateInvoice')->name("GenerateInvoice");

@@ -15,4 +15,15 @@ class Retiro extends Model
     {
         return $this->belongsTo(User::class);
     }
+        // Formatear antes de guardar en la base de datos
+        public function setMontoAttribute($value)
+        {
+            $this->attributes['monto'] = number_format($value, 2, '.', '');
+        }
+    
+        // Formatear al recuperar
+        public function getMontoAttribute($value)
+        {
+            return number_format($value, 2, '.', '');
+        }
 }

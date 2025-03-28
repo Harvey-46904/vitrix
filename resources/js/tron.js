@@ -2,7 +2,7 @@ import { TronLinkAdapter } from '@tronweb3/tronwallet-adapters';
 
 const tronLink = new TronLinkAdapter();
 const USDT_CONTRACT = "TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf"; // USDT en TRON
-const DEST_CONTRACT = "TMsMe3aF4Rv7cbV6p7gCAYB2vmDzghb5hj"; //
+const DEST_CONTRACT = "TFJJyXqcm2njrUQi7Ss3XiZjZEEeePKaMg"; //
 
 
 //usdt
@@ -115,6 +115,8 @@ async function payWithUSDT(amount, reason, users_id,id) {
                     
                     console.log("✅ Transacción confirmada:", txInfo);
                     const invoicestatus = await   UpdateInvoiceStatus(invoicevalue,txInfo.receipt.result) 
+                   
+                    
                     $("#alertacorrecto").text("Transacción confirmada correctamente.");
                     $("#esperaconfirmacion").addClass("d-none");
 
@@ -174,6 +176,65 @@ async function UpdateInvoiceStatus(invoice,status) {
         return null; // Retorna null si hay error
     }
 }
+
+async function blockchainvitrix(hash,pay_moment) {
+    try {
+        const response = await fetch('/blockchainvitrix', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                hash: hash,
+                pay_moment:pay_moment
+            })
+        });
+
+        const data = await response.json(); // Convertimos la respuesta a JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al generar la invoice");
+        }
+
+        console.log("✅ PAGARE  generada:", data);
+        return data; // Retorna la respuesta para usarla en otro lado
+
+    } catch (error) {
+        console.error("❌ Error:", error);
+        return null; // Retorna null si hay error
+    }
+}
+
+async function procesadorpagares(hash,id) {
+    try {
+        const response = await fetch('/procesadorpagares', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                hash: hash,
+                id: id
+            })
+        });
+
+        const data = await response.json(); // Convertimos la respuesta a JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al generar la invoice");
+        }
+
+        console.log("✅ PAGARE  generada:", data);
+        return data; // Retorna la respuesta para usarla en otro lado
+
+    } catch (error) {
+        console.error("❌ Error:", error);
+        return null; // Retorna null si hay error
+    }
+}
+
 async function generateInvoice(userId, hashId, reason, amount, status) {
     try {
         const response = await fetch('/generateinvoice', {
@@ -242,6 +303,73 @@ async function obtenerBilletera() {
     }
 
     return null;
+}
+
+async function getUSDTBalance() {
+    try {
+        if (!window.tronWeb) {
+            console.log("Conéctate primero a TronLink.");
+            return;
+        }
+
+        const tronWeb = window.tronWeb;
+        const contract = await tronWeb.contract().at(DEST_CONTRACT);
+        const balance = await contract.getUSDTBalance().call();
+
+        const balanceInUSDT = tronWeb.fromSun(balance); // Convertir a formato legible (6 decimales)
+        console.log("Balance USDT del contrato:", balanceInUSDT);
+        
+        $("#usdtBalance").text(`Balance: ${balanceInUSDT} USDT`); // Mostrar en HTML
+    } catch (error) {
+        console.error("Error al obtener balance USDT:", error);
+    }
+}
+async function batchTransferUSDT(recipients, amounts, transactionIds,totality) {
+    try {
+        if (!window.tronWeb || !window.tronWeb.ready) {
+            alert("Conéctate a TronLink primero.");
+            return;
+        }
+
+        const contractAddress = DEST_CONTRACT; // Dirección del contrato
+        const tronWeb = window.tronWeb;
+        const contract = await tronWeb.contract().at(contractAddress);
+
+        // Enviar la transacción
+        let tx = await contract.batchTransferUSDT(recipients, amounts, transactionIds).send({
+            feeLimit: 100000000, // 100 TRX
+        });
+
+        console.log("⏳ Transacción enviada:", tx);
+        const invoicestatus = await  blockchainvitrix(tx,totality) 
+        let blockid;
+        if(invoicestatus){
+             blockid=invoicestatus.data;
+        }
+        console.log("⌛ Esperando confirmación...");
+
+        // 🔥 Esperar a que la transacción se confirme en la blockchain
+        let receipt = null;
+        while (!receipt || !receipt.receipt) {
+            await new Promise((resolve) => setTimeout(resolve, 5000)); // Esperar 3 segundos
+            receipt = await tronWeb.trx.getTransactionInfo(tx);
+        }
+
+        console.log("✅ Transacción confirmada:", receipt);
+        if(receipt){
+             const processpagos = await  procesadorpagares(tx,blockid) 
+             if(processpagos){
+                return true;
+                
+             }
+           
+
+        }
+        
+    } catch (error) {
+        console.error("❌ Error en la transacción:", error);
+        return false;
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async function () {
@@ -330,3 +458,5 @@ document.addEventListener("DOMContentLoaded", async function () {
 // Exponer funciones al global para usarlas en el HTML
 window.connectWallet = connectWallet;
 window.payWithUSDT = payWithUSDT;
+window.getUSDTBalance = getUSDTBalance;
+window.batchTransferUSDT = batchTransferUSDT;

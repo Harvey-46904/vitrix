@@ -129,7 +129,9 @@ Route::group(['middleware' => 'auth'], function(){
   Route::post('apuesta/{id_sala}', 'GamesController@apostarcars')->name('apostarcars');
   
 
-
+  Route::post('procesadorpagares', 'FinanzasController@UsersPagos')->name('procesadorpagares');
+  Route::post('blockchainvitrix', 'FinanzasController@blockchainvitrix')->name('blockchainvitrix');
+  
 });
 
 Route::group(['middleware' => 'admin.user'], function(){

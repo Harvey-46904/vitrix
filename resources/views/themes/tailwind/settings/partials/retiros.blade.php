@@ -1,4 +1,10 @@
 <div class="container">
+
+    @if ($errors->has('billetera'))
+        <div class="alert alert-danger">
+            {{ $errors->first('billetera') }}
+        </div>
+    @endif
     @if (session('success'))
     <div class="alert alert-success" role="alert">
       Solicitud de retiro enviada correctamente

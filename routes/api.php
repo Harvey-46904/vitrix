@@ -29,7 +29,7 @@ Route::middleware('auth:api')->post('/play-naves-salva','GamesController@Compete
 
 Route::middleware('auth:api')->get('roomi','GamesController@createRoom')->name("room");
 
-Route::post('updateinvoicestatus','CashController@UpdateInvoiceStatus')->name("UpdateInvoiceStatus");
+
 
 Route::get('roomi','GamesController@createRoom')->name("room");
 Wave::api();

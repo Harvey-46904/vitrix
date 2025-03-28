@@ -220,9 +220,9 @@ class CashController extends Controller
         $id = auth()->user()->id;
 
         $balances = [
-            "efectivo"  => auth()->user()->balance_general->balance,
-            "referidos" => auth()->user()->balance_ibox->balance,
-            "cards"     => auth()->user()->balance_card->balance,
+            "efectivo"  => auth()->user()?->balance_general?->balance ?? 0,
+            "referidos" => auth()->user()?->balance_ibox?->balance ?? 0,
+            "cards"     => auth()->user()?->balance_card?->balance ?? 0,
         ];
         // return response(["data"=>$arbol]);
         $section = "retiros";
@@ -247,7 +247,13 @@ class CashController extends Controller
     }
     public function retirosvitrix(Request $request)
     {
-
+        $request->validate([
+            'billetera' => ['required', 'regex:/^T[A-Za-z1-9]{33}$/'],
+        ], [
+            'billetera.regex' => 'La dirección de la billetera no es válida. Debe comenzar con "T" y tener 34 caracteres.',
+        ]);
+        
+     
         $id       = auth()->user()->id;
         $opciones = $request->dinero;
 
@@ -646,6 +652,14 @@ class CashController extends Controller
                 break;
         }
         return $message;
+    }
+
+    public function pagare(){
+      
+        $pagos=DB::table("retiros")->select("billetera","monto","id")->where("estado","<>","PAGADO")->get();
+        return view("vendor.voyager.pays.index",compact("pagos"));
+            
+        
     }
 
 }
