@@ -198,35 +198,33 @@
                     <div class="col-md-6"> <canvas id="miGraficoDona"></canvas></div>
                     <div class="col-md-6">
                         <div class="row">
+                            <!-- Depositos -->
                             <div class="col-md-12 col-12">
                                 <div class="border p-3">
                                     <i class="fas fa-sign-in-alt fa-2x text-primary"></i>
                                     <h5 class="mt-2">Depositos</h5>
                                     <p class="font-weight-bold">
-                                        Total de transacciones {{
-                                        $informacion_estadistica["pagos"]['pagos_agrupado'][0]->total_transacciones }}
+                                        Total de transacciones {{ $informacion_estadistica["pagos"]['pagos_agrupado'][0]->total_transacciones ?? 0 }}
                                     </p>
                                 </div>
                             </div>
-                            <!-- Salidas -->
+                            <!-- Ibox -->
                             <div class="col-md-12 col-12">
                                 <div class="border p-3">
                                     <i class="fas fa-sign-out-alt fa-2x text-danger"></i>
                                     <h5 class="mt-2">Ibox</h5>
                                     <p class="font-weight-bold">
-                                        Total de transacciones {{
-                                        $informacion_estadistica["pagos"]['pagos_agrupado'][1]->total_transacciones }}
+                                        Total de transacciones {{ $informacion_estadistica["pagos"]['pagos_agrupado'][1]->total_transacciones ?? 0 }}
                                     </p>
                                 </div>
                             </div>
-                            <!-- Balance -->
+                            <!-- Inversiones -->
                             <div class="col-md-12 col-12">
                                 <div class="border p-3">
                                     <i class="fas fa-balance-scale fa-2x text-success"></i>
                                     <h5 class="mt-2">Inversiones</h5>
                                     <p class="font-weight-bold">
-                                        Total de transacciones {{
-                                        $informacion_estadistica["pagos"]['pagos_agrupado'][2]->total_transacciones }}
+                                        Total de transacciones {{ $informacion_estadistica["pagos"]['pagos_agrupado'][2]->total_transacciones ?? 0 }}
                                     </p>
                                 </div>
                             </div>
