@@ -60,10 +60,27 @@ class ConfiguracionesController extends Controller
         return response(["data"=>"bonos"]);
     }
 
-    public function finanzas(){
-        return view("vendor.voyager.finanzas.index");
+
+    public function finanzas(Request $request)
+    {
+        $estadistica=false;
+
+    // Verificar si hay fechas en la solicitud
+    if ($request->has(['start_date', 'end_date'])) {
+        $estadistica=true;
+        $pagos = DB::table("pagos")->whereBetween('created_at', [$request->start_date, $request->end_date])->get();
+
+        return view("vendor.voyager.finanzas.index",compact("estadistica","pagos"));
+    }else{
+        return view("vendor.voyager.finanzas.index",compact("estadistica"));
+        return response(["no data"]);
     }
 
+  
+  
+   
+    }   
+  
     public function indexfeeds(){
 
         $nivel=DB::table("configuraciones")->select('parametros')

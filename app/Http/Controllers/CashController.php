@@ -611,7 +611,7 @@ class CashController extends Controller
 
                 $id_inversion = $id_meta;
 
-                $userId = auth()->user()->id;
+              
                 //primero pagamos a referidos
                 self::PagosReferidos($userId, $amount, "referidos");
                 //ahora creamos su paquete en la tabla

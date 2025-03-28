@@ -219,8 +219,11 @@ class GamesController extends Controller
         $multiplos          = $arrayDesencriptado["multiplos"];
         $multiplos          = self::descifrarMultiplicador($multiplos);
         if ($multiplos >= $multiplicador) {
-            Apuesta::where('id', $idapuesta)->update(['win_amount' => $ganancia, 'outcome' => "Ganadora"]);
-            $this->cashService->AddMoneyBalance($userId, $ganancia, "Ganancia Genius");
+            if($ganancia>0){
+                Apuesta::where('id', $idapuesta)->update(['win_amount' => $ganancia, 'outcome' => "Ganadora"]);
+                $this->cashService->AddMoneyBalance($userId, $ganancia, "Ganancia Genius");
+            }
+          
         } else {
             IntentoFraude::create([
                 'usuario_id'     => $userId,
