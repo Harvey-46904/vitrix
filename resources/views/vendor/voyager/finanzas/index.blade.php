@@ -318,6 +318,7 @@
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@if ($informacion_estadistica)
 <script>
     var chartData = @json($informacion_estadistica['inversiones']['chartData']);
     var chartDatadona = @json($informacion_estadistica['pagos']['chartData']);
@@ -386,29 +387,31 @@
 </script>
 
 <script>
-  const ctx2 = document.getElementById('usuariosChart').getContext('2d');
+const ctx2 = document.getElementById('usuariosChart').getContext('2d');
 
-const usuariosChart = new Chart(ctx2, {
-    type: 'line',
-    data: {
-        labels: chartDataline.labels, // Fechas
-        datasets: [{
-            label: 'Usuarios Nuevos por Día',
-            data:chartDataline.data, // Cantidad de usuarios
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            borderWidth: 2,
-            fill: true,
-            tension: 0.3 // Suaviza las líneas
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            x: { title: { display: true, text: 'Fecha' } },
-            y: { title: { display: true, text: 'Usuarios Nuevos' }, beginAtZero: true }
+    const usuariosChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: chartDataline.labels, // Fechas
+            datasets: [{
+                label: 'Usuarios Nuevos por Día',
+                data:chartDataline.data, // Cantidad de usuarios
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderWidth: 2,
+                fill: true,
+                tension: 0.3 // Suaviza las líneas
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: { title: { display: true, text: 'Fecha' } },
+                y: { title: { display: true, text: 'Usuarios Nuevos' }, beginAtZero: true }
+            }
         }
-    }
-});
+    });
 </script>
+@endif
+   
 @endsection
