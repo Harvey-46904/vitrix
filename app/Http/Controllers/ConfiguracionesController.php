@@ -196,7 +196,7 @@ class ConfiguracionesController extends Controller
                     ]
             ];
 
-           // return response(["data" => $informacion_estadistica]);
+           return response(["data" => $informacion_estadistica]);
             return view("vendor.voyager.finanzas.index", compact("estadistica", "informacion_estadistica"));
         } else {
             return view("vendor.voyager.finanzas.index", compact("estadistica"));
