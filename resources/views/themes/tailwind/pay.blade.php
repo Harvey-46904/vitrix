@@ -1,8 +1,8 @@
 @extends('theme::layouts.app')
 
 @section('content')
-<div id="loader">Cargando...</div>
-<div class="pt-20 mx-auto prose text-center max-w-7xl" id="contenido" style="display: none;">
+
+<div class="pt-20 mx-auto prose text-center max-w-7xl" >
 	<div class="container text-light  ">
 		<div class="row justify-content-center my-5 ">
 
@@ -254,13 +254,7 @@
 </div>
 
 
-<script>
-	// Cuando se cargue toda la página, oculta el loader y muestra el contenido
-	window.onload = function() {
-		document.getElementById("loader").style.display = "none";
-		document.getElementById("contenido").style.display = "block";
-	};
-</script>
+
 <script>
 	function checkMinValue(input) {
     if (input.value < 1) {
