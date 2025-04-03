@@ -252,6 +252,15 @@
 	</div>
 
 </div>
+
+
+<script>
+	// Cuando se cargue toda la página, oculta el loader y muestra el contenido
+	window.onload = function() {
+		document.getElementById("loader").style.display = "none";
+		document.getElementById("contenido").style.display = "block";
+	};
+</script>
 <script>
 	function checkMinValue(input) {
     if (input.value < 1) {
