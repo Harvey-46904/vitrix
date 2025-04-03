@@ -138,7 +138,15 @@ class CashController extends Controller
 
             // return response(["data"=>"alteracion"]);
             $this->cashService->AddMoneyBalance($userId, -$precio_compra, 'Descuento Compra Inversion con Balance');
-
+            DB::table('pagos')->insert([
+                'sender'           => "Balance",
+                'amount'           => $precio_compra,
+                'reason'           => "inversion",
+                'transaction_hash' => "No hash",
+                'user_id'          => $userId,
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
             return response(["data" => "Compra Realizada"]);
         } else {
             return response(["data" => "alteracion"]);

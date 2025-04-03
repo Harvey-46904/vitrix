@@ -70,7 +70,10 @@ class ConfiguracionesController extends Controller
         // Verificar si hay fechas en la solicitud
         if ($request->has(['start_date', 'end_date'])) {
             $estadistica = true;
-
+            //total del casino
+            //$totalBalance = DB::table('user_balances')->sum('balance');
+            $totalBalance = \App\Models\UserBalance::all()->sum('balance');
+          
             ///MAXIMA INVERSION
             $paquetes = DB::table('user_paquetes')
                 ->select('paquete_nombre', DB::raw('COUNT(id_inversion) as total'))
@@ -84,6 +87,18 @@ class ConfiguracionesController extends Controller
             $labels = $paquetes->pluck('paquete_nombre'); // Extrae nombres de paquetes
             $data   = $paquetes->pluck('total');          // Extrae totales
 
+
+            $paquetes_comprados_inversion = DB::table('user_paquetes')
+            ->join('inversiones', 'user_paquetes.id_inversion', '=', 'inversiones.id')
+            ->selectRaw('
+                inversiones.nombre,
+                COUNT(user_paquetes.id) as cantidad,
+                COUNT(user_paquetes.id) * inversiones.precio_base as recolectado
+            ')
+            ->groupBy('user_paquetes.id_inversion', 'inversiones.nombre', 'inversiones.precio_base')
+            ->whereBetween('user_paquetes.created_at', [$request->start_date, $request->end_date])
+            ->get();
+            
             ///PAGOS
             $pagos = DB::table("pagos")
             ->select("amount", "reason", "transaction_hash", "created_at")
@@ -165,12 +180,14 @@ class ConfiguracionesController extends Controller
         
        
             $informacion_estadistica = [
+                "balancetotal"=>$totalBalance,
                 "juegos"      => [
                     "total_apostado"=>$total_apostado,
                     "ganancia_genius" => $ganancia_genius,
                     "ganancia_nebula" => $ganancia_nebula,
                 ],
                 "inversiones" => [
+                    "paquetes_comprados"=>$paquetes_comprados_inversion,
                     "maxpaquete" => $paqueteMasRepetido,
                     "chartData"  => [
                         "labels" => $labels,

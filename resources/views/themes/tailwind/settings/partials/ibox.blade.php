@@ -33,7 +33,7 @@
 					
 					<a  
 					data-balances={{route('cashbalanceIboxBalance', ['id' => $ibox->id]) }}
-					data-url="{{ route('payforms', ['action' => 'ibox', 'hash' => encrypt(Auth::id()),'id'=> $ibox->id])  }}"
+					data-url="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}"
 					data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
 					data-precio="{{ $ibox->precio_compra }}"
 					data-id="{{$ibox->id}}"

@@ -100,6 +100,16 @@
     @if ($estadistica)
     <div class="container">
         <div class="row  justify-content-center px-5">
+            <h1>Cash Vitrix</h1>
+            <div class="col-md-12 col-12">
+                <div class="border p-3">
+                  
+                    <i class="fas fa-money-check-alt fa-2x text-success"></i>
+                    <h5 class="mt-2">Dinero Total de usuarios</h5>
+                    <h4 class="mt-2">Tenga en cuenta que este es el dinero total de balance de todos los usuarios sin importar el rango de fecha</h4>
+                    <p class="font-weight-bold">  {{ $informacion_estadistica['balancetotal'] }} USDT</p>
+                </div>
+            </div>
             <div class="col-md-3 col-6">
                 <div class="border p-3">
                   
@@ -138,7 +148,7 @@
         <div class="row">
             
             <div class="col-md-12">
-                <label> Estadísticas de Juegos</label>
+                <label> Estadísticas de jugadores nuevos</label>
                 <canvas id="usuariosChart"></canvas>
 
             </div>
@@ -188,6 +198,14 @@
             <div class="col-md-6">
 
                 <canvas id="miGrafico" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-group">
+                    @foreach ( $informacion_estadistica['inversiones']['paquetes_comprados'] as $item)
+                        <li class="list-group-item"> <b>Paquete:</b> {{$item->nombre}} <b>Cantidad comprada de este paquete por usuarios:</b> {{$item->cantidad}} <b>Estas compras recolectaron un total de </b> {{$item->recolectado}} USDT para ser trabajados</li>
+                    @endforeach
+                    
+                  </ul>
             </div>
         </div>
        

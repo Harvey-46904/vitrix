@@ -26,4 +26,9 @@ class Retiro extends Model
         {
             return number_format($value, 2, '.', '');
         }
+
+        public function scopeRetirosPendientes($query)
+        {
+            return $query->where('estado',"<>", "PAGADO");
+        }
 }

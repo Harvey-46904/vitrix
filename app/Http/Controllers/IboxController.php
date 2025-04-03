@@ -39,6 +39,15 @@ class IboxController extends Controller
            // return response(["data"=>"alteracion"]);
             $amount=$compra_ibox->beneficio;
             $this->cashService->AddMoneyBalance($userId,-$precio_compra,'Descuento compra Ibox');
+            DB::table('pagos')->insert([
+                'sender'           => "Balance",
+                'amount'           => $precio_compra,
+                'reason'           => "ibox",
+                'transaction_hash' => "No hash",
+                'user_id'          => $userId,
+                'created_at'       => now(),
+                'updated_at'       => now(),
+            ]);
             $this->cashService->AddMoneyCards($userId, $amount,'Compra Ibox con Balance');
             return response(["data"=>"Compra Realizada"]);
         }else{

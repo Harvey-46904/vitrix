@@ -53,7 +53,7 @@
                                                 <a class="card-link btn  btn-primary" onClick="calcular({{$product}})">Calculadora</a>
                                                 <a 
                                                 data-balances={{route('cashbalanceInversionBalance', ['id' => $product->id]) }}
-                                                data-url="{{ route('payforms', ['action' => 'inversion', 'hash' => encrypt(Auth::id()),'id'=> $product->id])}}"
+                                                data-url="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}"
                                                 data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
                                                 data-precio="{{ $product->precio_base }}"
                                                 data-id="{{$product->id}}"

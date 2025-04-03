@@ -27,7 +27,7 @@ trait Listnave
     // Ordenar en PHP después de descifrar
     $naveeventos = $naveeventos->sortByDesc(function ($evento) {
         return (int) $evento->puntuacion; // Asegurar que es un número
-    })->values()->take(5);; // Reindexar el array
+    })->values()->take(5); // Reindexar el array
         //return response(["hola"=>$naveeventos]);
     
         $nave=[
