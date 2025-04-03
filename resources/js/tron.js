@@ -45,7 +45,7 @@ async function connectWallet() {
     }
 }
 // Función para pagar con USDT al contrato inteligente
-async function payWithUSDT(amount, reason, users_id,id) {
+async function payWithUSDT(amount, reason, users_id, id) {
     let billetera = "";
     if (!window.tronWeb || !window.tronWeb.defaultAddress.base58) {
         const address = tronLink.address;
@@ -79,7 +79,7 @@ async function payWithUSDT(amount, reason, users_id,id) {
         console.log("Aprobación exitosa. TX:", approveTx);
 
         // 2️⃣ Llamar a `receiveUSDT`
-        let tx = await contract.receiveUSDT(amountInSun, reason,users_id,id).send({
+        let tx = await contract.receiveUSDT(amountInSun, reason, users_id, id).send({
             feeLimit: 100_000_000,
             from: sender
         });
@@ -94,7 +94,7 @@ async function payWithUSDT(amount, reason, users_id,id) {
             $("#esperaconfirmacion").removeClass("d-none");
             startCountdown(180);
             $("#hashid").removeClass("d-none").text("Hash: " + tx);
-            invoicevalue=invoice.data;
+            invoicevalue = invoice.data;
         } else {
             console.log("⚠️ No se pudo generar la invoice.");
             return false;
@@ -112,19 +112,19 @@ async function payWithUSDT(amount, reason, users_id,id) {
 
                 if (txInfo.receipt.result === "SUCCESS") {
                     confirmed = true;
-                    
+
                     console.log("✅ Transacción confirmada:", txInfo);
-                    const invoicestatus = await   UpdateInvoiceStatus(invoicevalue,txInfo.receipt.result) 
-                   
-                    
+                    const invoicestatus = await UpdateInvoiceStatus(invoicevalue, txInfo.receipt.result)
+
+
                     $("#alertacorrecto").text("Transacción confirmada correctamente.");
                     $("#esperaconfirmacion").addClass("d-none");
 
                     $("#actionfinal").removeClass("d-none").text("Fondos depositados Correctamente a su cuenta VITRIX");
-                    
+
                 } else if (txInfo.receipt.result === "REVERT" || txInfo.receipt.result === "FAILED") {
                     console.error("❌ Transacción fallida:", txInfo);
-                    const invoicestatus = await   UpdateInvoiceStatus(invoicevalue,txInfo.receipt.result) 
+                    const invoicestatus = await UpdateInvoiceStatus(invoicevalue, txInfo.receipt.result)
                     $("#alertaerror").removeClass("d-none").text("❌ Ocurrio un error.");
                     $("#alertacorrecto").addClass("d-none");
                     $("#esperaconfirmacion").addClass("d-none");
@@ -147,7 +147,7 @@ function detectarDispositivo() {
 
 
 
-async function UpdateInvoiceStatus(invoice,status) {
+async function UpdateInvoiceStatus(invoice, status) {
     try {
         const response = await fetch('/updateinvoicestatus', {
             method: 'POST',
@@ -158,7 +158,7 @@ async function UpdateInvoiceStatus(invoice,status) {
             body: JSON.stringify({
                 invoice_id: invoice,
                 status: status
-               
+
             })
         });
 
@@ -177,7 +177,7 @@ async function UpdateInvoiceStatus(invoice,status) {
     }
 }
 
-async function blockchainvitrix(hash,pay_moment) {
+async function blockchainvitrix(hash, pay_moment) {
     try {
         const response = await fetch('/blockchainvitrix', {
             method: 'POST',
@@ -187,7 +187,7 @@ async function blockchainvitrix(hash,pay_moment) {
             },
             body: JSON.stringify({
                 hash: hash,
-                pay_moment:pay_moment
+                pay_moment: pay_moment
             })
         });
 
@@ -206,7 +206,7 @@ async function blockchainvitrix(hash,pay_moment) {
     }
 }
 
-async function procesadorpagares(hash,id) {
+async function procesadorpagares(hash, id) {
     try {
         const response = await fetch('/procesadorpagares', {
             method: 'POST',
@@ -318,13 +318,13 @@ async function getUSDTBalance() {
 
         const balanceInUSDT = tronWeb.fromSun(balance); // Convertir a formato legible (6 decimales)
         console.log("Balance USDT del contrato:", balanceInUSDT);
-        
+
         $("#usdtBalance").text(`Balance: ${balanceInUSDT} USDT`); // Mostrar en HTML
     } catch (error) {
         console.error("Error al obtener balance USDT:", error);
     }
 }
-async function batchTransferUSDT(recipients, amounts, transactionIds,totality) {
+async function batchTransferUSDT(recipients, amounts, transactionIds, totality) {
     try {
         if (!window.tronWeb || !window.tronWeb.ready) {
             alert("Conéctate a TronLink primero.");
@@ -341,10 +341,10 @@ async function batchTransferUSDT(recipients, amounts, transactionIds,totality) {
         });
 
         console.log("⏳ Transacción enviada:", tx);
-        const invoicestatus = await  blockchainvitrix(tx,totality) 
+        const invoicestatus = await blockchainvitrix(tx, totality)
         let blockid;
-        if(invoicestatus){
-             blockid=invoicestatus.data;
+        if (invoicestatus) {
+            blockid = invoicestatus.data;
         }
         console.log("⌛ Esperando confirmación...");
 
@@ -356,16 +356,16 @@ async function batchTransferUSDT(recipients, amounts, transactionIds,totality) {
         }
 
         console.log("✅ Transacción confirmada:", receipt);
-        if(receipt){
-             const processpagos = await  procesadorpagares(tx,blockid) 
-             if(processpagos){
+        if (receipt) {
+            const processpagos = await procesadorpagares(tx, blockid)
+            if (processpagos) {
                 return true;
-                
-             }
-           
+
+            }
+
 
         }
-        
+
     } catch (error) {
         console.error("❌ Error en la transacción:", error);
         return false;
@@ -393,7 +393,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             const user = event.target.getAttribute("data-user");
             const id = event.target.getAttribute("data-id");
             const params = {
-                "url": dappUrl + action + "/" + user + "/" + id,
+                "url": dappUrl + action + "/" + user + "/" + id+ "?deeplink=1",
                 "action": "open",
                 "protocol": "tronlink",
                 "version": "1.0"

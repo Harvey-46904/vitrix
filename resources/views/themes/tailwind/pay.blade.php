@@ -1,8 +1,8 @@
 @extends('theme::layouts.app')
 
 @section('content')
-
-<div class="pt-20 mx-auto prose text-center max-w-7xl">
+<div id="loader">Cargando...</div>
+<div class="pt-20 mx-auto prose text-center max-w-7xl" id="contenido" style="display: none;">
 	<div class="container text-light  ">
 		<div class="row justify-content-center my-5 ">
 
