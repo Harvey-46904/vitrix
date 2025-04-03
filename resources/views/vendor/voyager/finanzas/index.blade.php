@@ -296,7 +296,8 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-
+                            <th>Id retiro</th>
+                            <th>Id usuario</th>
                             <th scope="col">Wallet</th>
                             <th scope="col">Monto</th>
                             <th scope="col">Estado</th>
@@ -305,6 +306,8 @@
                     <tbody>
                         @foreach ($informacion_estadistica['retiros']['listaRetiros'] as $pago)
                         <tr>
+                            <td>{{$pago->id}}</td>
+                            <td>{{$pago->id_user}}</td>
                             <td>{{$pago->billetera}}</td>
                             <td>{{$pago->monto}} USDT</td>
                             <td>{{$pago->estado}}</td>
