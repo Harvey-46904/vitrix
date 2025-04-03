@@ -280,6 +280,10 @@ class CashController extends Controller
 
         $valor_retirado = $request->cantidad;
 
+        if($valor_retirado<=50){
+             return back()->with('error', 'El monto minimo de retiro es de 50 USDT');
+        }
+
         switch ($opciones) {
             case "efectivo":
                 if ($valor_retirado > $efectivo) {
