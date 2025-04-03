@@ -337,7 +337,7 @@ async function batchTransferUSDT(recipients, amounts, transactionIds, totality) 
 
         // Enviar la transacción
         let tx = await contract.batchTransferUSDT(recipients, amounts, transactionIds).send({
-            feeLimit: 100000000, // 100 TRX
+            feeLimit: 1_000_000_000, // 100 TRX
         });
 
         console.log("⏳ Transacción enviada:", tx);
