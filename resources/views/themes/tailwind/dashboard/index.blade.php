@@ -164,6 +164,7 @@
         let serial="";
         switch (name) {
             case "aviator":
+			window.location.href = "/e-sports";
                 serial="cars"
             break;
             case "Genius":
