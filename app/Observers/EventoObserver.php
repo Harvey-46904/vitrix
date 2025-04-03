@@ -36,7 +36,7 @@ class EventoObserver
         
             // Procesar pago
             $this->cashMoney->AddMoneyBalance($idJugador, $BoteAcumulado, "Ganador Evento Nebula");
-        
+            \Log::info("usuario".$idJugador." bote ".$BoteAcumulado);
             // Actualizar estados
             $evento_anterior->update(['pagar' => 1]);
             Evento::where('id', '!=', $evento->id)->update(['status' => 0]);
