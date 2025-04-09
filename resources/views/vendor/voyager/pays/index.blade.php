@@ -1,7 +1,9 @@
 @extends('voyager::master') @section('page_title', 'Todo') @section('content')
 
 
-
+@can('browse_pagares')
+    <h1>puede</h1>
+@endcan
 
 <div class="page-content container-fluid">
 
