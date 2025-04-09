@@ -9,7 +9,7 @@ class Apuestascar extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['sala_id','jugador','monto','posible_ganancia','cuota','estado'];
+    protected $fillable = ['sala_id','jugador','monto','posible_ganancia','cuota','estado','jugador_apostador'];
 
     public function sala()
     {

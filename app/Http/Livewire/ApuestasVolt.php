@@ -27,7 +27,9 @@ class ApuestasVolt extends Component
         ->select(
             'salas.*',
             'u1.name as player_one_name',
-            'u2.name as player_two_name'
+            'u2.name as player_two_name',
+            'u1.id as id_one',
+            'u2.id as id_two'
         )
         ->where("salas.id", $this->sala_id)->first();
     }

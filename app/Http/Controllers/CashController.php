@@ -2,9 +2,9 @@
 namespace App\Http\Controllers;
 
 use App\Events\BalanceUpdated;
-use App\Models\Transaccions; 
 use App\Models\Invoice;
 use App\Models\Retiro;
+use App\Models\Transaccions;
 use App\Models\User;
 use App\Models\UserPaquete;
 use App\Services\CashMoney;
@@ -128,11 +128,11 @@ class CashController extends Controller
 
             );
 
-             // Crea el registro de transacción
-             Transaccions::create([
-                'user_id' => $userId,
-                'amount' => $precio_compra,
-                'type' => "Compra Paquete de inversion Balance", // Define el tipo de transacción
+            // Crea el registro de transacción
+            Transaccions::create([
+                'user_id'       => $userId,
+                'amount'        => $precio_compra,
+                'type'          => "Compra Paquete de inversion Balance", // Define el tipo de transacción
                 'balance_after' => 0,
             ]);
 
@@ -243,7 +243,7 @@ class CashController extends Controller
         // return response(["data"=>$arbol]);
         $section = "retiros";
         // return response(["data"=>$mispaquetes]);
-        return view('theme::settings.index', compact('section', 'balances',"valor"));
+        return view('theme::settings.index', compact('section', 'balances', "valor"));
     }
 
     public function SendInversionToEfectivo($id)
@@ -263,13 +263,21 @@ class CashController extends Controller
     }
     public function retirosvitrix(Request $request)
     {
+        $valor_retirado = $request->cantidad;
+        if ($valor_retirado <= 50) {
+            return back()->with('error', 'El monto mínimo de retiro es de 50 USDT');
+        }
+
         $request->validate([
             'billetera' => ['required', 'regex:/^T[A-Za-z1-9]{33}$/'],
         ], [
-            'billetera.regex' => 'La dirección de la billetera no es válida. Debe comenzar con "T" y tener 34 caracteres.',
+            'billetera.regex' => 'La dirección de la billetera no es válida. Debe comenzar con "T" y tener 34 caracteres (Este proceso no consume su feed).',
         ]);
-        
-     
+
+        $billetera = $request->billetera;
+
+        $response = Http::get("https://api.trongrid.io/v1/accounts/{$billetera}");
+
         $id       = auth()->user()->id;
         $opciones = $request->dinero;
 
@@ -279,41 +287,7 @@ class CashController extends Controller
         $cards     = auth()->user()->balance_card->balance;
 
         $valor_retirado = $request->cantidad;
-
-        if($valor_retirado<=50){
-             return back()->with('error', 'El monto mínimo de retiro es de 50 USDT');
-        }
-
-        switch ($opciones) {
-            case "efectivo":
-                if ($valor_retirado > $efectivo) {
-                    return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
-                } else {
-                    $this->cashService->AddMoneyBalance($id, -$valor_retirado, 'Solicitud de retiro Balance');
-                }
-
-                break;
-            case "referidos":
-                if ($valor_retirado > $referidos) {
-                    return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
-                } else {
-                    //validacion ibox
-                    if ($referidos <= $cards) {
-                        $this->cashService->AddMoneyCards($id, -$valor_retirado, 'Consumo Ibox retiro referido');
-                        $this->cashService->PayRefery($id, -$valor_retirado, 'Solicitud de retiro Referido');
-                    } else {
-                        return back()->with('error', 'No posee suficientes IBOX para realizar este retiro de referidos por favor recarge');
-                    }
-
-                }
-
-                break;
-            default:
-                return back()->with('error', 'Error : por favor comuniquese con soporte');
-                break;
-
-        }
-        $nivel = DB::table("configuraciones")->select('parametros')
+        $nivel          = DB::table("configuraciones")->select('parametros')
             ->whereIn('nombre', ["feeds"])
             ->get()
             ->first();
@@ -323,6 +297,45 @@ class CashController extends Controller
 
         $descuento   = ($valor_retirado * $valor) / 100;
         $total_final = $valor_retirado - $descuento;
+
+        switch ($opciones) {
+            case "efectivo":
+                if ($valor_retirado > $efectivo) {
+                    return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
+                }
+
+                if ($response->failed() || empty($response['data'])) {
+                    $this->cashService->AddMoneyBalance($id, -$descuento, 'Cobro feed Wallet error');
+                    return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
+                }
+
+                $this->cashService->AddMoneyBalance($id, -$valor_retirado, 'Solicitud de retiro Balance');
+                break;
+
+            case "referidos":
+                if ($valor_retirado > $referidos) {
+                    return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
+                }
+
+                if ($response->failed() || empty($response['data'])) {
+                    $this->cashService->AddMoneyCards($id, -$descuento, 'Consumo feed wallet referido');
+                    $this->cashService->PayRefery($id, -$descuento, 'Cobro feed Wallet error');
+                    return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
+                }
+
+                if ($referidos <= $cards) {
+                    $this->cashService->AddMoneyCards($id, -$valor_retirado, 'Consumo Ibox retiro referido');
+                    $this->cashService->PayRefery($id, -$valor_retirado, 'Solicitud de retiro Referido');
+                } else {
+                    return back()->with('error', 'No posee suficientes IBOX para realizar este retiro de referidos. Por favor recargue.');
+                }
+
+                break;
+
+            default:
+                return back()->with('error', 'Error: por favor comuníquese con soporte');
+        }
+
         Retiro::create([
             'id_user'   => $id,
             'billetera' => $request->billetera,
@@ -335,19 +348,18 @@ class CashController extends Controller
 
     public function index()
     {
-        $id            = auth()->user()->id;
-     
+        $id = auth()->user()->id;
 
         $transacciones = DB::table("user_transaccion")
-        ->select('id', 'user_id', 'amount', 'type', 'created_at')
-        ->where('user_id', auth()->id())
-        ->orderBy('created_at', 'desc')
-        ->get()
-        ->groupBy('type')
-        ->map(function ($group) {
-            return $group->take(5);
-        });
-       
+            ->select('id', 'user_id', 'amount', 'type', 'created_at')
+            ->where('user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->groupBy('type')
+            ->map(function ($group) {
+                return $group->take(5);
+            });
+
         return view('theme::notifications.Transacciones', compact('transacciones'));
     }
     public function generateQRs()
@@ -558,7 +570,7 @@ class CashController extends Controller
                             'updated_at'       => now(),
                         ]);
 
-                        $pagare=self::Gestionadormoney($infofinal);
+                        $pagare    = self::Gestionadormoney($infofinal);
                         $dataevent = [
                             "estado"      => "Encontrado",
                             "informacion" => $pagare,
@@ -598,46 +610,45 @@ class CashController extends Controller
 
     public function Gestionadormoney($transation)
     {
-        $razon = $transation["reason"];
-        $userId=$transation["user_id"];
-        $amount=$transation["amount"];
-        $id_meta=$transation["id_meta"];
+        $razon   = $transation["reason"];
+        $userId  = $transation["user_id"];
+        $amount  = $transation["amount"];
+        $id_meta = $transation["id_meta"];
         $message;
         switch ($razon) {
             case 'deposito':
                 $result = $this->cashService->AddMoneyBalance($userId, $amount, 'Deposito');
-              
+
                 event(new BalanceUpdated($userId));
 
                 if ($result) {
-                    $message="Se deposito el saldo correctamente";
+                    $message = "Se deposito el saldo correctamente";
                 } else {
-                    $message="Error al depositar ".$razon." pongase en contacto con el administrador";
-                    
+                    $message = "Error al depositar " . $razon . " pongase en contacto con el administrador";
+
                 }
                 break;
             case 'ibox':
-                $compra_ibox=DB::table("iboxes")->where("id","=",$id_meta)->first();
-                $amount=$compra_ibox->beneficio;
-               $result= $this->cashService->AddMoneyCards($userId, $amount,'Compra Ibox');
+                $compra_ibox = DB::table("iboxes")->where("id", "=", $id_meta)->first();
+                $amount      = $compra_ibox->beneficio;
+                $result      = $this->cashService->AddMoneyCards($userId, $amount, 'Compra Ibox');
                 if ($result) {
-                    $message="Se deposito el saldo correctamente";
+                    $message = "Se deposito el saldo correctamente";
                 } else {
-                    $message="Error al depositar ".$razon." pongase en contacto con el administrador";
-                    
+                    $message = "Error al depositar " . $razon . " pongase en contacto con el administrador";
+
                 }
                 break;
             case 'inversion':
 
                 $id_inversion = $id_meta;
 
-              
                 //primero pagamos a referidos
                 self::PagosReferidos($userId, $amount, "referidos");
                 //ahora creamos su paquete en la tabla
                 //para ello consultamos primero el paquete id
                 $consulta = DB::table("inversiones")->select()->where("id", $id_inversion)->first();
-               $result= UserPaquete::create([
+                $result   = UserPaquete::create([
                     'user_id'            => $userId,
                     'id_inversion'       => $id_inversion,
                     'monto_depositar'    => 0,
@@ -648,38 +659,50 @@ class CashController extends Controller
                     'paquete_porcentaje' => $consulta->porcentaje_rentabilidad,
                     'paquete_meta'       => $consulta->totalidad,
                 ]
-        
+
                 );
 
-                 // Crea el registro de transacción
+                // Crea el registro de transacción
                 Transaccions::create([
-                    'user_id' => $userId,
-                    'amount' => $amount,
-                    'type' => "Compra Paquete de inversion", // Define el tipo de transacción
+                    'user_id'       => $userId,
+                    'amount'        => $amount,
+                    'type'          => "Compra Paquete de inversion", // Define el tipo de transacción
                     'balance_after' => 0,
                 ]);
-              
+
                 if ($result) {
-                    $message="Se deposito el saldo correctamente";
+                    $message = "Se deposito el saldo correctamente";
                 } else {
-                    $message="Error al depositar ".$razon." pongase en contacto con el administrador";
-                    
+                    $message = "Error al depositar " . $razon . " pongase en contacto con el administrador";
+
                 }
                 break;
 
             default:
-                $message="EL movimiento no existe";
+                $message = "EL movimiento no existe";
                 break;
         }
         return $message;
     }
 
-    public function pagare(){
-      
-        $pagos=DB::table("retiros")->select("billetera","monto","id")->where("estado","<>","PAGADO")->get();
-        return view("vendor.voyager.pays.index",compact("pagos"));
-            
-        
+    public function pagare(Request $request)
+    {
+        $limite = false;
+        $limiteValor = null;
+    
+        $query = DB::table("retiros")
+            ->select("billetera", "monto", "id")
+            ->where("estado", "<>", "PAGADO");
+    
+        if ($request->has('limite') && is_numeric($request->limite)) {
+            $limite = true;
+            $limiteValor = (int)$request->limite;
+            $query->limit($limiteValor);
+        }
+    
+        $pagos = $query->get();
+    
+        return view("vendor.voyager.pays.index", compact("pagos", "limite", "limiteValor"));
     }
 
 }

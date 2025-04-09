@@ -9,13 +9,23 @@
     $totalMonto = 0;
     @endphp
 
-    Configuración de bonos
+Gestión de pagos
     @if (session('success'))
     <div class="alert alert-success" role="alert">
         Dinero bono depositado correctamente
     </div>
     @endif
     <div class="row  justify-content-end">
+        <div class="col-md-4">
+            <form method="GET" action="{{ url()->current() }}" class="form-inline">
+                <div class="form-group mr-2">
+                    <label for="limite" class="mr-2">Límite de consulta:</label>
+                    <input type="number" name="limite" id="limite" class="form-control" value="{{ $limiteValor }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Aplicar</button>
+            </form>
+        </div>
+        @if ($limite)
         <div class="col-md-12">
             <table class="table table-bordered table-hover">
                 <thead class="thead-dark">
@@ -52,6 +62,9 @@
             <button id="btnPagar" class="btn btn-primary d-none" style="display: none">Pagar</button>
             <div id="resultado"></div>
         </div>
+        @endif
+
+        
     </div>
 </div>
 </div>

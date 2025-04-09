@@ -301,7 +301,9 @@ class GamesController extends Controller
             ->select(
                 'salas.*',
                 'u1.name as player_one_name',
-                'u2.name as player_two_name'
+                'u2.name as player_two_name',
+                'u1.id as id_one',
+                'u2.id as id_two'
             )
             ->where("salas.id", $id)->first();
 
@@ -445,10 +447,25 @@ class GamesController extends Controller
 
 
     public function apostarcars(Request $request,$id_sala){
-       
+        //validar montoo
+
+        //validar dinero
+        $efectivo  = auth()->user()->balance_general->balance;
+        $monto_apostado=$request->valor;
+        if($efectivo<$monto_apostado){
+            return back()->with('error', 'No tiene saldo suficente para realizar esta apuesta.');
+        }
+        if($monto_apostado>50){
+            return back()->with('error', 'Su apuesta supera el límite máximo por sala.');
+        }
+
+      
+        $user   = Auth::user();
+        $userId = $user->id;
         Apuestascar::create([
+            'jugador_apostador'=>$userId,
             'sala_id' => $id_sala,
-            'jugador' => 1,
+            'jugador' => $request->user,
             'monto' => $request->valor,
             'posible_ganancia' => $request->valor * $request->cuota, // Calculando la posible ganancia
             'cuota' => $request->cuota,
@@ -456,7 +473,8 @@ class GamesController extends Controller
         ]);
 
         Livewire::dispatch('actualizarCuotas');
-        return back();
+        return back()->with('success', 'Apuesta Realizada Correctamente');
+       
 
 
     }
