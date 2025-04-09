@@ -19,7 +19,6 @@ class EventoObserver
      */
     public function created(Evento $evento): void
     {
-      
         $evento_anterior = Evento::where('id', '<', $evento->id)
         ->orderBy('id', 'desc')
         ->first();
@@ -30,15 +29,21 @@ class EventoObserver
             $GananciaCasino = ($Premio * $evento_anterior->comision) / 100;
             $BoteAcumulado = $Premio - $GananciaCasino;
         
-            $idJugador = Naveevento::where("id_evento", $evento_anterior->id)
-                ->orderByDesc("puntuacion")
-                ->value("id_jugador") ?? 1;
-        
+         
+            $jugador = Naveevento::with(['user:id,name'])
+                ->where('id_evento', $evento_anterior->id)
+                ->get()
+                ->sortByDesc('puntuacion')
+                ->first();
+            $idJugador= $jugador->user->id    ; 
+
             // Procesar pago
             $this->cashMoney->AddMoneyBalance($idJugador, $BoteAcumulado, "Ganador Evento Nebula");
-            \Log::info("usuario".$idJugador." bote ".$BoteAcumulado);
+        
             // Actualizar estados
+            $evento_anterior->update(['ganador' => $idJugador]);
             $evento_anterior->update(['pagar' => 1]);
+
             Evento::where('id', '!=', $evento->id)->update(['status' => 0]);
             return;
         } else {
