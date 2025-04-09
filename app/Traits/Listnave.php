@@ -35,6 +35,16 @@ trait Listnave
            "lista"=>$naveeventos,
            "Bote"=>$BoteAcumulado
         ];
+         //return response(["hola"=>$nave]);
         return $nave;
+     }
+
+     public function GanadorEvento($id_evento){
+        $naveeventos = Naveevento::with(['user:id,name'])
+        ->where('id_evento', $id_evento)
+        ->get()
+        ->sortByDesc('puntuacion')
+        ->first();
+        return response(["data"=>$naveeventos]);
      }
 }
