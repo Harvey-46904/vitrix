@@ -312,7 +312,10 @@ class GamesController extends Controller
     }
 
     public function naveseventos(){
-        return view('Unity.Nave');
+
+        $evento = $this->ultimo_evento();
+        $banners = DB::table("banners")->where("activo", "=", 1)->get();
+        return view('Unity.Nave',compact("evento","banners"));
        
     }
 
