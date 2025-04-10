@@ -281,7 +281,7 @@ class CashController extends Controller
             "billetera"=>$billetera,
             "response"=>$response,
             "status"=>$response->failed(),
-            "log"=>$empty($response['data'])
+            "log"=>empty($response['data'])
         ]);
         $id       = auth()->user()->id;
         $opciones = $request->dinero;
