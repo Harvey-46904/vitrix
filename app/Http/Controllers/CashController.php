@@ -277,11 +277,12 @@ class CashController extends Controller
         $billetera = $request->billetera;
 
         $response = Http::get("https://api.trongrid.io/v1/accounts/{$billetera}");
+        $json = $response->json();
         return response([
             "billetera"=>$billetera,
             "response"=>$response,
             "status"=>$response->failed(),
-            "log"=>empty($response['data'])
+            "log"=>empty($json['data'])
         ]);
         $id       = auth()->user()->id;
         $opciones = $request->dinero;
