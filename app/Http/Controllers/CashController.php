@@ -278,12 +278,7 @@ class CashController extends Controller
 
         $response = Http::get("https://api.trongrid.io/v1/accounts/{$billetera}");
         $json = $response->json();
-        return response([
-            "billetera"=>$billetera,
-            "response"=>$response,
-            "status"=>$response->failed(),
-            "log"=>empty($json['data'])
-        ]);
+       
         $id       = auth()->user()->id;
         $opciones = $request->dinero;
 
@@ -310,7 +305,7 @@ class CashController extends Controller
                     return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
                 }
 
-                if ($response->failed() || empty($response['data'])) {
+                if ($response->failed() || empty($json['data'])) {
                     $this->cashService->AddMoneyBalance($id, -$descuento, 'Cobro feed Wallet error');
                     return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
                 }
@@ -323,7 +318,7 @@ class CashController extends Controller
                     return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
                 }
 
-                if ($response->failed() || empty($response['data'])) {
+                if ($response->failed() || empty($json['data'])) {
                     $this->cashService->AddMoneyCards($id, -$descuento, 'Consumo feed wallet referido');
                     $this->cashService->PayRefery($id, -$descuento, 'Cobro feed Wallet error');
                     return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
