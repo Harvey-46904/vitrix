@@ -122,6 +122,8 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/get-token', "GamesController@getToken")->name("GetToken");
   Route::get('/evento', "GamesController@ultimo_evento")->name("ultimoevento");
   Route::get('/sala/{id}', "GamesController@Salaspropias")->name("sala.detalle");
+
+  Route::get('/eventoactual', "GamesController@naveseventos")->name("evento.actual");
   
 
   //enlaces

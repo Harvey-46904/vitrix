@@ -103,11 +103,16 @@
             <h1>Cash Vitrix</h1>
             <div class="col-md-12 col-12">
                 <div class="border p-3">
-                  
                     <i class="fas fa-money-check-alt fa-2x text-success"></i>
                     <h5 class="mt-2">Dinero Total de usuarios</h5>
                     <h4 class="mt-2">Tenga en cuenta que este es el dinero total de balance de todos los usuarios sin importar el rango de fecha</h4>
                     <p class="font-weight-bold">  {{ $informacion_estadistica['balancetotal'] }} USDT</p>
+                </div>
+                <div class="border p-3">
+                    <i class="fas fa-money-check-alt fa-2x text-success"></i>
+                    <h5 class="mt-2">Dinero Total de referidos</h5>
+                    <h4 class="mt-2">Tenga en cuenta que este es el dinero total de referidos de todos los usuarios sin importar el rango de fecha</h4>
+                    <p class="font-weight-bold">  {{ $informacion_estadistica['balancetotalreferidos'] }} USDT</p>
                 </div>
             </div>
             <div class="col-md-3 col-6">
@@ -191,7 +196,7 @@
                 <label>inversión mas comprada</label>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        {{ $informacion_estadistica['inversiones']['maxpaquete']->paquete_nombre }}
+                        {{ optional($informacion_estadistica['inversiones']['maxpaquete'])->paquete_nombre ?? 'No hay paquetes en este rango' }}
                     </li>
                 </ul>
             </div>

@@ -73,6 +73,8 @@ class ConfiguracionesController extends Controller
             //total del casino
             //$totalBalance = DB::table('user_balances')->sum('balance');
             $totalBalance = \App\Models\UserBalance::all()->sum('balance');
+
+            $totalBalancereferidos=\App\Models\UserIbox::all()->sum('balance');
           
             ///MAXIMA INVERSION
             $paquetes = DB::table('user_paquetes')
@@ -181,6 +183,7 @@ class ConfiguracionesController extends Controller
        
             $informacion_estadistica = [
                 "balancetotal"=>$totalBalance,
+                "balancetotalreferidos"=>$totalBalancereferidos,
                 "juegos"      => [
                     "total_apostado"=>$total_apostado,
                     "ganancia_genius" => $ganancia_genius,

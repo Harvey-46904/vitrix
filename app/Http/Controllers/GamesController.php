@@ -311,6 +311,11 @@ class GamesController extends Controller
         return response(["data" => $eventosala]);
     }
 
+    public function naveseventos(){
+        return view('Unity.Nave');
+       
+    }
+
     public function sports()
     {
 
@@ -448,7 +453,9 @@ class GamesController extends Controller
 
     public function apostarcars(Request $request,$id_sala){
         //validar montoo
-
+        if($request->valor=="" || $request->valor==0 || $request->valor<0){
+            return back()->with('error', 'El monto apostado no puede ser vacio , igual a cero o un valor negativo');
+        }
         //validar dinero
         $efectivo  = auth()->user()->balance_general->balance;
         $monto_apostado=$request->valor;
@@ -459,9 +466,13 @@ class GamesController extends Controller
             return back()->with('error', 'Su apuesta supera el límite máximo por sala.');
         }
 
+
+      
       
         $user   = Auth::user();
         $userId = $user->id;
+
+        $this->cashService->AddMoneyBalance($userId, -$monto_apostado, 'Apuesta Speed Stakes');
         Apuestascar::create([
             'jugador_apostador'=>$userId,
             'sala_id' => $id_sala,
