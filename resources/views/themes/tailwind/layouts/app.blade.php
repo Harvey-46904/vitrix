@@ -2,7 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 
 <head>
-
+    @livewireStyles
     @if(isset($seo->title))
     <title>{{ $seo->title }}</title>
     @else
@@ -142,7 +142,7 @@
     </script>
 
 
-
+@livewireScripts
 </body>
 
 </html>
