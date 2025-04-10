@@ -449,3 +449,26 @@ body {
   font-size: 20px;
   z-index: 9999;
 }
+
+@keyframes subirYBrillar {
+  0%   { transform: scale(1); color: #fff; }
+  50%  { transform: scale(1.2); color: #ffc107; }
+  100% { transform: scale(1); color: #fff; }
+}
+.bote-animado {
+  animation: subirYBrillar 0.6s ease-out;
+}
+
+.bote-flotante {
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 1;
+  animation: flotarYDesaparecer 1s ease-out forwards;
+  font-size: 1rem;
+}
+
+@keyframes flotarYDesaparecer {
+  0%   { opacity: 1; transform: translate(-50%, 0); }
+  100% { opacity: 0; transform: translate(-50%, -30px); }
+}
