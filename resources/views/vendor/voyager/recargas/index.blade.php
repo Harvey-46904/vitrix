@@ -51,5 +51,22 @@ Recargas Vitrix
             alert('Error al acceder a la cámara.');
         });
     });
+
+    document.getElementById('scanBtn').addEventListener('click', function () {
+    document.getElementById('preview').style.display = 'block';
+
+    Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length === 0) {
+            alert('No se encontró cámara.');
+            return;
+        }
+
+        let backCamera = cameras.find(cam => cam.name.toLowerCase().includes('back')) || cameras[0];
+        scanner.start(backCamera);
+    }).catch(function (e) {
+        console.error(e);
+        alert('Error al acceder a la cámara.');
+    });
+});
 </script>
 @endsection
