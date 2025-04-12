@@ -318,7 +318,10 @@ class CashController extends Controller
                     return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
                 }
 
-                if ($response->failed() || empty($json['data'])) {
+                if (
+                    
+                    $json['success'] === false 
+                ) {
                     $this->cashService->AddMoneyBalance($id, -$descuento, 'Cobro feed Wallet error');
                     return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
                 }
@@ -330,8 +333,11 @@ class CashController extends Controller
                 if ($valor_retirado > $referidos) {
                     return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
                 }
-
-                if ($response->failed() || empty($json['data'])) {
+                if (
+                   
+                    $json['success'] === false
+                  
+                ) {
                     $this->cashService->AddMoneyCards($id, -$descuento, 'Consumo feed wallet referido');
                     $this->cashService->PayRefery($id, -$descuento, 'Cobro feed Wallet error');
                     return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
