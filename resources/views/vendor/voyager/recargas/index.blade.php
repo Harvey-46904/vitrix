@@ -38,7 +38,7 @@ Recargas Vitrix
     scanner.addListener('scan', function (content) {
         console.log('QR escaneado:', content);
         document.getElementById('qrResult').innerText = content;
-        document.getElementById('qrResult').value = content;
+        document.getElementById('id_user').value = content;
         scanner.stop();
     });
 
