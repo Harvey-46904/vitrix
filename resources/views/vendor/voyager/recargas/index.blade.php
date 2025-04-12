@@ -17,6 +17,7 @@ Recargas Vitrix
             <select id="cameraSelect"></select>
             <button id="scanBtn">Iniciar escaneo</button>
             <video id="preview" style="width:100%; max-width:400px;" playsinline></video>
+            <p>QR escaneado: <span id="qrResult">Nada aún</span></p>
             <form action="{{route('addFoundBalancerecarga')}}" method="POST" >
                 @csrf
                 <input type="text" id="id_user" placeholder="Esperando QR..."  style="margin-top:10px; width:100%;">
@@ -36,6 +37,7 @@ Recargas Vitrix
 
     scanner.addListener('scan', function (content) {
         console.log('QR escaneado:', content);
+        document.getElementById('qrResult').innerText = content;
         document.getElementById('qrResult').value = content;
         scanner.stop();
     });
