@@ -16,6 +16,7 @@ Recargas Vitrix
         <div class="col-md-12">
             <button id="scanBtn">Escanear QR</button>
             <video id="preview" style="display:none;" playsinline></video>
+            <p>Contenido escaneado: <span id="qrResult">Nada aún</span></p>
         </div>
     </div>
 </div>
@@ -27,9 +28,13 @@ Recargas Vitrix
 
     scanner.addListener('scan', function (content) {
         console.log('QR escaneado:', content);
-        // Aquí puedes hacer lo que quieras con el UUID escaneado
-        // Por ejemplo: redirigir o hacer una petición AJAX
-        // window.location.href = '/procesar-uuid/' + content;
+        document.getElementById('qrResult').innerText = content;
+
+        // Si quieres detener la cámara después de escanear:
+        scanner.stop();
+
+        // Opcional: ocultar el preview
+        document.getElementById('preview').style.display = 'none';
     });
 
     document.getElementById('scanBtn').addEventListener('click', function () {
