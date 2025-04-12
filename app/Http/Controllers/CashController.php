@@ -717,8 +717,8 @@ class CashController extends Controller
     public function recargame(){
 
          $user = auth()->user(); // o como sea que obtengas al usuario
-        $encryptedId = Crypt::encryptString($user->id); // Esto es seguro
-
+        //$encryptedId = Crypt::encryptString($user->id); // Esto es seguro
+        $encryptedId=$user->id;
         $qr = QrCode::size(200)->generate($encryptedId);
 
         return view('theme::recargaqr', compact('qr'));
