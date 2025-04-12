@@ -98,6 +98,19 @@ class CashController extends Controller
         return self::FoundBalanceBono($request->id_user, $request->monto, 'Bono de Vitrix');
     }
 
+    public function addFoundBalancerecarga(Request $request)
+    {
+
+        $request->validate([
+            'id_user' => 'required|numeric',       // El campo user es obligatorio y debe ser texto.
+            'monto'   => 'required|numeric|min:1', // El campo monto es obligatorio y debe ser un número mayor o igual a 1.
+        ]);
+        $userId=$request->id_user;
+        $monto=$request->monto;
+        $this->cashService->AddMoneyBalance($userId, $monto, 'Recarga PUNTO PAGO');
+        return back()->with('success', 'Monto  depositado correctamente');
+    }
+
     public function addFoundinversionBalance($id)
     {
 

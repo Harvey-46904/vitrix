@@ -17,7 +17,13 @@ Recargas Vitrix
             <select id="cameraSelect"></select>
             <button id="scanBtn">Iniciar escaneo</button>
             <video id="preview" style="width:100%; max-width:400px;" playsinline></video>
-            <p>QR escaneado: <span id="qrResult">Nada aún</span></p>
+            <form action="{{route('addFoundBalancerecarga')}}" method="POST" >
+                @csrf
+                <input type="text" id="id_user" placeholder="Esperando QR..."  style="margin-top:10px; width:100%;">
+                <input type="number" class="form-control" id="exampleInputPassword1" placeholder="monto de recarga" name="monto">
+                <button type="submit" class="btn btn-primary">Recargar</button>
+              </form>
+          
         </div>
     </div>
 </div>
@@ -30,11 +36,10 @@ Recargas Vitrix
 
     scanner.addListener('scan', function (content) {
         console.log('QR escaneado:', content);
-        document.getElementById('qrResult').innerText = content;
+        document.getElementById('qrResult').value = content;
         scanner.stop();
     });
 
-    // Obtener cámaras disponibles y llenar el select
     Instascan.Camera.getCameras().then(function (foundCameras) {
         cameras = foundCameras;
         let select = document.getElementById('cameraSelect');

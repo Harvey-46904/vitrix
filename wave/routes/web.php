@@ -103,6 +103,8 @@ Route::group(['middleware' => 'auth'], function(){
   Route::get('/transfer', 'CashController@tranfers')->name('payment.transfer');
 
   Route::post('balancebono', 'CashController@addFoundBono')->name('cashbalanceBono');
+  Route::post('recargabalance', 'CashController@addFoundBalancerecarga')->name('addFoundBalancerecarga');
+  
   Route::post('feeds', 'CashController@feeds')->name('feedsconfiguracion');
   Route::post('balanceinversion/{id}', 'CashController@addFoundinversion')->name('cashbalanceInversion');
   Route::post('balanceinversionbalance/{id}', 'CashController@addFoundinversionBalance')->name('cashbalanceInversionBalance');

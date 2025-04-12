@@ -23,9 +23,9 @@
 					<div class="col-md-10 align-self-center col-9 "> En Vitrix todo deposito cuenta y esto ayuda a tus aliados en cada
 						juego que hagas</div>
 				</div>
-				<div class="row justify-content-center py-3">
+				<div class="row justify-content-center py-3 bg-light">
 					
-					<div class="col-md-12">
+					<div class="col-md-12 ">
 						{!! $qr !!}
 					</div>
 				</div>
