@@ -20,7 +20,7 @@ Recargas Vitrix
             <p>QR escaneado: <span id="qrResult">Nada aún</span></p>
             <form action="{{route('addFoundBalancerecarga')}}" method="POST" >
                 @csrf
-                <input type="text" id="id_user" placeholder="Esperando QR..."  style="margin-top:10px; width:100%;">
+                <input type="text" id="id_user" name="id_user" placeholder="Esperando QR..."  style="margin-top:10px; width:100%;">
                 <input type="number" class="form-control" id="exampleInputPassword1" placeholder="monto de recarga" name="monto">
                 <button type="submit" class="btn btn-primary">Recargar</button>
               </form>

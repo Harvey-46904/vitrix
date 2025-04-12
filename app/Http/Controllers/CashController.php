@@ -100,7 +100,7 @@ class CashController extends Controller
 
     public function addFoundBalancerecarga(Request $request)
     {
-
+       
         $request->validate([
             'id_user' => 'required|numeric',       // El campo user es obligatorio y debe ser texto.
             'monto'   => 'required|numeric|min:1', // El campo monto es obligatorio y debe ser un número mayor o igual a 1.
