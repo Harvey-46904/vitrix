@@ -56,14 +56,14 @@
                 <div id="notifications-none" class=" text-center anchor w-full text-gray-600 font-medium mb-2">
 
                     <div class="row">
-                        <div class="col-md-3">
-                            Balance General
-                        </div>
-                        <div class="col-md-9 text-center aling-items-center">
+                       
+                        <div class="col-md-12 text-center aling-items-center">
                             <a href="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}" class="btn btn-success">
                                 Recargar
                             </a>
+                            <a href=" {{ route('recargame') }} " class="btn btn-primary">Recargame</a>
                             <a href=" {{ route('retirar') }} " class="btn btn-danger">Retirar</a>
+                           
                            
                         </div>
                     </div>

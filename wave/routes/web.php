@@ -109,6 +109,9 @@ Route::group(['middleware' => 'auth'], function(){
   Route::post('balanceibox/{id}', 'IboxController@addFoundibox')->name('cashbalanceIbox');
   Route::post('balanceiboxbalance/{id}', 'IboxController@addFoundiboxBalance')->name('cashbalanceIboxBalance');
   Route::get('retirar', 'CashController@retirar')->name('retirar');
+
+  Route::get('recargame', 'CashController@recargame')->name('recargame');
+
   Route::get('cash/invertir/{id}', 'InversionesPaquete@CompraPaqueteInversion')->name('cashinversion');
   Route::get('cash/ibox/{id}', 'InversionesPaquete@CompraPaqueteIbox')->name('cashibox');
   Route::get('inversioncasino/{id}', 'CashController@SendInversionToEfectivo')->name('wave.paquetes.casino');

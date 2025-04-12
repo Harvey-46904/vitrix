@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use kornrunner\Keccak;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-
+use Illuminate\Support\Facades\Crypt;
 class CashController extends Controller
 {
     protected $cashService;
@@ -705,5 +705,24 @@ class CashController extends Controller
     
         return view("vendor.voyager.pays.index", compact("pagos", "limite", "limiteValor"));
     }
+
+    public function recargas(Request $request)
+    {
+        $limite = false;
+       
+    
+        return view("vendor.voyager.recargas.index");
+    }
+
+    public function recargame(){
+
+         $user = auth()->user(); // o como sea que obtengas al usuario
+        $encryptedId = Crypt::encryptString($user->id); // Esto es seguro
+
+        $qr = QrCode::size(200)->generate($encryptedId);
+
+        return view('theme::recargaqr', compact('qr'));
+    }
+    
 
 }
