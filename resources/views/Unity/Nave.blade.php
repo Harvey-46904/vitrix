@@ -29,21 +29,37 @@
                 @livewire('lista-naves')
             </div>
             <div class="col-md-6">  <div id="carouselExampleControls" class="carousel slide " data-ride="carousel" style="width: 100%">
-                <div class="carousel-inner">
-                    @foreach ($banners as $index => $imagen)
-                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                        <img class="w-100" src="{{ Voyager::image($imagen->imagen) }}" alt="Slide {{ $index + 1 }}">
+                <div class="row">
+                    <div class="col-md-6">
+                        <video width="100%" autoplay muted loop>
+                            <source src="{{ asset('vitrix/video/nebula.mp4') }}" type="video/mp4">
+                            Tu navegador no soporta video HTML5.
+                        </video>
                     </div>
-                    @endforeach
+                    <div class="col-md-6">
+                        <img src="{{ asset('vitrix/img/nebula.gif') }}" alt="Imagen ejemplo" width="100%">
+                    </div>
                 </div>
-                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="carousel-inner">
+                            @foreach ($banners as $index => $imagen)
+                            <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                <img class="w-100" src="{{ Voyager::image($imagen->imagen) }}" alt="Slide {{ $index + 1 }}">
+                            </div>
+                            @endforeach
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                
         
             </div></div>
             
