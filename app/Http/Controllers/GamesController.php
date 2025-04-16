@@ -68,9 +68,9 @@ class GamesController extends Controller
 
             $token    = self::getToken();
             $nickname = $user->username;
-
+            $base_url = "http://127.0.0.1:8000/";
             // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
-            return view('Unity.cars', compact('token', 'nickname', 'name_sala'));
+            return view('Unity.cars', compact('token', 'nickname', 'name_sala','base_url'));
         } else {
             return redirect('/');
         }

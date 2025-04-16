@@ -17,8 +17,9 @@
       
         const token = @json($token);
         const nickname = @json($nickname);
+        const base_url=@json($base_url);
         const name_sala = @json($name_sala);
-        const data = JSON.stringify({ token, nickname,name_sala });
+        const data = JSON.stringify({ token, nickname,name_sala,base_url });
         console.log(data);
 
         unityInstance.SendMessage('Scripts', 'ReceiveToken', data);
