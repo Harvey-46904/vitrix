@@ -13,17 +13,18 @@
       var unityInstance = UnityLoader.instantiate("unityContainer", "{{asset('Games/Cars/Build/Cars.json')}}", {onProgress: UnityProgress});
     </script>
 
-    <script>
-      
-        const token = @json($token);
-        const nickname = @json($nickname);
-        const base_url=@json($base_url);
-        const name_sala = @json($name_sala);
-        const data = JSON.stringify({ token, nickname,name_sala,base_url });
-        console.log(data);
+<script>
+  const token = @json($token);
+  const nickname = @json($nickname);
+  const base_url = @json($base_url);
+  const name_sala = @json($name_sala);
+  const data = JSON.stringify({ token, nickname, name_sala, base_url });
 
-        unityInstance.SendMessage('Scripts', 'ReceiveToken', data);
-    </script>
+  function unityReady() {
+    console.log("Unity is ready, sending data...");
+    unityInstance.SendMessage('Scripts', 'ReceiveToken', data);
+  }
+</script>
   </head>
   <body>
     <div class="webgl-content">
