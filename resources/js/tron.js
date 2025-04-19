@@ -2,7 +2,7 @@ import { TronLinkAdapter } from '@tronweb3/tronwallet-adapters';
 
 const tronLink = new TronLinkAdapter();
 const USDT_CONTRACT = "TXYZopYRdj2D9XRtbG411XZZ3kM5VkAeBf"; // USDT en TRON
-const DEST_CONTRACT = "TFJJyXqcm2njrUQi7Ss3XiZjZEEeePKaMg"; //
+const DEST_CONTRACT = "TV3WoKAwu2uq1kaTS4ht85e6Ry6DGghfaS"; //
 
 
 //usdt
