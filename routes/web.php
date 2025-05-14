@@ -39,6 +39,8 @@ Route::group(['prefix' => 'admin'], function () {
 
     Route::get('pagares','CashController@pagare')->name("pagare");
     Route::get('recargas','CashController@recargas')->name("recargas");
+
+    Route::get('apuestas/{id}','GamesController@ApuestasSeperadas')->name("apuestasunicas");
 });
 
 Route::post('generateinvoice','CashController@GenerateInvoice')->name("GenerateInvoice");

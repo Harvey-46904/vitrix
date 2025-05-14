@@ -492,4 +492,33 @@ class GamesController extends Controller
 
 
     }
+
+
+    public function ApuestasSeperadas($id){
+        $apuestasSubquery = DB::table('apuestascars')
+        ->select('sala_id', 'jugador', DB::raw('SUM(posible_ganancia) as total_ganancia'), DB::raw('SUM(monto) as monto'))
+        ->groupBy('sala_id', 'jugador');
+    
+        $sala = DB::table('salas')
+        ->join('users as u1', 'salas.player_one', '=', 'u1.id')
+        ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
+        ->leftJoinSub($apuestasSubquery, 'apuestas', function($join) {
+            $join->on('salas.id', '=', 'apuestas.sala_id');
+        })
+        ->select(
+            'salas.nombre_sala',
+            'salas.cuota_player_one',
+            'salas.cuota_player_two',
+            'u1.name as player_one_name',
+            'u2.name as player_two_name',
+            'apuestas.jugador',
+            'apuestas.total_ganancia',
+            'monto'
+
+        )
+        ->where('salas.id', $id)
+        ->get();
+       //return response(["sala"=>$sala]);
+        return view("vendor.voyager.apuestas.index",compact("sala"));
+    }
 }
