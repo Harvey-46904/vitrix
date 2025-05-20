@@ -288,8 +288,8 @@ class CashController extends Controller
         ]);
 
         $billetera = $request->billetera;
-
-        $response = Http::get("https://api.trongrid.io/v1/accounts/{$billetera}");
+        $base_url= config('app.tron_url_api');
+        $response = Http::get($base_url."/accounts/{$billetera}");
         $json = $response->json();
        
         $id       = auth()->user()->id;
@@ -611,7 +611,9 @@ class CashController extends Controller
 
     public function getTransactionEvents($transactionHash)
     {
-        $url = "https://nile.trongrid.io/v1/transactions/{$transactionHash}/events";
+
+        $base_url= config('app.tron_url_api');
+        $url = $base_url."/transactions/{$transactionHash}/events";
 
         $response = Http::withHeaders([
             'accept' => 'application/json',

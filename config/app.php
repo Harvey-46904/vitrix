@@ -4,6 +4,11 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
+
+    //TRON API URL en versiones
+    
+    'tron_url_api' => env('TRON_URL_API'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

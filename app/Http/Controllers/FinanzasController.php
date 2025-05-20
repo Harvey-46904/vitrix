@@ -93,7 +93,8 @@ class FinanzasController extends Controller
 
     public function getTransactionEvents($transactionHash)
     {
-        $url = "https://nile.trongrid.io/v1/transactions/{$transactionHash}/events";
+        $base_url= config('app.tron_url_api');
+        $url =$base_url."/transactions/{$transactionHash}/events";
 
         $response = Http::withHeaders([
             'accept' => 'application/json',
