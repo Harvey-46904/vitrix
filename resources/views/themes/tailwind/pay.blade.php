@@ -280,7 +280,7 @@
     }
 </script>
 
-<script src="{{ asset('js/tron.js') }}"></script>
+<script src="{{ asset('js/polygon.js') }}"></script>
 <script>
 
 function obtenerValor() {

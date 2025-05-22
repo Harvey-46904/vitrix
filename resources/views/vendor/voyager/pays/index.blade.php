@@ -70,7 +70,7 @@ Gestión de pagos
     </div>
 </div>
 </div>
-<script src="{{ asset('js/tron.js') }}"></script>
+<script src="{{ asset('js/polygon.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let totalMonto;

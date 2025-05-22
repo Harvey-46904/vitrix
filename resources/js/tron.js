@@ -71,13 +71,13 @@ async function payWithUSDT(amount, reason, users_id, id) {
         const amountInSun = tronWeb.toSun(amount); // Convierte USDT a 6 decimales
 
         // 1️⃣ Aprobar el gasto de USDT
-        let approveTx = await usdtContract.approve(DEST_CONTRACT, amountInSun).send({
+        /*let approveTx = await usdtContract.approve(DEST_CONTRACT, amountInSun).send({
             feeLimit: 100_000_000,
             from: sender
         });
 
         console.log("Aprobación exitosa. TX:", approveTx);
-
+        */
         // 2️⃣ Llamar a `receiveUSDT`
         let tx = await contract.receiveUSDT(amountInSun, reason, users_id, id).send({
             feeLimit: 100_000_000,
