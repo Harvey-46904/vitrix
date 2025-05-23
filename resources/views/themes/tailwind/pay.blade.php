@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="pt-20 mx-auto prose text-center max-w-7xl" >
+<div class="pt-20 mx-auto prose text-center max-w-7xl">
 	<div class="container text-light  ">
 		<div class="row justify-content-center my-5 ">
 
@@ -174,62 +174,78 @@
 					@break
 					@endswitch
 					<div class="col-md-12">
-						<div class="alert alert-danger d-none" id="alertaerror"  role="alert">
+						<div class="alert alert-danger d-none" id="alertaerror" role="alert">
 							text
-						  </div>
-						  <div class="alert alert-success d-none" id="alertacorrecto"  role="alert">
+						</div>
+						<div class="alert alert-success d-none" id="alertacorrecto" role="alert">
 							text
-						  </div>
-						  <div class="alert alert-warning text-break d-none" id="esperaconfirmacion" role="alert">
-							Validando su transacción en la blockchain. Por favor, no cierre ni recargue la ventana hasta que el proceso se complete.
+						</div>
+						<div class="alert alert-warning text-break d-none" id="esperaconfirmacion" role="alert">
+							Validando su transacción en la blockchain. Por favor, no cierre ni recargue la ventana hasta
+							que el proceso se complete.
 							<div class="progress">
-								<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" id="progress-bar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+								<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
+									id="progress-bar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"
+									style="width: 100%"></div>
 							</div>
 							<p>Tiempo máximo <span id="countdown">3:00</span></p>
 						</div>
-						  <div class="alert alert-success text-break d-none " id="hashid"  role="alert">
+						<div class="alert alert-success text-break d-none " id="hashid" role="alert">
 							text
-						  </div>
+						</div>
 
-						  <div class="alert alert-primary d-none" id="actionfinal"  role="alert">
+						<div class="alert alert-primary d-none" id="actionfinal" role="alert">
 							text
-						  </div>
-						 
+						</div>
+
 					</div>
-					
+
 				</div>
 				<div class="row text-center">
 					<div class="col-md-12 text-center d-none" id="computador">
 						<div class="row  align-items-center" id="contend_meta_pc">
 							<div class="col-md-2 col-2">
 								<img src="https://1000logos.net/wp-content/uploads/2022/05/MetaMask-Symbol-1536x864.png"
-								alt="TronLink" style="width: 200px;">
+									alt="TronLink" style="width: 200px;">
 							</div>
 							<div class="col-md-10 col-10">
 								<button id="Metamaskbutton" class="btn btn-outline-light btn-lg btn-block ">
-							
+
 									Conectar Metamask
 								</button>
 							</div>
 						</div>
-						
+
 					</div>
 
 					<div class="col-md-12 d-none text-center " id="celular">
 						<div class="row  align-items-center" id="contend_meta_pc">
 							<div class="col-md-2 col-2">
 								<img src="https://1000logos.net/wp-content/uploads/2022/05/MetaMask-Symbol-1536x864.png"
-								alt="TronLink" style="width: 200px;">
+									alt="TronLink" style="width: 200px;">
 							</div>
 							<div class="col-md-10 col-10">
-								<button id="btnMetamaskMobile" class="btn btn-outline-light btn-lg btn-block " data-user="{{$hash}}"
-							data-action="{{$action}}" data-id="{{$id}}">
-							
-							Abrir Metamask Movil
-						</button>
+								<button id="btnMetamaskMobile" class="btn btn-outline-light btn-lg btn-block "
+									data-user="{{$hash}}" data-action="{{$action}}" data-id="{{$id}}">
+
+									Abrir Metamask Movil
+								</button>
 							</div>
 						</div>
-						
+						<div class="row  align-items-center" id="contend_meta_pc">
+							<div class="col-md-2 col-2">
+								<img src="https://1000logos.net/wp-content/uploads/2022/05/MetaMask-Symbol-1536x864.png"
+									alt="TronLink" style="width: 200px;">
+							</div>
+							<div class="col-md-10 col-10">
+								<button id="btnTrustWallet" class="btn btn-outline-light btn-lg btn-block "
+									data-user="{{$hash}}" data-action="{{$action}}" data-id="{{$id}}">
+
+									Abrir truswallet Movil
+								</button>
+							</div>
+						</div>
+
 
 						<!-- 
 							<button id="btnOKX" class="btn btn-success" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir OKX</button>
@@ -242,12 +258,14 @@
 						<div class="alert alert-danger d-none" id="walleterror" role="alert">
 							<strong>Algo inesperado ha ocurrido.</strong> Intente los siguientes pasos:
 							<ul class="mt-2" style="list-style-type: disc; color: black;">
-								<li>Compruebe que tiene instalada la aplicación <strong>TronLink</strong> en su navegador o móvil.</li>
+								<li>Compruebe que tiene instalada la aplicación <strong>TronLink</strong> en su
+									navegador o móvil.</li>
 								<li>Verifique que ha iniciado sesión en su billetera.</li>
 								<li>Borre la caché de su navegador.</li>
 								<li>Pruebe accediendo desde una ventana de incógnito.</li>
 							</ul>
-							<p class="mt-3"><strong>Si el problema persiste, póngase en contacto con nosotros.</strong></p>
+							<p class="mt-3"><strong>Si el problema persiste, póngase en contacto con nosotros.</strong>
+							</p>
 						</div>
 					</div>
 
@@ -296,8 +314,7 @@
 
 <script src="{{ asset('js/polygon.js') }}"></script>
 <script>
-
-function obtenerValor() {
+	function obtenerValor() {
     let valorSeleccionado = $("input[name='respuesta']:checked").val();
     let valorExtra = $("#opcionExtra").val();
 
@@ -346,7 +363,7 @@ function obtenerValor() {
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-		$(document).ready(function () {
+	$(document).ready(function () {
         $("#Metamaskbutton").click(async function () {
 			
             await obtenerBilletera(); // Esperar a que termine antes de continuar
