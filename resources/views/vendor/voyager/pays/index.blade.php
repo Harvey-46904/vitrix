@@ -74,21 +74,20 @@ Gestión de pagos
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let totalMonto;
+    
     $(document).ready(function () {
-      
-    $("#btnGetBalance").click(function(){
-        getUSDTBalance(); // Llamada a la función que obtiene el balance
-
-        // Esperar un tiempo para que se actualice el balance antes de comparar
-        setTimeout(() => {
+        $("#btnGetBalance").click(async function () {
+          
+            await getUSDTBalance(); // Esperar a que termine antes de continuar
+           
             let balanceText = $("#usdtBalance").text().replace("Balance: ", "").replace(" USDT", "");
             let balanceUSDT = parseFloat(balanceText) || 0;
-
+    
             let totalText = $("td.totalMonto").text().replace(" USDT", "");
             totalMonto = parseFloat(totalText) || 0;
-
+    
             let infoDiv = $("#informacion");
-
+    
             if (balanceUSDT >= totalMonto) {
                 $("#btnPagar").removeClass("d-none").css("display", "block");
                 infoDiv.removeClass("d-none alert-warning").addClass("alert-success");
@@ -97,12 +96,10 @@ Gestión de pagos
                 infoDiv.removeClass("d-none alert-warning").addClass("alert-danger");
                 infoDiv.text(`El balance es insuficiente porque el contrato tiene ${balanceUSDT} USDT y la solicitud de retiro es ${totalMonto} USDT.`);
             }
-                    }, 1000); // Espera 1 segundo (ajústalo si es necesario)
-                });
-            });
-
-
+        });
+    });
 </script>
+    
 
 <script>
     $(document).ready(function () {

@@ -1,17 +1,264 @@
-import { BrowserProvider, Contract, parseUnits } from "ethers";
+import { BrowserProvider, Contract, parseUnits ,formatUnits } from "ethers";
 
 
 // Configurar proveedor (Metamask inyecta `window.ethereum`)
 
-const provider = new BrowserProvider(window.ethereum);
+
  
 
 // Direcciones de contrato en Polygon (asegúrate de reemplazar con las reales en mainnet o Amoy)
 const USDT_CONTRACT = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // Dirección del contrato USDT en Polygon
 const DEST_CONTRACT = "0xe94D803385e20a0578867854E67B4F5Eb8e5c65e"; // Dirección de tu contrato inteligente
 const usdtAbi = ["function approve(address spender, uint256 amount) public returns (bool)"];
-const destAbi = ["function receiveUSDT(uint256 amount, string reason, uint256 userId, uint256 id) public"];
-
+//const destAbi = ["function receiveUSDT(uint256 amount, string reason, uint256 userId, uint256 id) public"];
+const destAbi =[
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_usdtTokenAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "master",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "successfulTransactions",
+				"type": "uint256[]"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256[]",
+				"name": "failedTransactions",
+				"type": "uint256[]"
+			}
+		],
+		"name": "BatchTransferCompleted",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "sender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "reason",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "idus",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "idmeta",
+				"type": "uint256"
+			}
+		],
+		"name": "ReceivedUSDT",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "recipient",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "Withdrawal",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "newUSDT",
+				"type": "address"
+			}
+		],
+		"name": "SettingsOwner",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address[]",
+				"name": "recipients",
+				"type": "address[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "amounts",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "transactionIds",
+				"type": "uint256[]"
+			}
+		],
+		"name": "batchTransferUSDT",
+		"outputs": [
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			},
+			{
+				"internalType": "uint256[]",
+				"name": "",
+				"type": "uint256[]"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getUSDTBalance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "reason",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "idus",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "idmeta",
+				"type": "uint256"
+			}
+		],
+		"name": "receiveUSDT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "newMdevos",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "newUSDT",
+				"type": "address"
+			}
+		],
+		"name": "uSettings",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "usdtTokenAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "withdrawUSDT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	}
+];
 
 function startCountdown(duration) {
     let timeRemaining = duration;
@@ -180,7 +427,13 @@ async function payWithUSDT(amount, reason, users_id, id) {
       }
     } catch (error) {
       console.error("Error al pagar con USDT:", error);
-      $("#alertaerror").removeClass("d-none").text("Error: " + error.message);
+
+	    // Extraer la razón si está disponible
+		let reason = error?.reason || error?.error?.reason || "Error desconocido";
+    
+		// Mostrarlo en tu alerta
+		$("#alertaerror").removeClass("d-none").text("Error: " + reason);
+     
       $("#alertacorrecto").addClass("d-none");
       $("#hashid").addClass("d-none");
     }
@@ -190,17 +443,18 @@ function detectarDispositivo() {
 }
 
 async function obtenerBilletera() {
-
-   
-    
+	
     try {
         if (!window.ethereum) {
             $("#walleterror").removeClass("d-none").text("Metamask no está instalado.");
             return null;
         }
 
+		await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new BrowserProvider(window.ethereum);
 
-        await provider.send("eth_requestAccounts", []);
+	
+        //await provider.send("eth_requestAccounts", []);
         const signer = await provider.getSigner();
         const address = await signer.getAddress();
 
@@ -209,7 +463,8 @@ async function obtenerBilletera() {
         document.getElementById("status").classList.add("text-success");
         document.getElementById("status").innerText = " Conectado";
         document.getElementById("methodspay").classList.remove("d-none");
-
+		document.getElementById("contend_meta_pc").classList.add("d-none");
+		
         return address;
 
     } catch (error) {
@@ -225,21 +480,46 @@ async function obtenerBilletera() {
     return null;
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
-    alert("cargo");
-    const esMovil = detectarDispositivo() === "movil";
-    const billetera = await obtenerBilletera(); // la versión que ya te pasé
-    
-
-    if (billetera) {
-        console.log("Billetera detectada:", billetera);
-        return; // Ya conectado
+async function getUSDTBalance() {
+    try {
+        if (!window.ethereum) {
+            console.log("Conéctate primero con Metamask.");
+            return;
+        }
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new BrowserProvider(window.ethereum);
+        const contract = new Contract(DEST_CONTRACT, destAbi, provider);
+        const balance = await contract.getUSDTBalance();
+        const balanceInUSDT = formatUnits(balance, 6); // USDT usa 6 decimales
+        console.log("Balance USDT del contrato:", balanceInUSDT);
+        document.getElementById("usdtBalance").textContent = `Balance: ${balanceInUSDT} USDT`;
+    } catch (error) {
+        console.error("Error al obtener balance USDT:", error);
     }
+}
 
-    const dappUrl = "https://www.vitrix.io/payforms/";
-    
-    if (esMovil) {
+document.addEventListener("DOMContentLoaded", async function () {
+	const esMovil = detectarDispositivo() === "movil";
+	
+	if (esMovil) {
+		console.log("celular");
+		
         document.getElementById("celular").classList.remove("d-none");
+		const dappUrl = "https://www.vitrix.io/payforms/";
+
+		//metamask
+		document.getElementById("btnMetamaskMobile").addEventListener("click", function (event) {
+			const action = event.target.getAttribute("data-action");
+			const user = event.target.getAttribute("data-user");
+			const id = event.target.getAttribute("data-id");
+			const newUrl = dappUrl + action + "/" + user + "/" + id + "?deeplink=1";
+		
+			// Crear deeplink para MetaMask Mobile
+			const deepLink = "https://metamask.app.link/dapp/" + newUrl.replace(/^https?:\/\//, '');
+		
+			// Abrir MetaMask Mobile
+			window.location.href = deepLink;
+		});
 
         // Trust Wallet (usa MetaMask-compatible Deeplink)
         document.getElementById("btnTrustWallet").addEventListener("click", function (event) {
@@ -277,35 +557,19 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
     } else {
+		console.log("PC ESCRITORIO");
         // PC / Escritorio
         document.getElementById("computador").classList.remove("d-none");
 
-        const metamaskButton = document.getElementById("metamaskButton");
-
-        metamaskButton.addEventListener("click", async () => {
-            try {
-                if (!window.ethereum) {
-                    alert("Primero debes instalar Metamask.");
-                    return;
-                }
-
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                await provider.send("eth_requestAccounts", []);
-                const signer = provider.getSigner();
-                const address = await signer.getAddress();
-
-                document.getElementById("walletAddress").innerText = "Conectado: " + address;
-
-            } catch (error) {
-                $("#walleterror").removeClass("d-none").text("Error conectando a Metamask.");
-                console.error("Error conectando a Metamask:", error);
-            }
-        });
+       
     }
+  
 });
 
 
 window.connectWallet = connectWallet;
 window.payWithUSDT = payWithUSDT;
-/*window.getUSDTBalance = getUSDTBalance;
-window.batchTransferUSDT = batchTransferUSDT;*/
+window.getUSDTBalance = getUSDTBalance;
+window.obtenerBilletera = obtenerBilletera;
+
+/*window.batchTransferUSDT = batchTransferUSDT;*/

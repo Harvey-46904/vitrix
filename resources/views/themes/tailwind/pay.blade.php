@@ -200,22 +200,36 @@
 				</div>
 				<div class="row text-center">
 					<div class="col-md-12 text-center d-none" id="computador">
-
-						<button id="tronlinkButton" class="btn  bg-tronlink d-flex align-items-center">
-							<img src="https://d1muf25xaso8hp.cloudfront.net/https://meta-q.cdn.bubble.io/f1669295699744x508414720900902000/tron_link.png?w=&h=&auto=compress&dpr=1&fit=max"
-								alt="TronLink" style="width: 40px; height: 40px; margin-right: 5px;">
-							Abrir TronLink extensión
-						</button>
+						<div class="row  align-items-center" id="contend_meta_pc">
+							<div class="col-md-2 col-2">
+								<img src="https://1000logos.net/wp-content/uploads/2022/05/MetaMask-Symbol-1536x864.png"
+								alt="TronLink" style="width: 200px;">
+							</div>
+							<div class="col-md-10 col-10">
+								<button id="Metamaskbutton" class="btn btn-outline-light btn-lg btn-block ">
+							
+									Conectar Metamask
+								</button>
+							</div>
+						</div>
+						
 					</div>
 
-					<div class="col-md-12 d-none " id="celular">
-
-						<button id="btnTronLink" class="btn  bg-tronlink d-flex align-items-center" data-user="{{$hash}}"
+					<div class="col-md-12 d-none text-center " id="celular">
+						<div class="row  align-items-center" id="contend_meta_pc">
+							<div class="col-md-2 col-2">
+								<img src="https://1000logos.net/wp-content/uploads/2022/05/MetaMask-Symbol-1536x864.png"
+								alt="TronLink" style="width: 200px;">
+							</div>
+							<div class="col-md-10 col-10">
+								<button id="btnMetamaskMobile" class="btn btn-outline-light btn-lg btn-block " data-user="{{$hash}}"
 							data-action="{{$action}}" data-id="{{$id}}">
-							<img src="https://d1muf25xaso8hp.cloudfront.net/https://meta-q.cdn.bubble.io/f1669295699744x508414720900902000/tron_link.png?w=&h=&auto=compress&dpr=1&fit=max"
-								alt="TronLink" style="width: 40px; height: 40px; margin-right: 5px;">
-							Abrir TronLink Movil
+							
+							Abrir Metamask Movil
 						</button>
+							</div>
+						</div>
+						
 
 						<!-- 
 							<button id="btnOKX" class="btn btn-success" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir OKX</button>
@@ -327,5 +341,16 @@ function obtenerValor() {
 	
 	}
 
+
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+		$(document).ready(function () {
+        $("#Metamaskbutton").click(async function () {
+			
+            await obtenerBilletera(); // Esperar a que termine antes de continuar
+        });
+    });
 </script>
 @endsection
