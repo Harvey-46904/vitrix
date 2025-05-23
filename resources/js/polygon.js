@@ -503,7 +503,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 	
 	if (esMovil) {
 		console.log("celular");
-		if (!window.ethereum) {
+		if (window.ethereum) {
            alert("estas en metamask")
             return null;
         }
