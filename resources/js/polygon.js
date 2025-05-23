@@ -365,7 +365,7 @@ async function UpdateInvoiceStatus(invoice, status) {
     }
 }
 async function payWithUSDT(amount, reason, users_id, id) {
-    alert("boton precionado para pagar");
+    
     try {
       if (!window.ethereum) {
         alert("Metamask no está instalado");
