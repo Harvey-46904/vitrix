@@ -232,20 +232,7 @@
 								</button>
 							</div>
 						</div>
-						<div class="row  align-items-center" id="contend_meta_pc">
-							<div class="col-md-2 col-2">
-								<img src="https://1000logos.net/wp-content/uploads/2022/05/MetaMask-Symbol-1536x864.png"
-									alt="TronLink" style="width: 200px;">
-							</div>
-							<div class="col-md-10 col-10">
-								<button id="btnTrustWallet" class="btn btn-outline-light btn-lg btn-block "
-									data-user="{{$hash}}" data-action="{{$action}}" data-id="{{$id}}">
-
-									Abrir truswallet Movil
-								</button>
-							</div>
-						</div>
-
+						
 
 						<!-- 
 							<button id="btnOKX" class="btn btn-success" data-user="xyz" data-action="{{$action}}" data-id="{{$id}}">Abrir OKX</button>
