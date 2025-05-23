@@ -504,7 +504,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 	if (esMovil) {
 		console.log("celular");
 		if (window.ethereum) {
-           alert("estas en metamask")
+			await obtenerBilletera();
             return null;
         }
         document.getElementById("celular").classList.remove("d-none");
