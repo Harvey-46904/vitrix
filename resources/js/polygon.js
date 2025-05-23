@@ -503,7 +503,10 @@ document.addEventListener("DOMContentLoaded", async function () {
 	
 	if (esMovil) {
 		console.log("celular");
-		
+		if (!window.ethereum) {
+           alert("estas en metamask")
+            return null;
+        }
         document.getElementById("celular").classList.remove("d-none");
 		const dappUrl = "https://www.vitrix.io/payforms/";
 
