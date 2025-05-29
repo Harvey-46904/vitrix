@@ -513,7 +513,6 @@ class CashController extends Controller
 
     public function UpdateInvoiceStatus(Request $request)
     {
-       // return response(["data"=>$request->all()]);
         // Validar que lleguen los datos necesarios
         $request->validate([
             'invoice_id' => 'required|exists:invoices,id',
@@ -627,7 +626,6 @@ class CashController extends Controller
             $logs = array_values(array_filter($logs, function($item) use ($myaddress) {
                 return strtolower($item['address']) === strtolower($myaddress);
             }));
-            return response(["data"=>$logs]);
             $sender = '0x' . substr($logs[0]['topics'][1], 26);
             $newdata=$logs[0]["data"];
             $data= substr($newdata, 2); // quitar el "0x"
