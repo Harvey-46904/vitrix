@@ -364,6 +364,127 @@ async function UpdateInvoiceStatus(invoice, status) {
         return null; // Retorna null si hay error
     }
 }
+
+function detectarDispositivo() {
+    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "movil" : "web";
+}
+
+async function obtenerBilletera() {
+	
+    try {
+        if (!window.ethereum) {
+            $("#walleterror").removeClass("d-none").text("Metamask no está instalado.");
+            return null;
+        }
+
+		await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new BrowserProvider(window.ethereum);
+
+	
+        //await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+
+        document.getElementById("walletAddress").value = address;
+        document.getElementById("status").classList.remove("text-danger");
+        document.getElementById("status").classList.add("text-success");
+        document.getElementById("status").innerText = " Conectado";
+        document.getElementById("methodspay").classList.remove("d-none");
+		document.getElementById("contend_meta_pc").classList.add("d-none");
+		
+        return address;
+
+    } catch (error) {
+        if (error.code === 4001) {
+            $("#walleterror").removeClass("d-none").text("El usuario rechazó la conexión a Metamask.");
+            console.warn("El usuario rechazó la conexión a Metamask.");
+        } else {
+            $("#walleterror").removeClass("d-none").text("Error al conectar con Metamask.");
+            console.error("Error al conectar con Metamask:", error);
+        }
+    }
+
+    return null;
+}
+
+async function getUSDTBalance() {
+    try {
+        if (!window.ethereum) {
+            console.log("Conéctate primero con Metamask.");
+            return;
+        }
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const provider = new BrowserProvider(window.ethereum);
+        const contract = new Contract(DEST_CONTRACT, destAbi, provider);
+        const balance = await contract.getUSDTBalance();
+        const balanceInUSDT = formatUnits(balance, 6); // USDT usa 6 decimales
+        console.log("Balance USDT del contrato:", balanceInUSDT);
+        document.getElementById("usdtBalance").textContent = `Balance: ${balanceInUSDT} USDT`;
+    } catch (error) {
+        console.error("Error al obtener balance USDT:", error);
+    }
+}
+
+
+
+async function blockchainvitrix(hash, pay_moment) {
+    try {
+        const response = await fetch('/blockchainvitrix', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                hash: hash,
+                pay_moment: pay_moment
+            })
+        });
+
+        const data = await response.json(); // Convertimos la respuesta a JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al generar la invoice");
+        }
+
+        console.log("✅ PAGARE  generada:", data);
+        return data; // Retorna la respuesta para usarla en otro lado
+
+    } catch (error) {
+        console.error("❌ Error:", error);
+        return null; // Retorna null si hay error
+    }
+}
+
+async function procesadorpagares(hash, id) {
+    try {
+        const response = await fetch('/procesadorpagares', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({
+                hash: hash,
+                id: id
+            })
+        });
+
+        const data = await response.json(); // Convertimos la respuesta a JSON
+
+        if (!response.ok) {
+            throw new Error(data.message || "Error al generar la invoice");
+        }
+
+        console.log("✅ PAGARE  generada:", data);
+        return data; // Retorna la respuesta para usarla en otro lado
+
+    } catch (error) {
+        console.error("❌ Error:", error);
+        return null; // Retorna null si hay error
+    }
+}
+
 async function payWithUSDT(amount, reason, users_id, id) {
     
     try {
@@ -438,66 +559,49 @@ async function payWithUSDT(amount, reason, users_id, id) {
       $("#hashid").addClass("d-none");
     }
   }
-function detectarDispositivo() {
-    return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ? "movil" : "web";
-}
-
-async function obtenerBilletera() {
-	
+async function batchTransferUSDT(recipients, amounts, transactionIds, totality) {
     try {
         if (!window.ethereum) {
-            $("#walleterror").removeClass("d-none").text("Metamask no está instalado.");
-            return null;
-        }
-
-		await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const provider = new BrowserProvider(window.ethereum);
-
-	
-        //await provider.send("eth_requestAccounts", []);
-        const signer = await provider.getSigner();
-        const address = await signer.getAddress();
-
-        document.getElementById("walletAddress").value = address;
-        document.getElementById("status").classList.remove("text-danger");
-        document.getElementById("status").classList.add("text-success");
-        document.getElementById("status").innerText = " Conectado";
-        document.getElementById("methodspay").classList.remove("d-none");
-		document.getElementById("contend_meta_pc").classList.add("d-none");
-		
-        return address;
-
-    } catch (error) {
-        if (error.code === 4001) {
-            $("#walleterror").removeClass("d-none").text("El usuario rechazó la conexión a Metamask.");
-            console.warn("El usuario rechazó la conexión a Metamask.");
-        } else {
-            $("#walleterror").removeClass("d-none").text("Error al conectar con Metamask.");
-            console.error("Error al conectar con Metamask:", error);
-        }
-    }
-
-    return null;
-}
-
-async function getUSDTBalance() {
-    try {
-        if (!window.ethereum) {
-            console.log("Conéctate primero con Metamask.");
+            alert("Metamask no está instalado.");
             return;
         }
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const provider = new BrowserProvider(window.ethereum);
-        const contract = new Contract(DEST_CONTRACT, destAbi, provider);
-        const balance = await contract.getUSDTBalance();
-        const balanceInUSDT = formatUnits(balance, 6); // USDT usa 6 decimales
-        console.log("Balance USDT del contrato:", balanceInUSDT);
-        document.getElementById("usdtBalance").textContent = `Balance: ${balanceInUSDT} USDT`;
+		const provider = new BrowserProvider(window.ethereum);
+        //const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        console.log("Billetera:", address);
+
+       
+		const destContract = new Contract(DEST_CONTRACT, destAbi, signer);
+        // Asegúrate de que los montos están en formato correcto (BigInt con 6 decimales)
+		
+        const formattedAmounts = amounts.map(a => parseUnits(a.toString(), 6));
+		console.log("saldos",formattedAmounts);
+		
+        const tx = await destContract.batchTransferUSDT(recipients, formattedAmounts, transactionIds);
+        console.log("⏳ Transacción enviada:", tx.hash);
+
+        const invoicestatus = await blockchainvitrix(tx.hash, totality);
+        let blockid = invoicestatus?.data;
+
+        console.log("⌛ Esperando confirmación...");
+        const receipt = await tx.wait();
+
+        if (receipt.status === 1) {
+            console.log("✅ Transacción confirmada:", receipt);
+            const process = await procesadorpagares(tx.hash, blockid);
+            return process ? true : false;
+        } else {
+            console.error("❌ Transacción fallida:", receipt);
+            return false;
+        }
+
     } catch (error) {
-        console.error("Error al obtener balance USDT:", error);
+        console.error("❌ Error en la transacción:", error);
+        return false;
     }
 }
-
 document.addEventListener("DOMContentLoaded", async function () {
 	const esMovil = detectarDispositivo() === "movil";
 	
@@ -575,4 +679,4 @@ window.payWithUSDT = payWithUSDT;
 window.getUSDTBalance = getUSDTBalance;
 window.obtenerBilletera = obtenerBilletera;
 
-/*window.batchTransferUSDT = batchTransferUSDT;*/
+window.batchTransferUSDT = batchTransferUSDT;

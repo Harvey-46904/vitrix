@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">Red</label>
-                    <input type="text"  class="form-control"  value="TRC20" readonly >
+                    <input type="text"  class="form-control"  value="ERC20" readonly >
                 </div>
                 
                 <div class="form-group">
@@ -62,7 +62,7 @@
                     <input type="text"  class="form-control"  placeholder="Escriba correctamente la direccion de retiro " name="billetera">
                     <label class="text-danger">
                         Información importante:<br>
-                        Debes ingresar una billetera TRON válida.<br>
+                        Debes ingresar una billetera POLYGON válida.<br>
                         Comprobar que la billetera es correcta consumirá el feed normalmente.<br>
                         Sin embargo, si la billetera es inválida, se consumirá del feed de retiro y se reversara su saldo restante.
                     </label>

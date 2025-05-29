@@ -17,8 +17,8 @@
 							class="icono not-prose" alt="...">
 					</div>
 					<div class="col-md-10 d-flex align-items-center col-9">
-						<img src="{{ asset('vitrix/img/tron.png') }}" class="not-prose icono me-2" alt="...">
-						<span>Trabajamos en la blockchain de Tron, por lo tanto la red de <b>USDT es TRC20</b></span>
+						<img src="{{ asset('vitrix/img/Polygon.png') }}" class="not-prose icono me-2" alt="...">
+						<span>Trabajamos en la blockchain de Polygon, por lo tanto la red de <b>USDT es ERC20</b></span>
 					</div>
 				</div>
 				<div class="row bg-rosa-transparente py-2 mx-2">
@@ -245,7 +245,7 @@
 						<div class="alert alert-danger d-none" id="walleterror" role="alert">
 							<strong>Algo inesperado ha ocurrido.</strong> Intente los siguientes pasos:
 							<ul class="mt-2" style="list-style-type: disc; color: black;">
-								<li>Compruebe que tiene instalada la aplicación <strong>TronLink</strong> en su
+								<li>Compruebe que tiene instalada la aplicación <strong>metamask</strong> en su
 									navegador o móvil.</li>
 								<li>Verifique que ha iniciado sesión en su billetera.</li>
 								<li>Borre la caché de su navegador.</li>

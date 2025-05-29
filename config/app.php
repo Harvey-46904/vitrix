@@ -9,6 +9,9 @@ return [
     
     'tron_url_api' => env('TRON_URL_API'),
 
+    //polygonscan
+    'polygonscan_api_key' => env('POLYGONSCAN_API_KEY'),
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name

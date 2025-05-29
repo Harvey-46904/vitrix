@@ -277,20 +277,23 @@ class CashController extends Controller
     public function retirosvitrix(Request $request)
     {
         $valor_retirado = $request->cantidad;
-        if ($valor_retirado <= 50) {
+        if ($valor_retirado <= 1) {
             return back()->with('error', 'El monto mínimo de retiro es de 50 USDT');
         }
 
         $request->validate([
-            'billetera' => ['required', 'regex:/^T[A-Za-z1-9]{33}$/'],
+            'billetera' => ['required', 'regex:/^0x[a-fA-F0-9]{40}$/'],
         ], [
-            'billetera.regex' => 'La dirección de la billetera no es válida. Debe comenzar con "T" y tener 34 caracteres (Este proceso no consume su feed).',
+            'billetera.regex' => 'La dirección de la billetera no es válida. Debe comenzar con "0x" y tener 42 caracteres.',
         ]);
+        
+        $wallet = $request->billetera;
+        $apiKey = config('app.polygonscan_api_key');
+        $url = "https://api.polygonscan.com/api?module=account&action=txlist&address={$wallet}&startblock=0&endblock=99999999&page=1&offset=1&sort=asc&apikey={$apiKey}";
 
-        $billetera = $request->billetera;
-        $base_url= config('app.tron_url_api');
-        $response = Http::get($base_url."/accounts/{$billetera}");
+        $response = Http::get($url);
         $json = $response->json();
+
        
         $id       = auth()->user()->id;
         $opciones = $request->dinero;
@@ -311,7 +314,7 @@ class CashController extends Controller
 
         $descuento   = ($valor_retirado * $valor) / 100;
         $total_final = $valor_retirado - $descuento;
-
+       
         switch ($opciones) {
             case "efectivo":
                 if ($valor_retirado > $efectivo) {
@@ -320,10 +323,10 @@ class CashController extends Controller
 
                 if (
                     
-                    $json['success'] === false 
+                    $json['status'] === '0' 
                 ) {
                     $this->cashService->AddMoneyBalance($id, -$descuento, 'Cobro feed Wallet error');
-                    return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
+                    return back()->with('error', 'La billetera no fue encontrada en la red POLYGON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
                 }
 
                 $this->cashService->AddMoneyBalance($id, -$valor_retirado, 'Solicitud de retiro Balance');
@@ -335,12 +338,12 @@ class CashController extends Controller
                 }
                 if (
                    
-                    $json['success'] === false
+                    $json['status'] === '0'
                   
                 ) {
                     $this->cashService->AddMoneyCards($id, -$descuento, 'Consumo feed wallet referido');
                     $this->cashService->PayRefery($id, -$descuento, 'Cobro feed Wallet error');
-                    return back()->with('error', 'La billetera no fue encontrada en la red TRON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
+                    return back()->with('error', 'La billetera no fue encontrada en la red POLYGON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
                 }
 
                 if ($referidos <= $cards) {
@@ -510,6 +513,7 @@ class CashController extends Controller
 
     public function UpdateInvoiceStatus(Request $request)
     {
+       // return response(["data"=>$request->all()]);
         // Validar que lleguen los datos necesarios
         $request->validate([
             'invoice_id' => 'required|exists:invoices,id',
@@ -611,16 +615,50 @@ class CashController extends Controller
 
     public function getTransactionEvents($transactionHash)
     {
-
-        $base_url= config('app.tron_url_api');
-        $url = $base_url."/transactions/{$transactionHash}/events";
-
+        $keypolgon= config('app.polygonscan_api_key');
+        $url = "https://api.polygonscan.com/api?module=proxy&action=eth_getTransactionReceipt&txhash={$transactionHash}&apikey={$keypolgon}";
         $response = Http::withHeaders([
             'accept' => 'application/json',
         ])->get($url);
-
         if ($response->successful()) {
-            return $response->json(); // Devuelve los datos en formato JSON
+            $data = $response->json();
+            $logs = $data['result']['logs'] ?? [];
+            $myaddress = "0xe94D803385e20a0578867854E67B4F5Eb8e5c65e";
+            $logs = array_values(array_filter($logs, function($item) use ($myaddress) {
+                return strtolower($item['address']) === strtolower($myaddress);
+            }));
+            $sender = '0x' . substr($logs[0]['topics'][1], 26);
+            $newdata=$logs[0]["data"];
+            $data= substr($newdata, 2); // quitar el "0x"
+               // amount, reason, idus, idmeta => 4 valores
+            $amountHex = '0x' . substr($data, 0, 64);
+            $reasonOffset = hexdec(substr($data, 64, 64)); // offset al string
+            $idusHex = '0x' . substr($data, 128, 64);
+            $idmetaHex = '0x' . substr($data, 192, 64);
+
+            $amount = hexdec($amountHex); // suponiendo 6 decimales de USDT
+            $idus = hexdec($idusHex);
+            $idmeta = hexdec($idmetaHex);
+
+            // Extraer y decodificar string `reason`
+            $reasonStart = 192 + 64; // offset comienza después de 4 palabras (256 bits c/u)
+            $reasonLength = hexdec(substr($data, $reasonStart, 64));
+            $reasonData = substr($data, $reasonStart + 64, $reasonLength * 2); // en hex
+            $reason = hex2bin($reasonData);
+            return [
+                'data' => [
+                    [
+                        'event_name' => 'ReceivedUSDT',
+                        'result' => [
+                            'sender' => $sender,
+                            'amount' => $amount,
+                            'reason' => $reason,
+                            'idus'   => $idus,
+                            'idmeta' => $idmeta
+                        ]
+                    ]
+                ]
+            ];
         } else {
             return [
                 'error'   => true,

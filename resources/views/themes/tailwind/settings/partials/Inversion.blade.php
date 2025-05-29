@@ -39,7 +39,7 @@
                                 @foreach ($chunk as $product)
                                     <div class="col-md-5 text-secondary">
                                         <div class="card text-center my-4" style=" background-color: #3471b385;" >
-                                            <img class="card-img-top mx-auto d-block w-50 h-50" src="{{ Voyager::image('wave/marco.png') }}" alt="Card image cap">
+                                            <img class="card-img-top mx-auto d-block w-50 h-50" src="{{ Voyager::image($product->icono) }}" alt="Vitrix Paquetes de Inversion">
                                             <div class="card-body">
                                                 <h5 class="card-title text-light"><b>{{ $product->nombre }}</b></h5>
                                                

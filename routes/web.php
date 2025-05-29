@@ -49,6 +49,7 @@ Route::post('updateinvoicestatus','CashController@UpdateInvoiceStatus')->name("U
 
 Route::get('payforms/{action}/{hash}/{id?}','CashController@payforms')->name("payforms");
 Route::post('webhookblockchain','CashController@PayBlockchains')->name("WebHookBlockchain");
+Route::get('polygon/{transactionHash}','CashController@getTransactionEvents');
 
 Route::get('listnave',"GamesController@ListNaves");
 Route::get('roomi','GamesController@createRoom')->name("room");
