@@ -35,6 +35,7 @@ class GamesController extends Controller
     {
         $token = self::getToken();
         // return view('Unity.unity-game',compact("token"));
+        return response(["data"=>"esperalo pronto"]);
         return view('Unity.genius', compact("token"));
     }
     public function Navial()
@@ -47,6 +48,7 @@ class GamesController extends Controller
     }
     public function Cars($id)
     {
+        return response(["data"=>"esperalo pronto"]);
        // return response(["data"=>"prueba"]);
         $user   = Auth::user();
         $userId = $user->id;
