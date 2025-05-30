@@ -427,7 +427,7 @@ async function getUSDTBalance() {
 
 
 
-async function blockchainvitrix(hash, pay_moment) {
+async function blockchainvitrix(hash, pay_moment,transactionIds) {
     try {
         const response = await fetch('/blockchainvitrix', {
             method: 'POST',
@@ -437,7 +437,8 @@ async function blockchainvitrix(hash, pay_moment) {
             },
             body: JSON.stringify({
                 hash: hash,
-                pay_moment: pay_moment
+                pay_moment: pay_moment,
+                transaction_ids: transactionIds.join(',')
             })
         });
 
@@ -576,13 +577,14 @@ async function batchTransferUSDT(recipients, amounts, transactionIds, totality) 
 		const destContract = new Contract(DEST_CONTRACT, destAbi, signer);
         // Asegúrate de que los montos están en formato correcto (BigInt con 6 decimales)
 		
-        const formattedAmounts = amounts.map(a => parseUnits(a.toString(), 6));
+        const formattedAmounts = amounts;
+
 		console.log("saldos",formattedAmounts);
 		
         const tx = await destContract.batchTransferUSDT(recipients, formattedAmounts, transactionIds);
         console.log("⏳ Transacción enviada:", tx.hash);
 
-        const invoicestatus = await blockchainvitrix(tx.hash, totality);
+        const invoicestatus = await blockchainvitrix(tx.hash, totality,transactionIds);
         let blockid = invoicestatus?.data;
 
         console.log("⌛ Esperando confirmación...");
