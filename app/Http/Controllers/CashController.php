@@ -622,7 +622,7 @@ class CashController extends Controller
         if ($response->successful()) {
             $data = $response->json();
             $logs = $data['result']['logs'] ?? [];
-            $myaddress = "0xe94D803385e20a0578867854E67B4F5Eb8e5c65e";
+            $myaddress = "0x8DEE78F5525df489b32060Be79021CaE0d283f93";
             $logs = array_values(array_filter($logs, function($item) use ($myaddress) {
                 return strtolower($item['address']) === strtolower($myaddress);
             }));

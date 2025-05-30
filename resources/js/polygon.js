@@ -8,7 +8,7 @@ import { BrowserProvider, Contract, parseUnits ,formatUnits } from "ethers";
 
 // Direcciones de contrato en Polygon (asegúrate de reemplazar con las reales en mainnet o Amoy)
 const USDT_CONTRACT = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // Dirección del contrato USDT en Polygon
-const DEST_CONTRACT = "0xe94D803385e20a0578867854E67B4F5Eb8e5c65e"; // Dirección de tu contrato inteligente
+const DEST_CONTRACT = "0x8DEE78F5525df489b32060Be79021CaE0d283f93"; // Dirección de tu contrato inteligente
 const usdtAbi = ["function approve(address spender, uint256 amount) public returns (bool)"];
 //const destAbi = ["function receiveUSDT(uint256 amount, string reason, uint256 userId, uint256 id) public"];
 const destAbi =[
