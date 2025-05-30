@@ -21,7 +21,7 @@
     <div class="row justify-content-center">
         <div class="row">
             <div class="col-md-12">
-                <a class="btn btn-success" href="{{ route('wave.paquetes.personal') }}">MIS INVERSIONES</a>
+                <a class="btn btn-success" href="{{ route('wave.paquetes.personal') }}">MIS_INVERSIONES</a>
             </div>
         </div>
         <div class="col-md-12">
