@@ -7,7 +7,7 @@ Route::impersonate();
 //enlaces
 Route::view('casino', 'theme::Accesorios.casino')->name('casino');
 Route::view('inversion', 'theme::Accesorios.inversion')->name('inversion');
-Route::view('referidos', 'theme::Accesorios.referidos')->name('referidos');
+Route::view('referidos', 'theme::Accesorios.referidos')->name('referidos_informacion');
 
 Route::view('historia', 'theme::Accesorios.historia')->name('historia');
 Route::view('compañia', 'theme::Accesorios.compañia')->name('compañia');
@@ -15,6 +15,8 @@ Route::view('compañia', 'theme::Accesorios.compañia')->name('compañia');
 Route::view('ayuda', 'theme::Accesorios.ayuda')->name('ayuda');
 Route::view('noticias', 'theme::Accesorios.noticias')->name('noticias');
 Route::view('sitemap', 'theme::Accesorios.sitemap')->name('sitemap');
+Route::view('preguntas', 'theme::Accesorios.preguntas')->name('preguntas');
+Route::view('contactanos', 'theme::Accesorios.contactanos')->name('contactanos');
 
 Route::view('novedades', 'theme::Accesorios.novedades')->name('novedades');
 Route::view('patrocinadores', 'theme::Accesorios.patrocinadores')->name('patrocinadores');

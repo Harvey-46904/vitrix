@@ -2,44 +2,30 @@
 
 @section('content')
 <div class="container my-5 bg-gris neon-shadow py-3">
-    <div class="row">
-      <div class="col-md-12 text-center mb-4">
-        <h1 class="display-4  gamers texturizado-warning">Noticias</h1>
-        <p class="lead">Mantente informado con las últimas novedades, actualizaciones y eventos de Vitrix.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <h2>¿Qué encontrarás en nuestra sección de noticias?</h2>
-        <p>En Vitrix, queremos que siempre estés al tanto de todo lo que sucede en nuestra plataforma y en la industria de los casinos online. Nuestra sección de noticias está diseñada para proporcionarte información actualizada y relevante, incluyendo:</p>
-        <ul>
-          <li><strong>Nuevos Juegos:</strong> Anuncios sobre los últimos lanzamientos disponibles en nuestra plataforma.</li>
-          <li><strong>Promociones y Bonos:</strong> Detalles sobre ofertas exclusivas que no querrás perderte.</li>
-          <li><strong>Eventos Especiales:</strong> Información sobre torneos, sorteos y otras actividades emocionantes.</li>
-          <li><strong>Actualizaciones Tecnológicas:</strong> Noticias sobre mejoras en nuestra plataforma, incluyendo avances en blockchain y seguridad.</li>
-          <li><strong>Tendencias de la Industria:</strong> Artículos y análisis sobre el mundo de los casinos online.</li>
-        </ul>
-        <p>Nuestra meta es ofrecerte contenido valioso que enriquezca tu experiencia como usuario e inversor.</p>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-md-12">
-        <h2>¿Por qué seguir nuestras noticias?</h2>
-        <p>Al mantenerte al día con nuestra sección de noticias, podrás:</p>
-        <ul>
-          <li>Maximizar tus oportunidades de aprovechar promociones y bonos.</li>
-          <li>Participar en eventos y actividades exclusivas.</li>
-          <li>Conocer las tendencias más recientes que impactan en la industria de los casinos.</li>
-          <li>Estar al tanto de las innovaciones y desarrollos que implementamos en Vitrix.</li>
-        </ul>
-      </div>
-    </div>
-    <div class="row mt-5">
-      <div class="col-md-12 text-center">
-        <a href="#" class="btn btn-primary btn-lg">Explorar Noticias</a>
-      </div>
+  <div class="row">
+    <div class="col-md-12 text-center mb-4">
+      <h1 class="display-4 gamers texturizado-warning">📰 Vitrix News</h1>
+      <p class="lead">Mantente conectado con lo último que sucede en Vitrix: lanzamientos, promociones, torneos y avances tecnológicos.</p>
+      <p>Porque en el mundo del gaming y la inversión, la información también es poder.</p>
     </div>
   </div>
-  
 
+  <div class="row">
+    <div class="col-md-12">
+      <p>En esta sección, reunimos las noticias más relevantes de nuestra plataforma y del universo del entretenimiento blockchain:</p>
+      <ul>
+        <li>🎮 <strong>Nuevos Juegos:</strong> Conoce primero los títulos que lanzamos, sus reglas, recompensas y cómo aprovecharlos al máximo.</li>
+        <li>🎁 <strong>Promociones Exclusivas:</strong> Accede a bonos limitados, recompensas por tiempo limitado y desafíos especiales.</li>
+        <li>🏆 <strong>Eventos en Vivo y Torneos:</strong> Entérate de competencias globales, campeonatos diarios y sorteos con premios en cripto.</li>
+        <li>🔐 <strong>Actualizaciones Tecnológicas:</strong> Mejores experiencias de usuario, más velocidad, más seguridad y nuevas integraciones blockchain.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-12">
+      <p>📬 <strong>Consejo:</strong> Suscríbete a nuestras notificaciones o canal de Telegram para no perderte ninguna oportunidad. Cada novedad puede ser una forma más de ganar.</p>
+    </div>
+  </div>
+</div>
 @endsection
