@@ -18,28 +18,30 @@
 		<div class="col-md-12 text-center">
 			<h1 class="text-light gamers">Rangos Vitrix </h1>
 		</div>
+		<div class="row ">
+			<div class="col-3 col-md-3 ">
+				<div class="">
+					<img  class=" circle-image img-fluid" src="./vitrix/img/rangos/RANGOS PORTADAS_ZAFIRO.png" alt="Imagen 1">
 
-		<div class="col-3 col-md-3 ">
-			<div class="circle-image">
-				<img src="./vitrix/img/rangos/RANGOS PORTADAS_ZAFIRO.png" alt="Imagen 1">
+				</div>
+			</div>
+			<div class="col-3 col-md-3">
+				<div class="">
+					<img class=" circle-image img-fluid" src="./vitrix/img/rangos/RANGOS PORTADAS_ESMERALDA.png" alt="Imagen 2">
+				</div>
+			</div>
+			<div class="col-3 col-md-3">
+				<div class="">
+					<img class="circle-image img-fluid"  src="./vitrix/img/rangos/RANGOS PORTADAS _ RUBI.png" alt="Imagen 2">
+				</div>
+			</div>
+			<div class="col-3 col-md-3">
+				<div class="">
+					<img  class=" circle-image img-fluid" src="./vitrix/img/rangos/RANGOS PORTADAS_DIAMANTE.png" alt="Imagen 2">
+				</div>
+			</div>
+		</div>
 
-			</div>
-		</div>
-		<div class="col-3 col-md-3">
-			<div class="circle-image">
-				<img src="./vitrix/img/rangos/RANGOS PORTADAS_ESMERALDA.png" alt="Imagen 2">
-			</div>
-		</div>
-		<div class="col-3 col-md-3">
-			<div class="circle-image">
-				<img src="./vitrix/img/rangos/RANGOS PORTADAS _ RUBI.png" alt="Imagen 2">
-			</div>
-		</div>
-		<div class="col-3 col-md-3">
-			<div class="circle-image">
-				<img src="./vitrix/img/rangos/RANGOS PORTADAS_DIAMANTE.png" alt="Imagen 2">
-			</div>
-		</div>
 	</div>
 	<div class="row neon-shadow align-items-center my-3 p-3">
 		<div class="col-md-4">
@@ -155,7 +157,7 @@
 	</div>
 
 
-	
+
 </div>
 
 <script>

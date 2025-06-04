@@ -57,9 +57,11 @@ Route::get('test', '\Wave\Http\Controllers\SubscriptionController@test');
 
 Route::group(['middleware' => 'wave'], function () {
 	Route::get('dashboard', '\Wave\Http\Controllers\DashboardController@index')->name('wave.dashboard');
+    Route::get('retirar', 'CashController@retirar')->name('retirar');
+    
 });
 
-Route::group(['middleware' => 'auth'], function(){
+Route::group(['middleware' => ['auth']], function(){
 	Route::get('settings/{section?}', '\Wave\Http\Controllers\SettingsController@index')->name('wave.settings');
 	Route::get('settings/arbol/referidos', '\Wave\Http\Controllers\SettingsController@arbol')->name('wave.arbol');
 	Route::post('settings/profile', '\Wave\Http\Controllers\SettingsController@profilePut')->name('wave.settings.profile.put');
@@ -112,7 +114,7 @@ Route::group(['middleware' => 'auth'], function(){
   Route::post('balanceinversionbalance/{id}', 'CashController@addFoundinversionBalance')->name('cashbalanceInversionBalance');
   Route::post('balanceibox/{id}', 'IboxController@addFoundibox')->name('cashbalanceIbox');
   Route::post('balanceiboxbalance/{id}', 'IboxController@addFoundiboxBalance')->name('cashbalanceIboxBalance');
-  Route::get('retirar', 'CashController@retirar')->name('retirar');
+
 
   Route::get('recargame', 'CashController@recargame')->name('recargame');
 

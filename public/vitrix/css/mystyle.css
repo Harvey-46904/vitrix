@@ -248,13 +248,15 @@ body {
 }
 
 .circle-image {
-  width: 150px;
-  height: 150px;
+  
+ 
   border-radius: 50%;
-  overflow: hidden;
-  display: flex;
   justify-content: center;
   align-items: center;
+  
+  overflow: hidden;
+  display: flex;
+ 
   margin: 0 auto;
 }
 .circle-image img {
