@@ -4,18 +4,79 @@
 <div class="container my-5 bg-gris neon-shadow py-3">
   <div class="row">
     <div class="col-md-12 text-center mb-4">
-      <h1 class="display-4 gamers texturizado-danger">🔒 Política de Privacidad</h1>
-      <p class="lead">Tu privacidad es nuestra prioridad en Vitrix.</p>
+      <h1 class="display-4 gamers texturizado-warning">Política de Privacidad</h1>
+      <p class="lead">Tu información es importante para nosotros.</p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <p>
+        En Vitrix, nos comprometemos a proteger la privacidad y seguridad de nuestros usuarios. Esta Política de Privacidad explica cómo recopilamos, utilizamos, almacenamos y compartimos la información personal que usted nos proporciona al utilizar nuestra plataforma. Al acceder y utilizar nuestros servicios, usted acepta los términos descritos en esta política.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h2>📋 Información que recopilamos:</h2>
+      <ul>
+        <li>• Nombre completo</li>
+        <li>• Dirección de correo electrónico</li>
+        <li>• Dirección IP</li>
+        <li>• País de residencia</li>
+        <li>• Información de pago o billeteras digitales</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h2>🎯 Finalidad del uso de la información:</h2>
+      <ul>
+        <li>• Verificación de identidad y edad</li>
+        <li>• Procesamiento de pagos y retiros</li>
+        <li>• Gestión de cuentas de usuario</li>
+        <li>• Prevención de fraudes y uso indebido</li>
+        <li>• Análisis estadísticos y mejoras del sistema</li>
+        <li>• Envío de comunicaciones promocionales (previa aceptación)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <p>
+        Los datos personales se almacenan en servidores seguros y son protegidos mediante protocolos de cifrado y medidas de seguridad avanzadas. Mantenemos registros durante el tiempo estrictamente necesario para cumplir con nuestras obligaciones operativas.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <h2>🛡️ Derechos del usuario:</h2>
+      <ul>
+        <li>• Acceder a su información personal</li>
+        <li>• Solicitar la corrección o eliminación de sus datos</li>
+        <li>• Oponerse al tratamiento de datos con fines promocionales</li>
+        <li>• Retirar su consentimiento en cualquier momento</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <div class="col-md-12">
+      <p>
+        Vitrix no permite el registro ni uso de sus servicios a personas menores de 18 años o menores a la edad legal permitida en su jurisdicción. Si detectamos registros de menores, eliminaremos la cuenta de inmediato.
+      </p>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
-      <p class="text-justify">Bienvenido a <strong>Vitrix</strong>.
- Antes de utilizar nuestros servicios, le recomendamos leer detenidamente el presente documento que regula el acceso, uso, permanencia, interacción, transacción, participación y disposición de los contenidos, funcionalidades y productos ofrecidos en la plataforma digital (en adelante, "Vitrix" o "la Plataforma").Al registrarse, acceder o utilizar cualquiera de nuestras funcionalidades, el usuario manifiesta su conformidad plena, consciente y voluntaria con la totalidad de los presentes Términos y Condiciones, que tienen carácter vinculante y obligacional. El uso de Vitrix está limitado a personas naturales que:Hayan alcanzado la mayoría de edad legal en su país o jurisdicción de residencia. Residan en países donde la participación en plataformas de juego online y entretenimiento digital no se encuentre expresamente prohibida. No se hallen sujetos a restricciones legales, penales o comerciales que les impidan formar parte de entornos digitales basados en criptomonedas y blockchain. Cualquier falsedad, omisión o tergiversación de datos durante el proceso de registro podrá dar lugar a la suspensión o eliminación inmediata de la cuenta. Cada usuario podrá registrar una única cuenta personal en Vitrix. Está terminantemente prohibido: Registrar múltiples cuentas por individuo. Compartir contraseñas o accesos con terceros. Utilizar identidades falsas o medios de pago de terceros sin autorización expresa y verificable Vitrix podrá solicitar verificación de identidad en cualquier momento. El incumplimiento de esta obligación podrá generar la suspensión automática de la cuenta hasta tanto se regularice la situación. Todos los bonos, recompensas, promociones y sistemas de referidos ofrecidos por Vitrix están sujetos a condiciones particulares de aplicación. La aceptación de cualquier incentivo implica el consentimiento expreso a los siguientes principios: Cumplimiento de los requisitos de apuesta establecidos. Restricciones específicas de uso por tipo de juego, tiempo de validez o actividad mínima requerida. Prohibición de la utilización abusiva o sistemática de bonos mediante estrategias consideradas desleales. Los sistemas de referidos operan bajo una estructura escalonada de participación e incentivo indirecto basada en la actividad real y transparente de los usuarios referidos. Vitrix podrá suspender o ajustar cualquier beneficio ante indicios de uso indebido, fraude o manipulación del sistema La plataforma utiliza criptomonedas y activos digitales para facilitar la experiencia de juego, inversión y retiro. Todos los movimientos financieros están respaldados por tecnología blockchain Los retiros pueden demorar entre 24 y 72 horas según el tráfico de red, protocolos de seguridad y proveedor de liquidez. Vitrix no cobra comisiones ocultas. Cualquier gasto externo será responsabilidad del usuario. Vitrix se configura como una plataforma tecnológica autogestionada, descentralizada lo cual es informado expresamente al usuario. El usuario exonera expresamente a Vitrix, sus fundadores, socios, desarrolladores y operadores de toda responsabilidad derivada de sus decisiones personales de inversión o participación. La información personal suministrada durante el registro y uso de la plataforma será tratada bajo estrictos protocolos de seguridad criptográfica y conforme a los principios de: Minimización de datos. No compartición con terceros sin consentimiento previo. Acceso limitado y cifrado. El usuario tiene derecho a modificar, actualizar o eliminar su información en cualquier momento mediante solicitud formal. Vitrix se reserva el derecho de modificar parcial o totalmente estos Términos y Condiciones en cualquier momento, notificando tales cambios por los medios disponibles en la plataforma. El uso continuo de Vitrix tras la actualización de los presentes términos implicará su aceptación irrevocable. Toda controversia será resuelta mediante mecanismos de arbitraje privado internacional, de buena fe y bajo principios de equidad, eximiendo la aplicación directa de jurisdicciones locales.
+      <p>
+        Nos reservamos el derecho de actualizar esta Política en cualquier momento. Las modificaciones se notificarán a través de nuestra web o por correo electrónico. Se recomienda revisar esta sección periódicamente.
       </p>
-
-      
     </div>
   </div>
 </div>

@@ -11,56 +11,11 @@
 
   <div class="row">
     <div class="col-md-12">
-      <p>Bienvenido a <strong>Vitrix</strong>. Al registrarte, acceder o utilizar cualquiera de nuestras funcionalidades, aceptas de manera plena y consciente los siguientes Términos y Condiciones. Este documento regula el acceso, uso, participación y disposición de los contenidos y servicios ofrecidos en nuestra plataforma.</p>
+      <p class="text-justify">
+        Bienvenido a Vitrix. Antes de utilizar nuestros servicios, le recomendamos leer detenidamente el presente documento que regula el acceso, uso, permanencia, interacción, transacción, participación y disposición de los contenidos, funcionalidades y productos ofrecidos en la plataforma digital (en adelante, "Vitrix" o "la Plataforma").Al registrarse, acceder o utilizar cualquiera de nuestras funcionalidades, el usuario manifiesta su conformidad plena, consciente y voluntaria con la totalidad de los presentes Términos y Condiciones, que tienen carácter vinculante y obligacional. El uso de Vitrix está limitado a personas naturales que:Hayan alcanzado la mayoría de edad legal en su país o jurisdicción de residencia. Residan en países donde la participación en plataformas de juego online y entretenimiento digital no se encuentre expresamente prohibida. No se hallen sujetos a restricciones legales, penales o comerciales que les impidan formar parte de entornos digitales basados en criptomonedas y blockchain. Cualquier falsedad, omisión o tergiversación de datos durante el proceso de registro podrá dar lugar a la suspensión o eliminación inmediata de la cuenta. Cada usuario podrá registrar una única cuenta personal en Vitrix. Está terminantemente prohibido: Registrar múltiples cuentas por individuo. Compartir contraseñas o accesos con terceros. Utilizar identidades falsas o medios de pago de terceros sin autorización expresa y verificable Vitrix podrá solicitar verificación de identidad en cualquier momento. El incumplimiento de esta obligación podrá generar la suspensión automática de la cuenta hasta tanto se regularice la situación. Todos los bonos, recompensas, promociones y sistemas de referidos ofrecidos por Vitrix están sujetos a condiciones particulares de aplicación. La aceptación de cualquier incentivo implica el consentimiento expreso a los siguientes principios: Cumplimiento de los requisitos de apuesta establecidos. Restricciones específicas de uso por tipo de juego, tiempo de validez o actividad mínima requerida. Prohibición de la utilización abusiva o sistemática de bonos mediante estrategias consideradas desleales. Los sistemas de referidos operan bajo una estructura escalonada de participación e incentivo indirecto basada en la actividad real y transparente de los usuarios referidos. Vitrix podrá suspender o ajustar cualquier beneficio ante indicios de uso indebido, fraude o manipulación del sistema La plataforma utiliza criptomonedas y activos digitales para facilitar la experiencia de juego, inversión y retiro. Todos los movimientos financieros están respaldados por tecnología blockchain Los retiros pueden demorar entre 24 y 72 horas según el tráfico de red, protocolos de seguridad y proveedor de liquidez. Vitrix no cobra comisiones ocultas. Cualquier gasto externo será responsabilidad del usuario. Vitrix se configura como una plataforma tecnológica autogestionada, descentralizada lo cual es informado expresamente al usuario. El usuario exonera expresamente a Vitrix, sus fundadores, socios, desarrolladores y operadores de toda responsabilidad derivada de sus decisiones personales de inversión o participación. La información personal suministrada durante el registro y uso de la plataforma será tratada bajo estrictos protocolos de seguridad criptográfica y conforme a los principios de: Minimización de datos. No compartición con terceros sin consentimiento previo. Acceso limitado y cifrado. El usuario tiene derecho a modificar, actualizar o eliminar su información en cualquier momento mediante solicitud formal. Vitrix se reserva el derecho de modificar parcial o totalmente estos Términos y Condiciones en cualquier momento, notificando tales cambios por los medios disponibles en la plataforma. El uso continuo de Vitrix tras la actualización de los presentes términos implicará su aceptación irrevocable. Toda controversia será resuelta mediante mecanismos de arbitraje privado internacional, de buena fe y bajo principios de equidad, eximiendo la aplicación directa de jurisdicciones locales.
 
-      <h4 class="mt-4">🔞 Requisitos para usar Vitrix</h4>
-      <ul>
-        <li>Ser mayor de edad en tu país o jurisdicción.</li>
-        <li>Residir en un país donde no esté prohibido el uso de plataformas de juegos online.</li>
-        <li>No tener restricciones legales que impidan el uso de servicios basados en blockchain y criptomonedas.</li>
-      </ul>
-      <p>La falsificación de datos puede conllevar la suspensión o eliminación inmediata de tu cuenta.</p>
+      </p>
 
-      <h4 class="mt-4">👤 Cuentas de Usuario</h4>
-      <ul>
-        <li>Cada persona puede registrar una única cuenta personal.</li>
-        <li>Está prohibido compartir accesos, crear múltiples cuentas o usar identidades falsas.</li>
-        <li>Vitrix puede requerir verificación de identidad en cualquier momento.</li>
-      </ul>
-
-      <h4 class="mt-4">🎁 Bonos y Promociones</h4>
-      <p>Todos los bonos, recompensas y sistemas de referidos están sujetos a condiciones específicas:</p>
-      <ul>
-        <li>Requisitos de apuesta establecidos.</li>
-        <li>Restricciones por tipo de juego, tiempo o actividad mínima.</li>
-        <li>Prohibido el uso abusivo de bonos o estrategias desleales.</li>
-      </ul>
-      <p>Vitrix se reserva el derecho de suspender cualquier beneficio ante sospechas de fraude o manipulación.</p>
-
-      <h4 class="mt-4">💸 Criptomonedas y Retiros</h4>
-      <p>La plataforma opera con activos digitales. Todos los movimientos están respaldados por blockchain.</p>
-      <ul>
-        <li>Los retiros pueden tardar entre 24 y 72 horas, según red y seguridad.</li>
-        <li>No cobramos comisiones ocultas. Gastos externos corren por cuenta del usuario.</li>
-      </ul>
-
-      <h4 class="mt-4">⚖️ Limitación de Responsabilidad</h4>
-      <p>Vitrix es una plataforma descentralizada. Al utilizarla, exoneras a Vitrix y su equipo de cualquier responsabilidad sobre tus decisiones de participación o inversión.</p>
-
-      <h4 class="mt-4">🔐 Protección de Datos</h4>
-      <p>Tu información será tratada bajo protocolos de seguridad criptográfica. Principios:</p>
-      <ul>
-        <li>Minimización de datos.</li>
-        <li>No compartición sin tu consentimiento.</li>
-        <li>Acceso limitado y cifrado.</li>
-      </ul>
-      <p>Puedes modificar o eliminar tu información en cualquier momento mediante solicitud formal.</p>
-
-      <h4 class="mt-4">📝 Modificaciones</h4>
-      <p>Nos reservamos el derecho a actualizar estos Términos y Condiciones. Serás notificado por los canales disponibles. El uso continuo implica aceptación automática.</p>
-
-      <h4 class="mt-4">⚖️ Resolución de Conflictos</h4>
-      <p>Toda disputa será resuelta por arbitraje privado internacional, con buena fe y principios de equidad, excluyendo jurisdicciones locales.</p>
     </div>
   </div>
 </div>
