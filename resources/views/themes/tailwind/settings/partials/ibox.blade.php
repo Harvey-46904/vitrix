@@ -15,7 +15,11 @@
 	</div>
 	<div class="row justify-content-center text-light ">
 		@foreach ($iboxes as $ibox)
-		<div class="col-md-3 neon-purple regalo p-3 mx-2 my-2">
+		<div class="col-md-3 neon-purple  p-3 mx-2 my-2"     
+		style="background-image: url('{{ Voyager::image($ibox->fondo)   }}');
+                background-size: cover;
+                background-position: center;
+                background-repeat: no-repeat;">
 			<div class="row">
 				<div class="col-md-12 ">
 					{{$ibox->nombre}}<br>

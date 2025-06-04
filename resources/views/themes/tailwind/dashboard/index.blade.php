@@ -21,23 +21,23 @@
 
 		<div class="col-3 col-md-3 ">
 			<div class="circle-image">
-				<img src="./vitrix/img/rangos/bronce.png" alt="Imagen 1">
+				<img src="./vitrix/img/rangos/RANGOS PORTADAS_ZAFIRO.png" alt="Imagen 1">
 
 			</div>
 		</div>
 		<div class="col-3 col-md-3">
 			<div class="circle-image">
-				<img src="./vitrix/img/rangos/locke.png" alt="Imagen 2">
+				<img src="./vitrix/img/rangos/RANGOS PORTADAS_ESMERALDA.png" alt="Imagen 2">
 			</div>
 		</div>
 		<div class="col-3 col-md-3">
 			<div class="circle-image">
-				<img src="./vitrix/img/rangos/locke.png" alt="Imagen 2">
+				<img src="./vitrix/img/rangos/RANGOS PORTADAS _ RUBI.png" alt="Imagen 2">
 			</div>
 		</div>
 		<div class="col-3 col-md-3">
 			<div class="circle-image">
-				<img src="./vitrix/img/rangos/locke.png" alt="Imagen 2">
+				<img src="./vitrix/img/rangos/RANGOS PORTADAS_DIAMANTE.png" alt="Imagen 2">
 			</div>
 		</div>
 	</div>
