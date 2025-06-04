@@ -4,7 +4,7 @@
             <div class="px-8 pt-6 pb-8 space-y-6">
                 <div class="flex items-center justify-between mt-1">
                     <div>
-                    <img class="h-32 pt-2 " src="{{ Voyager::image(theme('logo')) }}" alt="Company name">
+                    <img class="h-32 pt-2 " src="{{ Voyager::image(theme('logo')) }}" alt="Vitrix">
                     </div>
                     <div class="-mr-2">
                         <button @click="mobileMenuOpen = false" type="button" class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">

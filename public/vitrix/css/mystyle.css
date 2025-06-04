@@ -249,7 +249,7 @@ body {
 
 .circle-image {
   
- 
+ /*
   border-radius: 50%;
   justify-content: center;
   align-items: center;
@@ -257,7 +257,7 @@ body {
   overflow: hidden;
   display: flex;
  
-  margin: 0 auto;
+  margin: 0 auto;*/
 }
 .circle-image img {
   width: 100%;
