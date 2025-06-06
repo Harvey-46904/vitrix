@@ -34,10 +34,10 @@ class GamesController extends Controller
     public function Genius()
     {
         $token = self::getToken();
-        return view('Unity.unity-game',compact("token"));
+       /* return view('Unity.unity-game',compact("token"));
          return view('Unity.espectativa');
-        
-        return response(["data"=>"esperalo pronto"]);
+       
+        return response(["data"=>"esperalo pronto"]); */
         return view('Unity.genius', compact("token"));
     }
     public function Navial()

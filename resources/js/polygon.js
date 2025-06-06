@@ -9,6 +9,8 @@ import { BrowserProvider, Contract, parseUnits ,formatUnits } from "ethers";
 // Direcciones de contrato en Polygon (asegúrate de reemplazar con las reales en mainnet o Amoy)
 const USDT_CONTRACT = "0xc2132D05D31c914a87C6611C10748AEb04B58e8F"; // Dirección del contrato USDT en Polygon
 const DEST_CONTRACT = "0x8DEE78F5525df489b32060Be79021CaE0d283f93"; // Dirección de tu contrato inteligente
+//const DEST_CONTRACT = "0xe94D803385e20a0578867854E67B4F5Eb8e5c65e";
+
 const usdtAbi = ["function approve(address spender, uint256 amount) public returns (bool)"];
 //const destAbi = ["function receiveUSDT(uint256 amount, string reason, uint256 userId, uint256 id) public"];
 const destAbi =[
@@ -604,6 +606,48 @@ async function batchTransferUSDT(recipients, amounts, transactionIds, totality) 
         return false;
     }
 }
+
+async function RetiroTransferUSDT(amount) {
+    try {
+        if (!window.ethereum) {
+            alert("Metamask no está instalado.");
+            return;
+        }
+		const provider = new BrowserProvider(window.ethereum);
+        //const provider = new ethers.BrowserProvider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        const signer = await provider.getSigner();
+        const address = await signer.getAddress();
+        console.log("Billetera:", address);
+
+       
+		const destContract = new Contract(DEST_CONTRACT, destAbi, signer);
+        // Asegúrate de que los montos están en formato correcto (BigInt con 6 decimales)
+		
+       
+        const amountInUnits = parseUnits(amount.toString(), 6); // USDT tiene 6 decimales
+		console.log("saldo de retiros",amountInUnits);
+		
+        const tx = await destContract.withdrawUSDT(amountInUnits);
+        console.log("⏳ Transacción enviada:", tx.hash);
+
+
+        console.log("⌛ Esperando confirmación...");
+        const receipt = await tx.wait();
+
+        if (receipt.status === 1) {
+            console.log("✅ Transacción confirmada:", receipt);
+            return true;
+        } else {
+            console.error("❌ Transacción fallida:", receipt);
+            return false;
+        }
+
+    } catch (error) {
+        console.error("❌ Error en la transacción:", error);
+        return false;
+    }
+}
 document.addEventListener("DOMContentLoaded", async function () {
 	const esMovil = detectarDispositivo() === "movil";
 	
@@ -680,5 +724,6 @@ window.connectWallet = connectWallet;
 window.payWithUSDT = payWithUSDT;
 window.getUSDTBalance = getUSDTBalance;
 window.obtenerBilletera = obtenerBilletera;
+window.RetiroTransferUSDT = RetiroTransferUSDT;
 
 window.batchTransferUSDT = batchTransferUSDT;

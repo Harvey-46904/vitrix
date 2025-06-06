@@ -298,7 +298,7 @@
             </div>
             <div class="col-md-12">
 
-                <table class="table table-bordered">
+                <table class="table table-bordered" id="table_retiros">
                     <thead>
                         <tr>
                             <th>Id retiro</th>
@@ -342,6 +342,23 @@
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.slim.js" integrity="sha256-UgvvN8vBkgO0luPSUl2s8TIlOSYRoGFAX4jlCIm9Adc=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
+  
+<script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script>
+
+<script>
+    $(document).ready(function() {
+    $('#table_retiros').DataTable({
+        // Configuraciones opcionales
+        language: {
+            url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
+        },
+        pageLength: 10,
+        order: [[0, 'desc']] // Ordena por la primera columna descendente
+    });
+});
+</script>
 @if ($estadistica)
 <script>
     var chartData = @json($informacion_estadistica['inversiones']['chartData']);

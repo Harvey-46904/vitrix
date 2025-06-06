@@ -2,7 +2,7 @@
 
 
 @can('browse_pagares')
-    <h1>puede</h1>
+<h1>puede</h1>
 @endcan
 
 <div class="page-content container-fluid">
@@ -11,7 +11,7 @@
     $totalMonto = 0;
     @endphp
 
-Gestión de pagos
+    Gestión de pagos
     @if (session('success'))
     <div class="alert alert-success" role="alert">
         Dinero bono depositado correctamente
@@ -56,22 +56,36 @@ Gestión de pagos
             </table>
             <div class="alert alert-warning d-none" id="informacion" role="alert">
                 Primero inicie la comprobación de fondos
-              </div>
-  
+            </div>
+
             <button id="btnGetBalance" class="btn btn-success">Ver Balance de contrato USDT</button>
             <p id="usdtBalance"></p>
-           
+
             <button id="btnPagar" class="btn btn-primary d-none" style="display: none">Pagar</button>
+           
+            <div class="row" id="sacares" style="display: none">
+                <div class="col-md-12">
+                    
+                        <div class="form-group">
+                            <label for="exampleFormControlInput1">Valor a retirar</label>
+                            <input type="text" class="form-control"
+                                placeholder="valor a retirar" id="valuesacar">
+                        </div>
+                        <button id="btnsacar" class="btn btn-danger d-none" style="">Sacar</button>
+                    
+                </div>
+            </div>
             <div id="resultado"></div>
         </div>
         @endif
 
-        
+
     </div>
 </div>
 </div>
 <script src="{{ asset('js/polygon.js') }}"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
     let totalMonto;
     
@@ -90,6 +104,7 @@ Gestión de pagos
     
             if (balanceUSDT >= totalMonto) {
                 $("#btnPagar").removeClass("d-none").css("display", "block");
+                $("#sacares").removeClass("d-none").css("display", "block");
                 infoDiv.removeClass("d-none alert-warning").addClass("alert-success");
                 infoDiv.text(`El balance es suficiente porque el contrato tiene ${balanceUSDT} USDT y la solicitud de retiro es ${totalMonto} USDT.`);
             } else {
@@ -99,7 +114,26 @@ Gestión de pagos
         });
     });
 </script>
+<script>
+   document.getElementById('btnsacar').addEventListener('click', async function () {
+    const valor = document.getElementById('valuesacar').value;
+   
     
+    let result = await RetiroTransferUSDT(valor);
+           
+            if (result) {
+                $("#resultado").html(`<p class="text-success">Retiro Exitoso</p>`);
+                
+                 /* 
+                $("#resultado").html(`
+                    <p class="text-success">Pagos exitosos: ${result.successfulTransactions.join(", ")}</p>
+                    <p class="text-danger">Pagos fallidos: ${result.failedTransactions.join(", ")}</p>
+                `);*/
+            } else {
+                $("#resultado").html(`<p class="text-danger">Error en la transacción.</p>`);
+            }
+});
+</script>
 
 <script>
     $(document).ready(function () {
