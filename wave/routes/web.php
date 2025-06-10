@@ -116,7 +116,7 @@ Route::group(['middleware' => ['auth']], function(){
   Route::post('balanceiboxbalance/{id}', 'IboxController@addFoundiboxBalance')->name('cashbalanceIboxBalance');
 
 
-  Route::get('recargame', 'CashController@recargame')->name('recargame');
+  //Route::get('recargame', 'CashController@recargame')->name('recargame');
 
   Route::get('cash/invertir/{id}', 'InversionesPaquete@CompraPaqueteInversion')->name('cashinversion');
   Route::get('cash/ibox/{id}', 'InversionesPaquete@CompraPaqueteIbox')->name('cashibox');

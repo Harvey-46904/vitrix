@@ -61,7 +61,7 @@
                             <a href="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}" class="btn btn-success">
                                 Recargar
                             </a>
-                            <a href=" {{ route('recargame') }} " class="btn btn-primary">Recargame</a>
+                           
                             <a href=" {{ route('retirar') }} " class="btn btn-danger">Retirar</a>
                            
                            
