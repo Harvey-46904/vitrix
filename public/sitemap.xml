@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://vitrix.io/</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/login</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/register</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/inversion</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/referidos</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/historia</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/ayuda</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/noticias</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/preguntas</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/sitemap</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/contactanos</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/privacidad</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/terminos</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://vitrix.io/password/reset</loc>
+  <lastmod>2025-06-10T15:53:29+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+
+
+</urlset>
