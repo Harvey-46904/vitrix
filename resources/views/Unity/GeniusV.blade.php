@@ -54,7 +54,7 @@
         updateBannerVisibility();
       }
 
-      var buildUrl = "Games/Genius//Build";
+      var buildUrl = "Games/Geniosv/Build";
       var loaderUrl = buildUrl + "/genius.loader.js";
       var config = {
         arguments: [],
