@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 Route::impersonate();
 
 //enlaces
-Route::view('casino', 'theme::Accesorios.casino')->name('casino');
+//Route::view('casino', 'theme::Accesorios.casino')->name('casino');
 Route::view('inversion', 'theme::Accesorios.inversion')->name('inversion');
 Route::view('referidos', 'theme::Accesorios.referidos')->name('referidos_informacion');
 
