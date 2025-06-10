@@ -38,7 +38,7 @@ class GamesController extends Controller
          return view('Unity.espectativa');
        
         return response(["data"=>"esperalo pronto"]); */
-        return view('Unity.genius', compact("token"));
+        return view('Unity.GeniusV', compact("token"));
     }
     public function Navial()
     {
