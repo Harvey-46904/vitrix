@@ -4,8 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Vitrix Cars</title>
-    <link rel="shortcut icon" href="Games/Cars/TemplateData/favicon.ico">
-    <link rel="stylesheet" href="Games/Cars/TemplateData/style.css">
+
+    <link rel="stylesheet" href="{{ asset('Games/Cars/TemplateData/favicon.ico') }}">
+    <link rel="stylesheet" href="{{ asset('Games/Cars/TemplateData/style.css') }}">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -55,7 +56,7 @@
         updateBannerVisibility();
       }
 
-      var buildUrl = "Games/Cars/Build";
+      var buildUrl = "{{ asset('Games/Cars/Build') }}";
       var loaderUrl = buildUrl + "/Cars.loader.js";
       var config = {
         arguments: [],
