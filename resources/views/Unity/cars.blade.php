@@ -60,9 +60,9 @@
       var loaderUrl = buildUrl + "/Cars.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/Cars.data.gz",
-        frameworkUrl: buildUrl + "/Cars.framework.js.gz",
-        codeUrl: buildUrl + "/Cars.wasm.gz",
+        dataUrl: buildUrl + "/Cars.data",
+        frameworkUrl: buildUrl + "/Cars.framework.js",
+        codeUrl: buildUrl + "/Cars.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "New Unity Project",
