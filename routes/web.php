@@ -58,5 +58,12 @@ Route::get('pruebitas',function(){
     return response(["data"=>"hijitos"]);
 });
 
+
+Route::get('/lang/{lang}', function ($lang) {
+    session(['lang' => $lang]);
+    app()->setLocale($lang);
+    return redirect()->back();
+})->name('lang.switch');
+
 // Wave routes
 Wave::routes();

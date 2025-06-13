@@ -6,7 +6,7 @@ use App\Models\IntentoFraude;
 use App\Models\Naveevento;
 use App\Models\User;
 use App\Models\Apuestascar;
-
+use Carbon\Carbon;
 use App\Services\CashMoney;
 use App\Services\PhotonService;
 use App\Services\Referidos;
@@ -74,11 +74,40 @@ class GamesController extends Controller
             $nickname = $user->username;
             $base_url = "http://127.0.0.1:8000/";
             // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
-            return view('Unity.cars', compact('token', 'nickname', 'name_sala','base_url'));
+            return view('Unity.cars', compact('token', 'nickname', 'name_sala','base_url','userId','id'));
         } else {
             return redirect('/');
         }
 
+    }
+
+    public function CarsFinishGame(Request $request){
+       
+
+        $apuestas = Apuestascar::where('sala_id', $request->id_sala)
+                       ->where('estado', 'pendiente')
+                       ->get();
+            DB::table('salas')
+            ->where('id', $request->id_sala)
+            ->update(['estado' => 'option2']);
+        $array_ganador = [];
+        $array_perdedor = [];
+
+        foreach ($apuestas as $apuesta) {
+            if ($apuesta->jugador == $request->id_user) {
+                $this->cashService->AddMoneyBalance($apuesta->jugador_apostador, $apuesta->posible_ganancia, "Vitrix Cars");
+                $apuesta->estado = 'ganadora';
+            } else {
+                $apuesta->estado = 'perdida';
+            }
+            $apuesta->save();
+        }
+
+       
+          return response([
+            "ganadores"=>"carrera finalizada",
+           
+        ]);
     }
 
     public function GeniusPlayGame(Request $request)
@@ -294,11 +323,36 @@ class GamesController extends Controller
 
     public function Salaspropias($id)
     {
-       
+        
         $eventosala = DB::table("salas")
         ->select()
         ->where("id", $id)
         ->first();
+        $cerrar_apuestas=$eventosala->estado=="option6"?true:false;
+        $evento_finalizado=$eventosala->estado=="option2"?true:false; ;
+       
+        
+
+        $fechaJuego = Carbon::parse($eventosala->fecha_juego);
+        $fechaActual = Carbon::now();
+        //return response(["data"=>$eventosala]);
+        if ($fechaJuego->lt($fechaActual) && $eventosala->estado=="option5") {
+
+            DB::table('salas')
+            ->where('id', $id)
+            ->update(['estado' => 'option6']);
+
+            $cerrar_apuestas=true;
+            return view('Unity.SalaGame', compact("eventosala","cerrar_apuestas","evento_finalizado"));
+            return response(["data"=>"actualiza y muestra"]);
+        }
+
+         if($evento_finalizado){
+                return view('Unity.SalaGame', compact("eventosala","evento_finalizado"));
+            }
+          if($cerrar_apuestas){
+                return view('Unity.SalaGame', compact("eventosala","cerrar_apuestas","evento_finalizado"));
+            }
         $eventosala = DB::table('salas')
             ->join('users as u1', 'salas.player_one', '=', 'u1.id')
             ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
@@ -311,7 +365,7 @@ class GamesController extends Controller
             )
             ->where("salas.id", $id)->first();
 
-        return view('Unity.SalaGame', compact("eventosala"));
+        return view('Unity.SalaGame', compact("eventosala","cerrar_apuestas","evento_finalizado"));
         return response(["data" => $eventosala]);
     }
 

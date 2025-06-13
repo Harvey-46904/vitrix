@@ -25,12 +25,19 @@
       </div>
     </div>
     <script>
+
+       
       var canvas = document.querySelector("#unity-canvas");
       const token = @json($token);
       const nickname = @json($nickname);
       const base_url = @json($base_url);
       const name_sala = @json($name_sala);
-      const data = JSON.stringify({ token, nickname, name_sala, base_url });
+      const id_user = @json($userId);
+      const id_sala = @json($id);
+     
+      const data = JSON.stringify({ token, nickname, name_sala, base_url,id_user,id_sala });
+      console.log(data);
+      
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
@@ -106,7 +113,8 @@
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
-
+            // Hacer la instancia accesible globalmente
+              window.unityInstance = unityInstance;
                 unityInstance.SendMessage('Scripts', 'ReceiveToken', data);
                 document.querySelector("#unity-loading-bar").style.display = "none";
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
@@ -117,6 +125,16 @@
                 alert(message);
               });
             };
+
+            // Unity llamará esto desde C#
+function unityReady() {
+  console.log("Unity called unityReady()");
+  if (window.unityInstance) {
+    window.unityInstance.SendMessage('Scripts', 'ReceiveToken', data);
+  } else {
+    console.error("Unity instance not ready.");
+  }
+}
 
       document.body.appendChild(script);
 

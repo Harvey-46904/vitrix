@@ -25,7 +25,8 @@ Route::middleware('auth:api')->post('/play-genius-salva', "GamesController@Apues
 Route::middleware('auth:api')->post('/play-naves', "GamesController@NavesPlayGame")->name("PlayNaves");
 
 Route::middleware('auth:api')->post('/play-naves-salva','GamesController@CompetenciaNave')->name("RegistroNave");
-
+//cars
+Route::middleware('auth:api')->post('/play-cars', "GamesController@CarsFinishGame")->name("PlayCars");
 
 Route::middleware('auth:api')->get('roomi','GamesController@createRoom')->name("room");
 

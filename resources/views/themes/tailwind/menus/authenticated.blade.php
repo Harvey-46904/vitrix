@@ -82,6 +82,15 @@
                            Salir
                         </a>
                     </div>
+                    <div class="py-1">
+    <a href="{{ route('lang.switch', ['lang' => 'es']) }}" class="block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+        🇪🇸 Español
+    </a>
+    <a href="{{ route('lang.switch', ['lang' => 'en']) }}" class="block w-full px-4 py-2 text-sm leading-5 text-left text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900" role="menuitem">
+        🇺🇸 English
+    </a>
+</div>
+                    
                 </div>
             </div>
 

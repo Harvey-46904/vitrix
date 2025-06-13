@@ -6,6 +6,7 @@
 
 
 <div class="container-fluid">
+ 
 
     <div id="carouselExampleControls" class="carousel slide " data-ride="carousel" style="width: 100%">
         <div class="carousel-inner">
@@ -34,7 +35,9 @@
             <div class="col-md-8 text-center py-1 ">
                 <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                     data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                    Los Mejores Juegos</h1>
+                   
+                {{ __('general.inicio.titulo_1') }}
+                </h1>
 
 
 
@@ -60,20 +63,19 @@
 
     <marquee behavior="scroll" direction="left" scrollamount="8"
         style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
-        🎰 ¡VITRIX! Grandes premios, jackpots acumulados y diversión sin límites. ¡Apuesta y gana! 💰
+       {{ __('general.inicio.scroll_1') }}
     </marquee>
     <div class="container ">
         <div class="row">
             <div class="col-md-12 text-center py-3">
                 <h1 class=" invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                     data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                    Jackpots y Premios</h1>
+                    {{ __('general.inicio.titulo_2') }}</h1>
 
                 <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                     data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                    Descubre nuestros emocionantes jackpots y premios especiales que podrían <b
-                        class="text-warning">cambiar tu vida.</b> ¡Apuesta y
-                    sé el próximo gran <b class="text-warning">ganador</b>!</p>
+                    {{ __('general.inicio.frase_1.texto_1') }}<b
+                        class="text-warning">{{ __('general.inicio.frase_1.texto_2') }}</b> {{ __('general.inicio.frase_1.texto_3') }} <b class="text-warning">{{ __('general.inicio.frase_1.texto_4') }}</b>!</p>
 
             </div>
         </div>
@@ -83,12 +85,12 @@
                 <div class="card text-center" style=" background-color: #ffffff00; border: 1px solid rgb(0 0 0 / 0%);">
 
                     <div class="card-body bg-gris neon-shadow">
-                        <h5 class="card-title text-light gamers texturizado-warning ">Premios Ganadores</h5>
+                        <h5 class="card-title text-light gamers texturizado-warning ">{{ __('general.inicio.titulo_3') }}</h5>
                         <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                             data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                            Juega cualquiera de nuestros juegos y podras ganar uno de nuestros jackpots</p>
+                           {{ __('general.inicio.frase_22') }}</p>
 
-                        <a href="#" class="btn  bg-azul-variante mt-4">Jugar</a>
+                        <a href="#" class="btn  bg-azul-variante mt-4">{{ __('general.inicio.action_1') }}</a>
                     </div>
                 </div>
             </div>
@@ -140,7 +142,7 @@
 
     <marquee behavior="scroll" direction="left" scrollamount="8"
         style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
-        🎰 ¡VITRIX! Invierte con nosotros, obten recompenzas. ¡Apuesta y gana! 💰
+        {{ __('general.inicio.scroll_2') }}
     </marquee>
 
 
@@ -149,15 +151,13 @@
             <div class="col-md-12 text-center  py-3">
                 <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                     data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                    Tabla de Ganadores</h1>
+                    {{ __('general.inicio.titulo_4') }}</h1>
 
                 <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                     data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
 
-                    Conoce a nuestros <b class="text-warning">ganadores</b> más recientes y descubre cómo tú también
-                    puedes aparecer en la lista de
-                    <b class="text-warning">triunfadores</b>. ¡Tu nombre <b class="text-warning">{{ Auth::user()->name ?? 'Vitrix' }}</b> podría ser el
-                    siguiente!
+                   {{ __('general.inicio.frase_2.texto_1') }} <b class="text-warning">{{ __('general.inicio.frase_2.texto_2') }}</b> {{ __('general.inicio.frase_2.texto_3') }}
+                    <b class="text-warning">{{ __('general.inicio.frase_2.texto_4') }}</b>{{ __('general.inicio.frase_2.texto_5') }}<b class="text-warning">{{ Auth::user()->name ?? 'Vitrix' }}</b> {{ __('general.inicio.frase_2.texto_6') }}
                 </p>
 
             </div>

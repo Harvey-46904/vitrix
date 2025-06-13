@@ -50,14 +50,14 @@
                                                 <li class="list-group-item">Duración<br>{{ $product->duracion_meses }} Meses</li>
                                             </ul>
                                             <div class="card-body">
-                                                <a class="card-link btn  btn-primary" onClick="calcular({{$product}})">Calculadora</a>
+                                                <a class="card-link btn  btn-primary text-light" onClick="calcular({{$product}})">🧮 CALCULADORA</a>
                                                 <a 
                                                 data-balances={{route('cashbalanceInversionBalance', ['id' => $product->id]) }}
                                                 data-url="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}"
                                                 data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
                                                 data-precio="{{ $product->precio_base }}"
                                                 data-id="{{$product->id}}"
-                                                class="card-link btn btn-success compra_validacion">Comprar ya</a>
+                                                class="card-link btn btn-success compra_validacion text-light">🏷️ SER SOCIO</a>
                                             </div>
                                         </div>
                                     </div>

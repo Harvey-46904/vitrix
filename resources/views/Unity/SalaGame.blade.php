@@ -17,15 +17,23 @@
 
             </div>
         </div>
-        <div class="row justify-content-center align-items-center text-light  ">
-            <div class="col-md-7 bg-black align-self-center" style="height: 60vh">
-
-                @php
+            @php
                 use Carbon\Carbon;
                 $fechaActual = Carbon::now();
                 $fechaDB = Carbon::parse($eventosala->fecha_juego); // Suponiendo que $sala->fecha es el dato de la BD
                 @endphp
 
+        @if ($evento_finalizado)
+             <div class="row bg-dark p-4">
+            <div class="col-md-12">
+                <h1 class="display-1 text-light"> EVENTO FINALIZADO</h1>
+            </div>
+        </div>
+        @else
+             <div class="row justify-content-center align-items-center text-light  ">
+            <div class="col-md-7 bg-black align-self-center" style="height: 60vh">
+
+            
                 @if($fechaActual->lessThan($fechaDB))
                 <p class="text-warning">Faltan</p>
                 <p id="countdown" data-fecha="{{ $eventosala->fecha_juego }}" class="display-4 text-warning"></p>
@@ -37,6 +45,15 @@
 
             </div>
             <div class="col-md-5 aling-items-center">
+                @if ($cerrar_apuestas)
+                <div class="row">
+                    <p class=" mx-3 px-2 bg-success text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
+                        data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
+
+                        <b class='text-warning'>Vitrix</b> ha cerrado las apuestas. ¡Prepárate, que gane el mejor!"
+                    </p>
+                </div>
+                @else
                 <div class="row">
                     <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                         data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
@@ -44,16 +61,24 @@
                         Hoy traemos a nuestros dos competidores <b class='text-warning'>Vitrix</b> Apuesta por el mejor
                     </p>
                 </div>
-              
+
                 <div class="row">
                     <div class="col-md-12">
                         @livewire('apuestas-volt', ['sala_id' => $eventosala->id])
                     </div>
                 </div>
-              
+                @endif
+
+
+
+
 
             </div>
         </div>
+        @endif
+       
+
+       
 
     </div>
 </div>

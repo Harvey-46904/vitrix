@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Log;
 use kornrunner\Keccak;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Illuminate\Support\Facades\Crypt;
+use Carbon\Carbon;
 class CashController extends Controller
 {
     protected $cashService;
@@ -277,6 +278,13 @@ class CashController extends Controller
     public function retirosvitrix(Request $request)
     {
         $valor_retirado = $request->cantidad;
+        $opciones = $request->dinero;
+        
+         if (Carbon::now()->dayOfWeek !== Carbon::MONDAY && $opciones=="referidos") {
+              return back()->with('error', 'Los retiros de referidos solo están permitidos los lunes.');
+      
+        }
+
         if ($valor_retirado <= 1) {
             return back()->with('error', 'El monto mínimo de retiro es de 50 USDT');
         }
@@ -296,7 +304,7 @@ class CashController extends Controller
 
        
         $id       = auth()->user()->id;
-        $opciones = $request->dinero;
+        
 
         //validar el no dineros
         $efectivo  = auth()->user()->balance_general->balance;
