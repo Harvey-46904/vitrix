@@ -12,7 +12,7 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
-
+/storage
 # Wave ignores.
 /public/.well-known
 /.vagrant

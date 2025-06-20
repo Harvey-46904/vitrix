@@ -56,13 +56,28 @@ class ProcessUserPaquetePayment implements ShouldQueue
         $porcentajeDiario = $formatoRentabilidad[$currentDay];
         //sacar porcentajes
         
+        $inversion  = $this->userPaquete->monto_invertido;
+        $porcentaje = $this->userPaquete->paquete_porcentaje; 
+        $resultado = $inversion * ($porcentaje / 100);
+        $valor_pagar= $resultado/ $this->userPaquete->tiempo;
+        //$valor_pagar=$resultado;
 
-        $valor_pagar=$this->userPaquete->paquete_meta/ $this->userPaquete->tiempo;
         $paymentAmount = number_format($valor_pagar * ($porcentajeDiario / 100), 2, '.', '');
 
         
-        $remaining = $this->userPaquete->paquete_meta - $this->userPaquete->monto_depositar;
+        $remaining = $resultado - $this->userPaquete->monto_depositar;
         if ($remaining <= 0) {
+            $this->userPaquete->increment('monto_depositar', $inversion);
+            $this->userPaquete->increment('monto_parcial',  $inversion);
+            
+            //pagar a moneda
+            $money->AddMoneyInversion($this->userPaquete->user_id, $inversion);
+            // Crea un registro en `transaccion`
+            TransaccionsPaquete::create([
+                'user_paquetes_id' => $this->userPaquete->id,
+                'amount' =>  $inversion,
+                'razon' => 'Retorno de inversión',
+            ]);
             return;
         }
 

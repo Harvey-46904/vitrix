@@ -16,8 +16,11 @@ class InversionesObserver
         $total=(($inversione->precio_base*$inversione->porcentaje_rentabilidad)/100)+$inversione->precio_base;
         $inversione->totalidad=$total;
         $inversione->save();
-
-        self::CrearRentabilidades($inversione->id,$inversione->totalidad,$inversione->duracion_meses);
+        //operacion de rentabilidad
+        $finalidad=$inversione->totalidad-$inversione->precio_base;
+        //self::CrearRentabilidades($inversione->id,$inversione->totalidad,$inversione->duracion_meses);
+        self::CrearRentabilidades($inversione->id,$finalidad,$inversione->duracion_meses);
+        
     }
 
     public function CrearRentabilidades($idInversion,$total,$duracion){

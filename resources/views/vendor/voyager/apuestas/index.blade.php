@@ -16,7 +16,7 @@
     <div class="col-md-6">
         <div class="row">
           
-            <div class="col-md-12"><b>Jugador</b> {{$sala[0]->player_one_name}} </div>
+            <div class="col-md-12"><b>Jugador</b> {{$sala[0]->jugador}} </div>
             <div class="col-md-12"><b>Cuota</b> {{$sala[0]->cuota_player_one}} </div>
             <div class="col-md-12"> dinero total apostado<h1 class="display-1">{{$sala[0]->monto ?? 0}} USD</h1></div>
             <div class="col-md-12"> dinero a pagar si gana<h1 class="display-1">{{$sala[0]->total_ganancia ?? 0}} USD</h1></div>
@@ -27,8 +27,8 @@
     <div class="col-md-6">
       <div class="row">
                 
-                <div class="col-md-12"><b>Jugador</b> {{$sala[0]->player_two_name}} </div>
-                <div class="col-md-12"><b>Cuota</b> {{$sala[0]->cuota_player_two}} </div>
+                <div class="col-md-12"><b>Jugador</b> {{$sala[1]->jugador}} </div>
+                <div class="col-md-12"><b>Cuota</b> {{$sala[1]->cuota_player_two}} </div>
                 <div class="col-md-12"> dinero total apostado<h1 class="display-1">{{$sala[1]->monto ?? 0}} USD</h1></div>
                 <div class="col-md-12"> dinero a pagar si gana<h1 class="display-1">{{$sala[1]->total_ganancia ?? 0}} USD</h1></div>
    
