@@ -15,6 +15,8 @@ class SessionTimeout
     public function __construct()
     {
         $this->timeout = config('app.session_timeout'); 
+
+        
     }
 
     public function handle($request, Closure $next)

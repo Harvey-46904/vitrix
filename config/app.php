@@ -15,6 +15,10 @@ return [
     //sesion
     
      'session_timeout' => env('SESSION_TIMEOUT'),
+
+     //games
+     'base_games' => env('BASE_GAMES'),
+     
     /*
     |--------------------------------------------------------------------------
     | Application Name
