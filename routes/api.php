@@ -31,6 +31,9 @@ Route::middleware('auth:api')->post('/play-cars', "GamesController@CarsFinishGam
 Route::middleware('auth:api')->get('roomi','GamesController@createRoom')->name("room");
 
 
+Route::middleware('auth:api')->post('/eventsala/{id_sala}','GamesController@eventsala')->name("eventsala");
+
+
 
 Route::get('roomi','GamesController@createRoom')->name("room");
 Wave::api();

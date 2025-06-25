@@ -12,6 +12,9 @@ return [
     //polygonscan
     'polygonscan_api_key' => env('POLYGONSCAN_API_KEY'),
     
+    //sesion
+    
+     'session_timeout' => env('SESSION_TIMEOUT'),
     /*
     |--------------------------------------------------------------------------
     | Application Name

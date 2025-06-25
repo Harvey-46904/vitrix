@@ -485,3 +485,39 @@ body {
   object-fit: cover; /* para que el video se recorte manteniendo proporciones */
   border-radius: 10px; /* opcional */
 }
+
+
+.burbuja-dialogo {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    position: relative;
+    margin: 10px 0;
+}
+
+.burbuja-dialogo::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    right: 20px; /* cambia de left a right */
+    border-width: 15px 10px 0;
+    border-style: solid;
+    border-color: white transparent transparent transparent;
+}
+
+@keyframes flotar {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.narrador-animado {
+    animation: flotar 3s ease-in-out infinite;
+}
+
+.fondo-personalizado {
+    background-image: url('../img/arabe.png');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh;
+}

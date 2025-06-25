@@ -2,23 +2,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Apuesta;
+use App\Models\Apuestascar;
 use App\Models\IntentoFraude;
 use App\Models\Naveevento;
+use App\Models\Sala;
 use App\Models\User;
-use App\Models\Apuestascar;
-use Carbon\Carbon;
 use App\Services\CashMoney;
 use App\Services\PhotonService;
 use App\Services\Referidos;
 use App\Traits\Listnave;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Http;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Livewire\Livewire;
+use Tymon\JWTAuth\Facades\JWTAuth;
+
 class GamesController extends Controller
 {
     use Listnave;
@@ -34,7 +36,7 @@ class GamesController extends Controller
     public function Genius()
     {
         $token = self::getToken();
-       /* return view('Unity.unity-game',compact("token"));
+        /* return view('Unity.unity-game',compact("token"));
          return view('Unity.espectativa');
        
         return response(["data"=>"esperalo pronto"]); */
@@ -50,17 +52,17 @@ class GamesController extends Controller
     }
     public function Cars($id)
     {
-       // return view('Unity.espectativa');
-       // return response(["data"=>"prueba"]);
+        // return view('Unity.espectativa');
+        // return response(["data"=>"prueba"]);
         $user   = Auth::user();
         $userId = $user->id;
 
         ///obtengo el nombre de la sala sin espacio y junto
-        $name      = DB::table("salas")
-        ->select("nombre_sala", "player_one", "plater_two")
-        ->where("id", $id)
-        
-        ->first();
+        $name = DB::table("salas")
+            ->select("nombre_sala", "player_one", "plater_two")
+            ->where("id", $id)
+
+            ->first();
         $name_sala = strtolower(str_replace(' ', '_', $name->nombre_sala));
 
         $player_one = $name->player_one; // Por ejemplo, obtenemos estos valores de la base de datos
@@ -74,23 +76,23 @@ class GamesController extends Controller
             $nickname = $user->username;
             $base_url = "http://127.0.0.1:8000/";
             // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
-            return view('Unity.cars', compact('token', 'nickname', 'name_sala','base_url','userId','id'));
+            return view('Unity.cars', compact('token', 'nickname', 'name_sala', 'base_url', 'userId', 'id'));
         } else {
             return redirect('/');
         }
 
     }
 
-    public function CarsFinishGame(Request $request){
-       
+    public function CarsFinishGame(Request $request)
+    {
 
         $apuestas = Apuestascar::where('sala_id', $request->id_sala)
-                       ->where('estado', 'pendiente')
-                       ->get();
-            DB::table('salas')
+            ->where('estado', 'pendiente')
+            ->get();
+        DB::table('salas')
             ->where('id', $request->id_sala)
             ->update(['estado' => 'option2']);
-        $array_ganador = [];
+        $array_ganador  = [];
         $array_perdedor = [];
 
         foreach ($apuestas as $apuesta) {
@@ -103,10 +105,9 @@ class GamesController extends Controller
             $apuesta->save();
         }
 
-       
-          return response([
-            "ganadores"=>"carrera finalizada",
-           
+        return response([
+            "ganadores" => "carrera finalizada",
+
         ]);
     }
 
@@ -252,11 +253,11 @@ class GamesController extends Controller
         $multiplos          = $arrayDesencriptado["multiplos"];
         $multiplos          = self::descifrarMultiplicador($multiplos);
         if ($multiplos >= $multiplicador) {
-            if($ganancia>0){
+            if ($ganancia > 0) {
                 Apuesta::where('id', $idapuesta)->update(['win_amount' => $ganancia, 'outcome' => "Ganadora"]);
                 $this->cashService->AddMoneyBalance($userId, $ganancia, "Ganancia Genius");
             }
-          
+
         } else {
             IntentoFraude::create([
                 'usuario_id'     => $userId,
@@ -323,36 +324,34 @@ class GamesController extends Controller
 
     public function Salaspropias($id)
     {
-        
-        $eventosala = DB::table("salas")
-        ->select()
-        ->where("id", $id)
-        ->first();
-        $cerrar_apuestas=$eventosala->estado=="option6"?true:false;
-        $evento_finalizado=$eventosala->estado=="option2"?true:false; ;
-       
-        
 
-        $fechaJuego = Carbon::parse($eventosala->fecha_juego);
+        $eventosala = DB::table("salas")
+            ->select()
+            ->where("id", $id)
+            ->first();
+        $cerrar_apuestas   = $eventosala->estado == "option6" ? true : false;
+        $evento_finalizado = $eventosala->estado == "option2" ? true : false;
+
+        $fechaJuego  = Carbon::parse($eventosala->fecha_juego);
         $fechaActual = Carbon::now();
         //return response(["data"=>$eventosala]);
-        if ($fechaJuego->lt($fechaActual) && $eventosala->estado=="option5") {
+        if ($fechaJuego->lt($fechaActual) && $eventosala->estado == "option5") {
 
             DB::table('salas')
-            ->where('id', $id)
-            ->update(['estado' => 'option6']);
+                ->where('id', $id)
+                ->update(['estado' => 'option6']);
 
-            $cerrar_apuestas=true;
-            return view('Unity.SalaGame', compact("eventosala","cerrar_apuestas","evento_finalizado"));
-            return response(["data"=>"actualiza y muestra"]);
+            $cerrar_apuestas = true;
+            return view('Unity.SalaGame', compact("eventosala", "cerrar_apuestas", "evento_finalizado"));
+            return response(["data" => "actualiza y muestra"]);
         }
 
-         if($evento_finalizado){
-                return view('Unity.SalaGame', compact("eventosala","evento_finalizado"));
-            }
-          if($cerrar_apuestas){
-                return view('Unity.SalaGame', compact("eventosala","cerrar_apuestas","evento_finalizado"));
-            }
+        if ($evento_finalizado) {
+            return view('Unity.SalaGame', compact("eventosala", "evento_finalizado"));
+        }
+        if ($cerrar_apuestas) {
+            return view('Unity.SalaGame', compact("eventosala", "cerrar_apuestas", "evento_finalizado"));
+        }
         $eventosala = DB::table('salas')
             ->join('users as u1', 'salas.player_one', '=', 'u1.id')
             ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
@@ -365,16 +364,17 @@ class GamesController extends Controller
             )
             ->where("salas.id", $id)->first();
 
-        return view('Unity.SalaGame', compact("eventosala","cerrar_apuestas","evento_finalizado"));
+        return view('Unity.SalaGame', compact("eventosala", "cerrar_apuestas", "evento_finalizado"));
         return response(["data" => $eventosala]);
     }
 
-    public function naveseventos(){
+    public function naveseventos()
+    {
 
-        $evento = $this->ultimo_evento();
+        $evento  = $this->ultimo_evento();
         $banners = DB::table("banners")->where("activo", "=", 1)->get();
-        return view('Unity.Nave',compact("evento","banners"));
-       
+        return view('Unity.Nave', compact("evento", "banners"));
+
     }
 
     public function sports()
@@ -384,12 +384,12 @@ class GamesController extends Controller
         $id_user = $user->id;
         // Consulta 1: cuando el id_user aparece en player_one o player_two
         $salasConJugador = DB::table('salas')
-        ->where(function ($query) use ($id_user) {
-            $query->where('player_one', $id_user)
-                  ->orWhere('plater_two', $id_user);
-        })
-        ->where('estado', 'option5')
-        ->get();
+            ->where(function ($query) use ($id_user) {
+                $query->where('player_one', $id_user)
+                    ->orWhere('plater_two', $id_user);
+            })
+            ->where('estado', 'option5')
+            ->get();
 
         // Consulta 2: cuando el id_user no aparece ni en player_one ni en player_two
         $salasSinJugador = DB::table('salas')
@@ -490,11 +490,11 @@ class GamesController extends Controller
                 $sala = tap(DB::table("salas")->where("id", $id))
                     ->update([$updateField => 1])
                     ->first();
-              
-                if($sala->accept_one==1 && $sala->accept_two==1){
+
+                if ($sala->accept_one == 1 && $sala->accept_two == 1) {
                     DB::table("salas")
-                    ->where("id", $id)
-                    ->update(["estado" => "option5"]);
+                        ->where("id", $id)
+                        ->update(["estado" => "option5"]);
                     return back();
                 }
                 return back();
@@ -511,72 +511,97 @@ class GamesController extends Controller
         }
     }
 
-
-    public function apostarcars(Request $request,$id_sala){
+    public function apostarcars(Request $request, $id_sala)
+    {
         //validar montoo
-        if($request->valor=="" || $request->valor==0 || $request->valor<0){
+        if ($request->valor == "" || $request->valor == 0 || $request->valor < 0) {
             return back()->with('error', 'El monto apostado no puede ser vacio , igual a cero o un valor negativo');
         }
         //validar dinero
-        $efectivo  = auth()->user()->balance_general->balance;
-        $monto_apostado=$request->valor;
-        if($efectivo<$monto_apostado){
+        $efectivo       = auth()->user()->balance_general->balance;
+        $monto_apostado = $request->valor;
+        if ($efectivo < $monto_apostado) {
             return back()->with('error', 'No tiene saldo suficente para realizar esta apuesta.');
         }
-        if($monto_apostado>50){
+        if ($monto_apostado > 50) {
             return back()->with('error', 'Su apuesta supera el límite máximo por sala.');
         }
 
-
-      
-      
         $user   = Auth::user();
         $userId = $user->id;
 
         $this->cashService->AddMoneyBalance($userId, -$monto_apostado, 'Apuesta Speed Stakes');
         Apuestascar::create([
-            'jugador_apostador'=>$userId,
-            'sala_id' => $id_sala,
-            'jugador' => $request->user,
-            'monto' => $request->valor,
-            'posible_ganancia' => $request->valor * $request->cuota, // Calculando la posible ganancia
-            'cuota' => $request->cuota,
-            'estado' => 'pendiente' // O el estado que manejes
+            'jugador_apostador' => $userId,
+            'sala_id'           => $id_sala,
+            'jugador'           => $request->user,
+            'monto'             => $request->valor,
+            'posible_ganancia'  => $request->valor * $request->cuota, // Calculando la posible ganancia
+            'cuota'             => $request->cuota,
+            'estado'            => 'pendiente', // O el estado que manejes
         ]);
 
         Livewire::dispatch('actualizarCuotas');
         return back()->with('success', 'Apuesta Realizada Correctamente');
-       
-
 
     }
 
-
-    public function ApuestasSeperadas($id){
+    public function ApuestasSeperadas($id)
+    {
         $apuestasSubquery = DB::table('apuestascars')
-        ->select('sala_id', 'jugador', DB::raw('SUM(posible_ganancia) as total_ganancia'), DB::raw('SUM(monto) as monto'))
-        ->groupBy('sala_id', 'jugador');
-    
-        $sala = DB::table('salas')
-        ->join('users as u1', 'salas.player_one', '=', 'u1.id')
-        ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
-        ->leftJoinSub($apuestasSubquery, 'apuestas', function($join) {
-            $join->on('salas.id', '=', 'apuestas.sala_id');
-        })
-        ->select(
-            'salas.nombre_sala',
-            'salas.cuota_player_one',
-            'salas.cuota_player_two',
-            'u1.name as player_one_name',
-            'u2.name as player_two_name',
-            'apuestas.jugador',
-            'apuestas.total_ganancia',
-            'monto'
+            ->select('sala_id', 'jugador', DB::raw('SUM(posible_ganancia) as total_ganancia'), DB::raw('SUM(monto) as monto'))
+            ->groupBy('sala_id', 'jugador');
 
-        )
-        ->where('salas.id', $id)
-        ->get();
-       //return response(["sala"=>$sala]);
-        return view("vendor.voyager.apuestas.index",compact("sala"));
+        $sala = DB::table('salas')
+            ->join('users as u1', 'salas.player_one', '=', 'u1.id')
+            ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
+            ->leftJoinSub($apuestasSubquery, 'apuestas', function ($join) {
+                $join->on('salas.id', '=', 'apuestas.sala_id');
+            })
+            ->select(
+                'salas.nombre_sala',
+                'salas.cuota_player_one',
+                'salas.cuota_player_two',
+                'u1.name as player_one_name',
+                'u2.name as player_two_name',
+                'apuestas.jugador',
+                'apuestas.total_ganancia',
+                'monto'
+
+            )
+            ->where('salas.id', $id)
+            ->get();
+        //return response(["sala"=>$sala]);
+        return view("vendor.voyager.apuestas.index", compact("sala"));
+    }
+
+    public function eventsala($id_sala, Request $request)
+    {
+        // Verifica que exista la sala
+        $sala = Sala::find($id_sala);
+        if (! $sala) {
+            return response()->json(['error' => 'Sala no encontrada'], 404);
+        }
+        // Guarda la imagen
+        $point = $request->point;
+
+        if( $sala->{'point' . $point} != null){
+            return response()->json(['ok' => true, 'status' => "segundo".$request->user_id]); 
+        }
+        $sala->{'point' . $point}      = $request->user_id;
+        $sala->save();
+        if ($request->hasFile('imagepoints')) {
+            $paths = [];
+
+            foreach ($request->file('imagepoints') as $image) {
+                $paths[] = $image->store('points', 'public');
+            }
+            $sala->{'imagepoint' . $point} = json_encode($paths);
+            $sala->save();
+            return response()->json(['ok' => true, 'imagen' => "guardado"]);
+        }
+
+        return response()->json(['error' => 'Imagen no encontrada'], 422);
+
     }
 }
