@@ -31,12 +31,12 @@
                     <tr>
                         <th scope="row">{{$item->nombre_sala}}</th>
                         <td>{{$item->fecha_juego}}</td>
-                        <td> <a class="btn btn-success" onclick="loadgame('{{$item->id}}')">Jugar</a></td>
-                      
+                        <td> <a class="btn btn-success" onclick="loadgame('{{$item->id}}')">Empezar</a></td>
+
                     </tr>
                     @endforeach
-        
-        
+
+
                 </tbody>
             </table>
         </div>
@@ -50,7 +50,7 @@
                     <div class="row ">
                         <div class="col-md-12  text-center">
                             <h6 class="card-title gamers texturizado-warning">{{$sala->nombre_sala}}</h6>
-                            
+
                         </div>
                     </div>
                     <div class="row ">
@@ -63,25 +63,39 @@
                         <div class="col-md-8 pl-2">
                             <div class="row bg-rosa  text-center p-2">
                                 <h4>{{$sala->player_one_name}} </h4>
-                                
+
                             </div>
                             <div class="row bg-rosasi text-center p-2">
                                 <h4>{{$sala->player_two_name}} </h4>
-                                
+
                             </div>
                         </div>
                     </div>
                     <div class="row   py-3 mt-3">
-                        <div class="col-md-12 texturizado-warning text-center">
-                         <a href="{{route('sala.detalle',['id'=>$sala->id])}}" class="text-warning" >Apostar</a> 
+                        <div class="col-md-12  text-center">
+
+                            @if ($sala->estado=="option5")
+
+                            <a href="{{ route('sala.detalle', ['id' => $sala->id]) }}" class="btn btn-success"
+                                style="color: yellow;">
+                                Apostar
+                            </a>
+                            @else
+
+                            <a href="{{ route('sala.detalle', ['id' => $sala->id]) }}" class="btn btn-warning"
+                                style="color: black;">
+                                Mira quien gana
+                            </a>
+                            @endif
+
                         </div>
                     </div>
                 </div>
                 @endforeach
-        
-                
-                
-                
+
+
+
+
             </div>
         </div>
 
@@ -90,7 +104,7 @@
 </div>
 
 <script>
-	function loadgame(uid){
+    function loadgame(uid){
        
        let serial="cars"
 

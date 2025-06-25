@@ -388,7 +388,7 @@ class GamesController extends Controller
                 $query->where('player_one', $id_user)
                     ->orWhere('plater_two', $id_user);
             })
-            ->where('estado', 'option5')
+             ->whereIn('estado', [ 'option5','option6'])
             ->get();
 
         // Consulta 2: cuando el id_user no aparece ni en player_one ni en player_two
@@ -402,7 +402,7 @@ class GamesController extends Controller
             )
             ->where('salas.player_one', '!=', $id_user)
             ->where('salas.plater_two', '!=', $id_user)
-            ->where('estado', "option5")
+             ->whereIn('estado', ['option2', 'option5','option6'])
             ->get();
 
         $section = "sports";
