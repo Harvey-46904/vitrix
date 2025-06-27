@@ -31,7 +31,12 @@
                     <tr>
                         <th scope="row">{{$item->nombre_sala}}</th>
                         <td>{{$item->fecha_juego}}</td>
-                        <td> <a class="btn btn-success" onclick="loadgame('{{$item->id}}')">Empezar</a></td>
+                        <td>
+                            <a class="btn btn-success d-none" data-fecha="{{$item->fecha_juego}}"
+                                id="btn-evento-{{$item->id}}" onclick="loadgame('{{$item->id}}')">
+                                Empezar
+                            </a>
+                        </td>
 
                     </tr>
                     @endforeach
@@ -102,7 +107,27 @@
     </div>
 
 </div>
+<script>
+    function verificarFechasEventos() {
+        const botones = document.querySelectorAll('a[data-fecha]');
+        const ahora = new Date();
 
+        botones.forEach(btn => {
+            const fechaEvento = new Date(btn.dataset.fecha);
+            if (ahora >= fechaEvento) {
+                btn.classList.remove('d-none');
+            } else {
+                btn.classList.add('d-none');
+            }
+        });
+    }
+
+    // Llamar al inicio
+    verificarFechasEventos();
+
+    // Repetir cada 10 segundos por si la fecha cambia mientras está en la página
+    setInterval(verificarFechasEventos, 10000);
+</script>
 <script>
     function loadgame(uid){
        

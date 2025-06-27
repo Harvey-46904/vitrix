@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Vitrix Cars</title>
 
-    <link rel="stylesheet" href="{{ asset('Games/Cars/TemplateData/favicon.ico') }}">
-    <link rel="stylesheet" href="{{ asset('Games/Cars/TemplateData/style.css') }}">
-  </head>
-  <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
-      </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-logo-title-footer"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">New Unity Project</div>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Vitrix Cars</title>
+
+  <link rel="stylesheet" href="{{ asset('Games/Cars/TemplateData/favicon.ico') }}">
+  <link rel="stylesheet" href="{{ asset('Games/Cars/TemplateData/style.css') }}">
+</head>
+
+<body>
+  <div id="unity-container" class="unity-desktop">
+    <canvas id="unity-canvas" width=960 height=600 tabindex="-1"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
       </div>
     </div>
-    <script>
-
-       
-      var canvas = document.querySelector("#unity-canvas");
+    <div id="unity-warning"> </div>
+    <div id="unity-footer">
+      <div id="unity-logo-title-footer"></div>
+      <div id="unity-fullscreen-button"></div>
+      <div id="unity-build-title">New Unity Project</div>
+    </div>
+  </div>
+  <script>
+    var canvas = document.querySelector("#unity-canvas");
       const token = @json($token);
       const nickname = @json($nickname);
       const base_url = @json($base_url);
       const name_sala = @json($name_sala);
       const id_user = @json($userId);
       const id_sala = @json($id);
+      const token_sala = @json($hash);
+      
      
-      const data = JSON.stringify({ token, nickname, name_sala, base_url,id_user,id_sala });
+      const data = JSON.stringify({ token, nickname, name_sala, base_url,id_user,id_sala,token_sala});
       console.log(data);
       
       // Shows a temporary message banner/ribbon for a few seconds, or
@@ -134,10 +136,15 @@ function unityReady() {
   } else {
     console.error("Unity instance not ready.");
   }
+  
 }
+function cerrarVentanaJuego() {
+        window.close();
+    }
 
       document.body.appendChild(script);
 
-    </script>
-  </body>
+  </script>
+</body>
+
 </html>

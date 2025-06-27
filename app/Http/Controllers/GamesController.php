@@ -59,12 +59,14 @@ class GamesController extends Controller
 
         ///obtengo el nombre de la sala sin espacio y junto
         $name = DB::table("salas")
-            ->select("nombre_sala", "player_one", "plater_two")
+            ->select("nombre_sala", "player_one", "plater_two", 'id')
             ->where("id", $id)
 
             ->first();
         $name_sala = strtolower(str_replace(' ', '_', $name->nombre_sala));
 
+        $preparar   = $name->id . "&" . $name_sala;
+        $hash       = md5($preparar);
         $player_one = $name->player_one; // Por ejemplo, obtenemos estos valores de la base de datos
         $player_two = $name->plater_two;
         $id_user    = $userId; // El id_user con el que quieres comparar
@@ -76,7 +78,7 @@ class GamesController extends Controller
             $nickname = $user->username;
             $base_url = config('app.base_games');
             // return response(["sala" => $name_sala,"nickname"=>$nickname,"token"=>$token]);
-            return view('Unity.cars', compact('token', 'nickname', 'name_sala', 'base_url', 'userId', 'id'));
+            return view('Unity.cars', compact('token', 'nickname', 'name_sala', 'base_url', 'userId', 'id', 'hash'));
         } else {
             return redirect('/');
         }
@@ -85,29 +87,41 @@ class GamesController extends Controller
 
     public function CarsFinishGame(Request $request)
     {
+        $sala = Sala::find($request->id_sala);
 
-        $apuestas = Apuestascar::where('sala_id', $request->id_sala)
-            ->where('estado', 'pendiente')
-            ->get();
-        DB::table('salas')
-            ->where('id', $request->id_sala)
-            ->update(['estado' => 'option2']);
-        $array_ganador  = [];
-        $array_perdedor = [];
+        $name_sala = strtolower(str_replace(' ', '_', $sala->nombre_sala));
 
-        foreach ($apuestas as $apuesta) {
-            if ($apuesta->jugador == $request->id_user) {
-                $this->cashService->AddMoneyBalance($apuesta->jugador_apostador, $apuesta->posible_ganancia, "Vitrix Cars");
-                $apuesta->estado = 'ganadora';
-            } else {
-                $apuesta->estado = 'perdida';
-            }
-            $apuesta->save();
+        $preparar   = $sala->id . "&" . $name_sala;
+        $hash       = md5($preparar);
+
+        if($hash != $request->token_sala){
+            return response(["data"=>"error de tokenizado"]);
         }
+     
+        DB::transaction(function () use ($request,$sala) {
+            $apuestas = Apuestascar::where('sala_id', $request->id_sala)
+                ->where('estado', 'pendiente')
+                ->lockForUpdate() // 🔒 Aquí bloqueas solo esas filas
+                ->get();
+
+            /*DB::table('salas')
+                ->where('id', $request->id_sala)
+                ->update(['estado' => 'option2']);*/
+            // Simula un proceso largo (bloqueo activo)
+               // sleep(10);
+            foreach ($apuestas as $apuesta) {
+                if ($apuesta->jugador == $sala->point4) {
+                    $this->cashService->AddMoneyBalance($apuesta->jugador_apostador, $apuesta->posible_ganancia, "Vitrix Cars");
+                    $apuesta->estado = 'ganadora';
+                } else {
+                    $apuesta->estado = 'perdida';
+                }
+                $apuesta->save();
+            }
+        });
 
         return response([
-            "ganadores" => "carrera finalizada",
-
+            "resultado" => "carrera finalizada",
         ]);
     }
 
@@ -388,7 +402,7 @@ class GamesController extends Controller
                 $query->where('player_one', $id_user)
                     ->orWhere('plater_two', $id_user);
             })
-             ->whereIn('estado', [ 'option5','option6'])
+            ->whereIn('estado', ['option5', 'option6'])
             ->get();
 
         // Consulta 2: cuando el id_user no aparece ni en player_one ni en player_two
@@ -402,7 +416,7 @@ class GamesController extends Controller
             )
             ->where('salas.player_one', '!=', $id_user)
             ->where('salas.plater_two', '!=', $id_user)
-             ->whereIn('estado', ['option2', 'option5','option6'])
+            ->whereIn('estado', ['option2', 'option5', 'option6'])
             ->get();
 
         $section = "sports";
@@ -585,10 +599,10 @@ class GamesController extends Controller
         // Guarda la imagen
         $point = $request->point;
 
-        if( $sala->{'point' . $point} != null){
-            return response()->json(['ok' => true, 'status' => "segundo".$request->user_id]); 
+        if ($sala->{'point' . $point} != null) {
+            return response()->json(['ok' => true, 'status' => "segundo" . $request->user_id]);
         }
-        $sala->{'point' . $point}      = $request->user_id;
+        $sala->{'point' . $point} = $request->user_id;
         $sala->save();
         if ($request->hasFile('imagepoints')) {
             $paths = [];

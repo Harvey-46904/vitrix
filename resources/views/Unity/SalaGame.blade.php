@@ -33,8 +33,8 @@
         <div class="row  justify-content-center align-items-center text-light  ">
             <div class="col-md-8  align-self-center fondo-personalizado" >
                 @if($fechaActual->lessThan($fechaDB))
-                <p class="text-warning">Faltan</p>
-                <p id="countdown" data-fecha="{{ $eventosala->fecha_juego }}" class="display-4 text-warning"></p>
+                <p class="text-warning bg-primary">Faltan</p>
+                <p id="countdown" data-fecha="{{ $eventosala->fecha_juego }}" class="display-4 text-warning bg-primary py-4"></p>
 
                 @else
                 <div class="row">
@@ -99,7 +99,7 @@
             const minutos = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
             const segundos = Math.floor((diferencia % (1000 * 60)) / 1000);
 
-            countdownElement.innerHTML = `${dias}d ${horas}h ${minutos}m ${segundos}s`;
+            countdownElement.innerHTML = `${dias}D ${horas}H ${minutos}M ${segundos}S`;
         }
 
         // Actualizar cada segundo

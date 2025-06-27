@@ -7,7 +7,7 @@ use App\Notifications\UserNotification;
 use App\Models\Apuestascar;
 use Illuminate\Support\Facades\Log;
 use DB;
-
+use Illuminate\Support\Facades\Storage;
 use App\Services\CashMoney;
 class SalaObserver
 {
@@ -30,6 +30,23 @@ class SalaObserver
 
         User::find($player_one)->notify(new UserNotification($mensaje, $ruta, ["name" => "hello moto"]));
         User::find($player_two)->notify(new UserNotification($mensaje, $ruta, ["name" => "hello moto"]));
+    }
+
+    public function deleted(Sala $sala): void
+    {
+        for ($i = 1; $i <= 4; $i++) {
+            $campo = "imagepoint$i";
+
+            if ($sala->$campo) {
+                $imagenes = json_decode($sala->$campo, true);
+
+                if (is_array($imagenes)) {
+                    foreach ($imagenes as $ruta) {
+                        Storage::disk('public')->delete($ruta);
+                    }
+                }
+            }
+        }
     }
 
     public function updated(Sala $sala): void
