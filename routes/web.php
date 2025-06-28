@@ -53,10 +53,7 @@ Route::get('polygon/{transactionHash}','CashController@getTransactionEvents');
 
 Route::get('listnave',"GamesController@ListNaves");
 Route::get('roomi','GamesController@createRoom')->name("room");
-Route::get('pruebitas',function(){
-    event (new \App\Events\CashMoneyEvent());
-    return response(["data"=>"hijitos"]);
-});
+Route::get('pruebitas',"GamesController@prueba_sala");
 
 
 Route::get('/lang/{lang}', function ($lang) {

@@ -1,6 +1,5 @@
 <div>
-    <div id="contenedor-principal" class="container" wire:init="marcarListo" @if($pollDelay) wire:poll.{{ $pollDelay }}
-        @endif>
+   <div id="contenedor-principal" class="container" wire:init="marcarListo" @if($pollDelay) wire:poll.{{ $pollDelay }} @endif>
 
         @if($sala && $ultimo)
 
@@ -8,14 +7,40 @@
         <div class="row  justify-content-center align-items-center my-5" style="min-height: 50vh;">
             <div class="col-md-12 text-center">
                 <div class="p-4 rounded shadow-lg  bg-opacity-75">
-                    <h1 class="display-3 text-dark fw-bold">
+                    <h1 class="display-3 text-warning fw-bold bg-primary py-2">
                         🏁 ¡Carrera finalizada! 🏆
                     </h1>
-                    <h2 class="text-rosa mt-3  ">
+                    <h2 class="text-warning mt-3  bg-primary">
                         El ganador es <span class="text-dark">{{ $ultimo['jugador'] }}</span> 
-                        <img id="imagen-animada" src="{{ asset('storage/' . $ultimo['imagenes'][0] ?? '') }}"
-                        class="img-fluid">🎉
+                       <div id="gif-final" data-imagenes='@json($ultimo['imagenes'])'>
+    <img id="imagen-animada" src="{{ asset('storage/' . $ultimo['imagenes'][0] ?? '') }}" class="img-fluid"> 🎉
+</div>
                     </h2>
+                   <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const contenedor = document.getElementById('gif-final');
+        const imagenesRutas = JSON.parse(contenedor.dataset.imagenes || '[]');
+        const img = document.getElementById('imagen-animada');
+
+        let imagenesPrecargadas = [];
+        let index = 0;
+
+        if (imagenesRutas.length && img) {
+            // Precargar imágenes en memoria
+            imagenesRutas.forEach(ruta => {
+                const imagen = new Image();
+                imagen.src = `/storage/${ruta}`;
+                imagenesPrecargadas.push(imagen);
+            });
+
+            // Mostrar la secuencia desde las imágenes precargadas
+            setInterval(() => {
+                img.src = imagenesPrecargadas[index].src;
+                index = (index + 1) % imagenesPrecargadas.length;
+            }, 300);
+        }
+    });
+</script>
                 </div>
             </div>
         </div>
@@ -45,7 +70,9 @@
         @else
         <div class="row">
             <div class="col-md-7">
-                <div id="narrador-texto-bienvenida" class="burbuja-dialogo text-dark p-3" wire:ignore></div>
+                <div id="narrador-texto-bienvenida" class="burbuja-dialogo text-dark p-3" wire:ignore>
+                   <span style="visibility: hidden;">🚦¡La carrera está por comenzar! Afinen motores, ajusten cinturones y prepárense para darlo TODO en la pista 🏁🔥</span>
+                </div>
             </div>
             <div class="col-md-5">
                 <img src="{{ asset('wave/img/narrador.png') }}" alt="Narrador" class="img-fluid narrador-animado">
@@ -116,7 +143,7 @@
             escribirTexto("🚦¡La carrera está por comenzar! Afinen motores, ajusten cinturones y prepárense para darlo TODO en la pista 🏁🔥", 'narrador-texto-bienvenida');
         }
     });
-    let i=0
+  
     document.addEventListener('livewire:load', () => {
         Livewire.hook('message.processed', () => {
             console.log("hoola",i++);

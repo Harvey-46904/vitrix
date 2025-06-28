@@ -91,14 +91,14 @@ class GamesController extends Controller
 
         $name_sala = strtolower(str_replace(' ', '_', $sala->nombre_sala));
 
-        $preparar   = $sala->id . "&" . $name_sala;
-        $hash       = md5($preparar);
+        $preparar = $sala->id . "&" . $name_sala;
+        $hash     = md5($preparar);
 
-        if($hash != $request->token_sala){
-            return response(["data"=>"error de tokenizado"]);
+        if ($hash != $request->token_sala) {
+            return response(["data" => "error de tokenizado"]);
         }
-     
-        DB::transaction(function () use ($request,$sala) {
+
+        DB::transaction(function () use ($request, $sala) {
             $apuestas = Apuestascar::where('sala_id', $request->id_sala)
                 ->where('estado', 'pendiente')
                 ->lockForUpdate() // 🔒 Aquí bloqueas solo esas filas
@@ -108,7 +108,7 @@ class GamesController extends Controller
                 ->where('id', $request->id_sala)
                 ->update(['estado' => 'option2']);*/
             // Simula un proceso largo (bloqueo activo)
-               // sleep(10);
+            // sleep(10);
             foreach ($apuestas as $apuesta) {
                 if ($apuesta->jugador == $sala->point4) {
                     $this->cashService->AddMoneyBalance($apuesta->jugador_apostador, $apuesta->posible_ganancia, "Vitrix Cars");
@@ -371,8 +371,8 @@ class GamesController extends Controller
             ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
             ->select(
                 'salas.*',
-                'u1.name as player_one_name',
-                'u2.name as player_two_name',
+                'u1.username as player_one_name',
+                'u2.username as player_two_name',
                 'u1.id as id_one',
                 'u2.id as id_two'
             )
@@ -562,60 +562,82 @@ class GamesController extends Controller
 
     public function ApuestasSeperadas($id)
     {
-        $apuestasSubquery = DB::table('apuestascars')
-            ->select('sala_id', 'jugador', DB::raw('SUM(posible_ganancia) as total_ganancia'), DB::raw('SUM(monto) as monto'))
-            ->groupBy('sala_id', 'jugador');
-
-        $sala = DB::table('salas')
-            ->join('users as u1', 'salas.player_one', '=', 'u1.id')
-            ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
-            ->leftJoinSub($apuestasSubquery, 'apuestas', function ($join) {
-                $join->on('salas.id', '=', 'apuestas.sala_id');
-            })
+        $sala=DB::table("salas")->select("nombre_sala")->where("id",$id)->first();
+        $apuestas = DB::table('apuestascars')
+            ->join('users', 'apuestascars.jugador', '=', 'users.id')
+           
             ->select(
-                'salas.nombre_sala',
-                'salas.cuota_player_one',
-                'salas.cuota_player_two',
-                'u1.name as player_one_name',
-                'u2.name as player_two_name',
-                'apuestas.jugador',
-                'apuestas.total_ganancia',
-                'monto'
-
+              
+              
+              
+                'users.username',
+                DB::raw('SUM(apuestascars.posible_ganancia) as total_ganancia'),
+                DB::raw('SUM(apuestascars.monto) as monto')
             )
-            ->where('salas.id', $id)
+            ->where('apuestascars.sala_id', $id)
+            ->groupBy(
+              
+              
+                'users.username'
+            )
             ->get();
-        //return response(["sala"=>$sala]);
-        return view("vendor.voyager.apuestas.index", compact("sala"));
+
+        //return response(["sala" => $apuestas]);
+       
+      
+        return view("vendor.voyager.apuestas.index", compact("sala",'apuestas'));
     }
 
     public function eventsala($id_sala, Request $request)
     {
-        // Verifica que exista la sala
-        $sala = Sala::find($id_sala);
-        if (! $sala) {
-            return response()->json(['error' => 'Sala no encontrada'], 404);
-        }
-        // Guarda la imagen
-        $point = $request->point;
+        return DB::transaction(function () use ($id_sala, $request) {
+            // Bloquea la sala para evitar acceso concurrente
+            $sala = Sala::where('id', $id_sala)->lockForUpdate()->first();
 
-        if ($sala->{'point' . $point} != null) {
-            return response()->json(['ok' => true, 'status' => "segundo" . $request->user_id]);
-        }
-        $sala->{'point' . $point} = $request->user_id;
-        $sala->save();
-        if ($request->hasFile('imagepoints')) {
-            $paths = [];
-
-            foreach ($request->file('imagepoints') as $image) {
-                $paths[] = $image->store('points', 'public');
+            if (! $sala) {
+                return response()->json(['error' => 'Sala no encontrada'], 404);
             }
-            $sala->{'imagepoint' . $point} = json_encode($paths);
+
+            $point = $request->point;
+
+            if ($sala->{'point' . $point} != null) {
+                return response()->json(['ok' => true, 'status' => "segundo" . $request->user_id]);
+            }
+
+            $sala->{'point' . $point} = $request->user_id;
             $sala->save();
-            return response()->json(['ok' => true, 'imagen' => "guardado"]);
-        }
 
-        return response()->json(['error' => 'Imagen no encontrada'], 422);
+            if ($request->hasFile('imagepoints')) {
+                $paths = [];
 
+                foreach ($request->file('imagepoints') as $image) {
+                    $paths[] = $image->store('points', 'public');
+                }
+
+                $sala->{'imagepoint' . $point} = json_encode($paths);
+                $sala->save();
+
+                return response()->json(['ok' => true, 'imagen' => "guardado"]);
+            }
+
+            return response()->json(['error' => 'Imagen no encontrada'], 422);
+        });
     }
+
+    public function prueba_sala()
+{
+    $sala = Sala::with([
+        'point1',
+        'point2',
+        'point3',
+        'point4',
+    ])->find(34);
+
+    return response([
+        'point1_id' => $sala->point1, // esto será el ID
+        'relation_loaded' => $sala->relationLoaded('point1'), // debe ser true
+        'user_data' => $sala->getRelationValue('point1'),
+        'username' => optional($sala->getRelationValue('point1'))->username, // o nameuser si ese es el nombre real
+    ]);
+}
 }

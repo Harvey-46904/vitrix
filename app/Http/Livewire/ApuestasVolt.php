@@ -26,8 +26,8 @@ class ApuestasVolt extends Component
         ->join('users as u2', 'salas.plater_two', '=', 'u2.id')
         ->select(
             'salas.*',
-            'u1.name as player_one_name',
-            'u2.name as player_two_name',
+            'u1.username as player_one_name',
+            'u2.username as player_two_name',
             'u1.id as id_one',
             'u2.id as id_two'
         )

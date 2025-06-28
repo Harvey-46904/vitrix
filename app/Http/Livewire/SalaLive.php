@@ -25,33 +25,45 @@ class SalaLive extends Component
     }
 public function render()
 {
-    $this->sala = Sala::find($this->salaId);
+    $this->sala = Sala::with([
+        'point1',
+        'point2',
+        'point3',
+        'point4',
+    ])->find($this->salaId);
 
     $ultimo = null;
-    $polling = true; // por defecto sí
+    $polling = true;
+    $completos = 0;
 
     for ($i = 4; $i >= 1; $i--) {
         $campoImagenes = "imagepoint$i";
-        $campoJugador = "point$i";
+        $nombreRelacion = "point$i";
 
         if ($this->sala && $this->sala->$campoImagenes) {
             $imagenes = json_decode($this->sala->$campoImagenes, true);
 
             if (!empty($imagenes)) {
-                $ultimo = [
-                    'jugador' => $this->sala->$campoJugador,
-                    'imagenes' => $imagenes,
-                    'numero' => $i,
-                    'esGanador' => $this->sala->ganador === "point$i",
-                ];
-                break;
+                $completos++; // cuenta los puntos con imagen
+
+                // Solo asignar el último una vez
+                if (!$ultimo) {
+                    $jugador = $this->sala->getRelationValue($nombreRelacion);
+
+                    $ultimo = [
+                        'jugador' => optional($jugador)->username ?? optional($jugador)->nameuser ?? 'Desconocido',
+                        'imagenes' => $imagenes,
+                        'numero' => $i,
+                        'esGanador' => $this->sala->ganador === $nombreRelacion,
+                    ];
+                }
             }
         }
     }
-   
 
-    if ($this->sala->ganador) {
-        $this->pollDelay = null; // desactiva el polling
+    // Desactivar polling si hay un ganador o los 4 puntos completaron imagen
+    if ($this->sala->ganador || $completos >= 4) {
+        $this->pollDelay = null;
     } else {
         $this->pollDelay = '8s';
     }
@@ -59,7 +71,7 @@ public function render()
     return view('livewire.sala-live', [
         'ultimo' => $ultimo,
         'polling' => $polling,
-        'sala'=>$this->sala->id,
+        'sala' => $this->sala->id,
     ]);
 }
 }
