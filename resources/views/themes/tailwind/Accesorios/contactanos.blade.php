@@ -4,33 +4,32 @@
 <div class="container my-5 bg-gris neon-shadow py-3">
   <div class="row">
     <div class="col-md-12 text-center mb-4">
-      <h1 class="display-4 gamers texturizado-warning">📬 Contáctanos</h1>
-      <p class="lead">Estamos aquí para ayudarte.</p>
+      <h1 class="display-4 gamers texturizado-warning">{{ __('general.info.contacto.titulo') }}</h1>
+      <p class="lead">{{ __('general.info.contacto.subtitulo') }}</p>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
-      <p>¿Tienes preguntas, sugerencias o necesitas asistencia personalizada? En <strong>Vitrix</strong>, valoramos tu experiencia y queremos escucharte. Nuestro equipo está disponible para responderte de forma rápida, clara y segura.</p>
+      <p>{{ __('general.info.contacto.descripcion') }}</p>
 
-      <h3 class="mt-4">🛠️ Canales de contacto disponibles</h3>
+      <h3 class="mt-4">{{ __('general.info.contacto.canales') }}</h3>
       <ul>
-        <li><strong>📩 Correo de Soporte:</strong><br>
+        <li><strong>{{ __('general.info.contacto.correo_titulo') }}</strong><br>
           👉 <a href="mailto:soporte@vitrix.io">soporte@vitrix.io</a><br>
-          Para consultas generales, técnicas o sobre tu cuenta.
+          {{ __('general.info.contacto.correo_texto') }}
         </li>
-        <li class="mt-3"><strong>📱 Canal de Telegram Oficial:</strong><br>
+        <li class="mt-3"><strong>{{ __('general.info.contacto.telegram_titulo') }}</strong><br>
           👉 <a href="https://t.me/vitrixoficial" target="_blank">t.me/vitrixoficial</a><br>
-          Únete para recibir anuncios, resolver dudas frecuentes y estar cerca de la comunidad.
+          {{ __('general.info.contacto.telegram_texto') }}
         </li>
       </ul>
 
-      <h4 class="mt-4">💡 ¿Problemas técnicos urgentes?</h4>
-      <p>Especifica el error o adjunta una captura en tu mensaje. Nuestro equipo de soporte técnico prioriza estos casos para darte una solución rápida.</p>
+      <h4 class="mt-4">{{ __('general.info.contacto.tecnico_titulo') }}</h4>
+      <p>{{ __('general.info.contacto.tecnico_texto') }}</p>
 
       <div class="alert alert-success mt-4" role="alert">
-        🤝 En Vitrix, cada jugador y cada inversor cuenta.<br>
-        No estás solo, estás respaldado por un equipo que te acompaña en todo momento.
+        {{ __('general.info.contacto.alerta') }}
       </div>
     </div>
   </div>

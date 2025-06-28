@@ -8,8 +8,7 @@
 			<p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
 				data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
 
-				"En Vitrix, tus <b class='text-warning'>referidos</b> cuentan. Por cada transacción que realicen,
-				recibirás una <b class='text-warning'>recompensa</b>. Esta recompenza la obtienes segun el ibox que adquieras"</p>
+				{{ __('general.ibox.option1') }}<b class='text-warning'>{{ __('general.ibox.option2') }}</b>{{ __('general.ibox.option3') }}<b class='text-warning'>{{ __('general.ibox.option4') }}</b>{{ __('general.ibox.option5') }}</p>
 
 		</div>
 	</div>
@@ -42,7 +41,7 @@
 					data-precio="{{ $ibox->precio_compra }}"
 					data-id="{{$ibox->id}}"
 					
-					class="btn my-1 bg-azul-secundario compra_validacion"> COMPRAR POR <b class="text-warning">{{$ibox->precio_compra}} USD</b> </a>
+					class="btn my-1 bg-azul-secundario compra_validacion"> {{ __('general.ibox.option6') }}<b class="text-warning">{{$ibox->precio_compra}} USD</b> </a>
 				</div>
 			</div>
 		</div>
@@ -50,4 +49,17 @@
 
 	</div>
 
+	<script>
+    window.trans = {
+        realizar_compra: "{{ __('general.compras.option1') }}",
+        saldo_insuficiente: "{{ __('general.compras.option2') }}",
+        saldo_disponible: "{{ __('general.compras.option3') }}",
+        no_saldo: "{{ __('general.compras.option4') }}",
+		cancelar: "{{ __('general.compras.cancelar') }}",
+		comprar: "{{ __('general.compras.comprar') }}",
+		proceso: "{{ __('general.compras.option5') }}",
+		espera: "{{ __('general.compras.option6') }}"
+
+    };
+</script>
 </div>

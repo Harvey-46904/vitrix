@@ -8,22 +8,21 @@
             <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                 data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
 
-                "En Vitrix, amamos la competencia. Los <b class='text-warning'>eSports</b> son nuestra pasión, y cada
-                jugador cuenta. Por cada desafío que enfrentes, recibirás una <b class='text-warning'>recompensa</b>.
-                Esta recompensa la obtienes según el rendimiento y los logros que consigas en tus carreras."
+                {{ __('general.sport.option1') }}  <b class='text-warning'>{{ __('general.sport.option2') }}</b> {{ __('general.sport.option3') }}<b class='text-warning'> {{ __('general.sport.option4') }}</b>.
+            
             </p>
 
         </div>
     </div>
     <div class="row justify-content-center text-light ">
         <div class="col-md-4">
-            <h5 class="card-title gamers texturizado-warning">Mis competencias</h5>
+            <h5 class="card-title gamers texturizado-warning">{{ __('general.sport.option5') }}</h5>
             <table class="table table-dark neon-table">
                 <thead>
                     <tr>
-                        <th scope="col">Evento</th>
-                        <th scope="col">Fecha</th>
-                        <th scope="col">Accion</th>
+                        <th scope="col">{{ __('general.sport.option6') }} </th>
+                        <th scope="col">{{ __('general.sport.option7') }} </th>
+                        <th scope="col">{{ __('general.sport.option8') }} </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,7 +33,7 @@
                         <td>
                             <a class="btn btn-success d-none" data-fecha="{{$item->fecha_juego}}"
                                 id="btn-evento-{{$item->id}}" onclick="loadgame('{{$item->id}}')">
-                                Empezar
+                                {{ __('general.sport.option9') }} 
                             </a>
                         </td>
 
@@ -46,7 +45,7 @@
             </table>
         </div>
         <div class="col-md-8 text-center">
-            <h5 class="card-title gamers texturizado-warning">Apuesta por lo mejor</h5>
+            <h5 class="card-title gamers texturizado-warning">{{ __('general.sport.option10') }} </h5>
 
             <div class="row  ">
 
@@ -83,13 +82,13 @@
 
                             <a href="{{ route('sala.detalle', ['id' => $sala->id]) }}" class="btn btn-success"
                                 style="color: yellow;">
-                                Apostar
+                                {{ __('general.sport.option11') }} 
                             </a>
                             @else
 
                             <a href="{{ route('sala.detalle', ['id' => $sala->id]) }}" class="btn btn-warning"
                                 style="color: black;">
-                                Mira quien gana
+                               {{ __('general.sport.option12') }}  
                             </a>
                             @endif
 

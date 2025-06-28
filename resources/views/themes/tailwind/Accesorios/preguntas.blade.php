@@ -4,67 +4,70 @@
 <div class="container my-5 bg-gris neon-shadow py-3">
   <div class="row">
     <div class="col-md-12 text-center mb-4">
-      <h1 class="display-4 gamers texturizado-warning">❓ Preguntas Frecuentes (FAQ)</h1>
-      <p class="lead">Encuentra respuestas rápidas a las dudas más comunes.</p>
+      <h1 class="display-4 gamers texturizado-warning">{{ __('general.info.faq.titulo') }}</h1>
+      <p class="lead">{{ __('general.info.faq.subtitulo1') }}</p>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
 
-      <h3 class="mt-4">🔐 Registro y Cuenta</h3>
-      <p><strong>¿Cómo me registro en Vitrix?</strong><br>
-      Solo necesitas un correo electrónico activo, una contraseña segura y aceptar nuestros términos. También puedes registrarte con tu billetera Web3. <em>Ver video tutorial</em></p>
+      <h3 class="mt-4">{{ __('general.info.faq.seccion1') }}</h3>
+      <p><strong>{{ __('general.info.faq.p1_titulo') }}</strong><br>
+      {{ __('general.info.faq.p1_texto') }}</p>
 
-      <p><strong>¿Puedo tener más de una cuenta?</strong><br>
-      No. Cada usuario puede tener solo una cuenta. El uso de múltiples cuentas puede llevar a la suspensión definitiva.</p>
+      <p><strong>{{ __('general.info.faq.p2_titulo') }}</strong><br>
+      {{ __('general.info.faq.p2_texto') }}</p>
 
-      <h3 class="mt-4">🎮 Juegos y Participación</h3>
-      <p><strong>¿Cómo funcionan los juegos competitivos?</strong><br>
-      Participas en desafíos diarios. Por ejemplo, en <em>Champions Day</em> (juego de aviones), el jugador con más puntos del día gana el premio principal.</p>
+      <h3 class="mt-4">{{ __('general.info.faq.seccion2') }}</h3>
+      <p><strong>{{ __('general.info.faq.p3_titulo') }}</strong><br>
+      {{ __('general.info.faq.p3_texto') }}</p>
 
-      <p><strong>¿Qué es Genius?</strong><br>
-      Es un juego de azar donde apuestas y decides cuándo retirarte antes de que el multiplicador explote. Cuanto más esperes, mayor el riesgo y también la ganancia.</p>
+      <p><strong>{{ __('general.info.faq.p4_titulo') }}</strong><br>
+      {{ __('general.info.faq.p4_texto') }}</p>
 
-      <h3 class="mt-4">💰 Inversión y Ganancias</h3>
-      <p><strong>¿Cómo puedo invertir en Vitrix?</strong><br>
-      Desde tu panel, puedes acceder a las oportunidades de inversión disponibles. Las inversiones están vinculadas al rendimiento general de la plataforma.</p>
+      <h3 class="mt-4">{{ __('general.info.faq.seccion3') }}</h3>
+      <p><strong>{{ __('general.info.faq.p5_titulo') }}</strong><br>
+      {{ __('general.info.faq.p5_texto') }}</p>
 
-      <p><strong>¿Cuál es la rentabilidad esperada?</strong><br>
-      Depende del plan escogido. Revisa los porcentajes de retorno en la sección de planes de inversión.</p>
+      <p><strong>{{ __('general.info.faq.p6_titulo') }}</strong><br>
+      {{ __('general.info.faq.p6_texto') }}</p>
 
-      <p><strong>¿Cuándo puedo retirar mis ganancias?</strong><br>
-      Los retiros están disponibles según el plan elegido. En general, por juegos puedes retirar todos los días; por inversiones y referidos, semanalmente si superas los $50 USD.</p>
+      <p><strong>{{ __('general.info.faq.p7_titulo') }}</strong><br>
+      {{ __('general.info.faq.p7_texto') }}</p>
 
-      <p><strong>¿Cómo funciona el programa de referidos?</strong><br>
-      Ganas comisiones por cada persona que se registre o invierta desde tu enlace. Las ganancias se distribuyen en 5 niveles, tanto para inversión como para juegos. <em>Ir al botón Referidos</em>.</p>
+      <p><strong>{{ __('general.info.faq.p8_titulo') }}</strong><br>
+      {{ __('general.info.faq.p8_texto') }}</p>
 
-      <p><strong>¿Dónde encuentro mi enlace de referido?</strong><br>
-      En tu panel principal, parte superior derecha, en el botón <strong>Invitar</strong>.</p>
+      <p><strong>{{ __('general.info.faq.p9_titulo') }}</strong><br>
+      {{ __('general.info.faq.p9_texto') }}</p>
 
-      <p><strong>¿Qué hago si tengo un problema con un juego o retiro?</strong><br>
-      Contáctanos por correo o Telegram. Nuestro equipo está disponible 24/7 para ayudarte.</p>
+      <p><strong>{{ __('general.info.faq.p10_titulo') }}</strong><br>
+      {{ __('general.info.faq.p10_texto') }}</p>
 
-      <p><strong>¿Vitrix es seguro?</strong><br>
-      Sí. Todas las transacciones están protegidas por tecnología blockchain y procesos internos de seguridad.</p>
+      <p><strong>{{ __('general.info.faq.p11_titulo') }}</strong><br>
+      {{ __('general.info.faq.p11_texto') }}</p>
 
-      <p><strong>¿Dónde puedo ver el rendimiento de mis inversiones?</strong><br>
-      Desde tu panel de usuario puedes acceder a reportes, movimientos y utilidades generadas. Ir a la pestaña <em>Inversiones > Mis inversiones</em>.</p>
+      <p><strong>{{ __('general.info.faq.p12_titulo') }}</strong><br>
+      {{ __('general.info.faq.p12_texto') }}</p>
 
-      <h3 class="mt-4">💸 ¿Cómo puedo retirar mis ganancias?</h3>
-      <p>Retirar tus ganancias en Vitrix es un proceso sencillo, seguro y respaldado por tecnología blockchain.</p>
+      <p><strong>{{ __('general.info.faq.p13_titulo') }}</strong><br>
+      {{ __('general.info.faq.p13_texto') }}</p>
 
-      <strong>🪙 Pasos para realizar un retiro:</strong>
+      <h3 class="mt-4">{{ __('general.info.faq.seccion4') }}</h3>
+      <p>{{ __('general.info.faq.p14_texto') }}</p>
+
+      <strong>{{ __('general.info.faq.p15_titulo') }}</strong>
       <ol>
-        <li>Ingresa a tu cuenta en vitrix.io y dirígete a tu panel de usuario.</li>
-        <li>Haz clic en el botón <strong>Billetera</strong> (parte superior derecha).</li>
-        <li>Selecciona el monto a retirar y el método (actualmente, solo criptoactivos compatibles).</li>
-        <li>Ingresa tu dirección de wallet (previamente verificada).</li>
-        <li>Confirma la operación y espera la validación.</li>
+        <li>{{ __('general.info.faq.p15_paso1') }}</li>
+        <li>{{ __('general.info.faq.p15_paso2') }}</li>
+        <li>{{ __('general.info.faq.p15_paso3') }}</li>
+        <li>{{ __('general.info.faq.p15_paso4') }}</li>
+        <li>{{ __('general.info.faq.p15_paso5') }}</li>
       </ol>
 
-      <p><strong>📅 Tiempos de retiro:</strong><br>
-      Retiros estándar: entre 24 y 72 horas hábiles.</p>
+      <p><strong>{{ __('general.info.faq.p16_titulo') }}</strong><br>
+      {{ __('general.info.faq.p16_texto') }}</p>
 
     </div>
   </div>

@@ -3,15 +3,13 @@
         <div class="col-md-12 text-center  py-3">
             <h1 class="invisible pb-2 mt-3 text-4xl font-extrabold leading-10 tracking-tight text-transparent transition-none duration-700 ease-out delay-150 transform translate-y-12 opacity-0 bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-purple-600 scale-10 md:my-5 sm:leading-none lg:text-5xl xl:text-6xl"
                 data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-                REFERIDOS</h1>
+               {{ __('general.referidos.option1') }}</h1>
 
             <p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
                 data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
 
-                "En Vitrix, tus <b class='text-warning'>referidos</b> cuentan. Por cada persona que se registre con tu
-                link unico,
-                recibirás una <b class='text-warning'>recompensa</b>. Y no solo por referirlo a partir de ahora todo
-                juego en el que ellos interactuen se vera reflejado en tu saldo bono."</p>
+               {{ __('general.referidos.option2') }}<b class='text-warning'> {{ __('general.referidos.option3') }}</b> {{ __('general.referidos.option4') }}
+               <b class='text-warning'>{{ __('general.referidos.option5') }}</b>{{ __('general.referidos.option6') }}</p>
 
         </div>
     </div>
@@ -27,10 +25,9 @@
     <div class="row justify-content-center">
         <div class="col-md-12">
             @if ($totales_referidos>0)
-            <h3 class="text-light">Actualmente cuenta con <b> {{$totales_referidos}} </b> miembros en total , a
-                continuación mostramos a sus referidos directos</h3>
+            <h3 class="text-light">{{ __('general.referidos.option7') }}<b> {{$totales_referidos}} </b> {{ __('general.referidos.option8') }}</h3>
             @else
-            <h3 class="text-light">Actualmente no cuenta con referidos , puede invitar a personas y obtener recompenzas
+            <h3 class="text-light">{{ __('general.referidos.option9') }}
             </h3>
             @endif
 

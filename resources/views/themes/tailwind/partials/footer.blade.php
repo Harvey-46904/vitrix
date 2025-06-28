@@ -18,40 +18,40 @@
             </a>
             <div class="grid w-full grid-cols-2 pt-2 mt-20 sm:grid-cols-4 gap-y-16 lg:gap-x-8 md:w-5/6 md:mt-0 md:pr-6">
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-white">Productos</h3>
+                    <h3 class="font-semibold text-white">{{ __('general.footer.option1') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Vitrix.io ¿Qué Somos?</span>
+                                <span class="text-white">{{ __('general.footer.option2') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('inversion')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Inversión</span>
+                                <span class="text-white">{{ __('general.footer.option3') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('referidos_informacion')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Referidos</span>
+                                <span class="text-white">{{ __('general.footer.option4') }}</span>
                             </a>
                         </li>
 
                     </ul>
                 </div>
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-white">Sobre Nosotros</h3>
+                    <h3 class="font-semibold text-white">{{ __('general.footer.option5') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="{{route('historia')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Nuestra Historia</span>
+                                <span class="text-white">{{ __('general.footer.option6') }}</span>
                             </a>
                         </li>
 
@@ -60,13 +60,13 @@
                     </ul>
                 </div>
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-white">Recursos</h3>
+                    <h3 class="font-semibold text-white">{{ __('general.footer.option7') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="{{route('ayuda')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Centro de ayuda</span>
+                                <span class="text-white">{{ __('general.footer.option8') }}</span>
                             </a>
                         </li>
 
@@ -74,14 +74,14 @@
                             <a href="{{route('noticias')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Noticias</span>
+                                <span class="text-white">{{ __('general.footer.option9') }}</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{route('preguntas')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Preguntas Frecuentes</span>
+                                <span class="text-white">{{ __('general.footer.option10') }}</span>
                             </a>
                         </li>
 
@@ -89,19 +89,19 @@
                             <a href="/sitemap.xml" target="_blank" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Sitemap</span>
+                                <span class="text-white">{{ __('general.footer.option11') }}</span>
                             </a>
                         </li>
                     </ul>
                 </div>
                 <div class="md:justify-self-end">
-                    <h3 class="font-semibold text-white">Contactos</h3>
+                    <h3 class="font-semibold text-white">{{ __('general.footer.option12') }}</h3>
                     <ul class="mt-6 space-y-4 text-sm">
                         <li>
                             <a href="{{route('contactanos')}}" class="relative inline-block text-black group">
                                 <span
                                     class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-1"></span>
-                                <span class="text-white">Contactanos</span>
+                                <span class="text-white">{{ __('general.footer.option13') }}</span>
                             </a>
                         </li>
 
@@ -114,12 +114,12 @@
         <div class="flex flex-col items-center justify-between py-10 border-t border-solid lg:flex-row border-gray">
             <ul class="flex flex-wrap space-x-5 text-xs">
                 <li class="mb-6 text-center flex-full lg:flex-none lg:mb-0 text-white">&copy; {{ date('Y') }} {{
-                    setting('site.title', 'Laravel Wave') }}, Inc. All rights reserved.</li>
+                    setting('site.title', 'Laravel Wave') }}, {{ __('general.footer.option14') }}</li>
                 <li class="lg:ml-6">
                     <a href="{{route('privacidad')}}" class="relative inline-block text-black group">
                         <span
                             class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
-                        <span class="text-white">Politicas de privacidad</span>
+                        <span class="text-white">{{ __('general.footer.option15') }}</span>
                     </a>
                 </li>
 
@@ -127,7 +127,7 @@
                     <a href="{{route('terminos')}}" class="relative inline-block text-black group">
                         <span
                             class="absolute bottom-0 w-full transition duration-150 ease-out transform -translate-y-1 border-b border-black opacity-0 group-hover:opacity-100 group-hover:translate-y-0"></span>
-                        <span class="text-white">Terminos y Condiciones</span>
+                        <span class="text-white">{{ __('general.footer.option16') }}</span>
                     </a>
                 </li>
             </ul>

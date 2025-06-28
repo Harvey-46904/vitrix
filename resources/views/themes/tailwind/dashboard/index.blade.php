@@ -6,17 +6,17 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="text-light gamers">Bienvenido <b> {{Auth::user()->name}}</b> </h1>
+			<h1 class="text-light gamers"> {{ __('general.dashboard.option1') }} <b> {{Auth::user()->name}}</b> </h1>
 		</div>
 	</div>
 	<div class="row">
 		<marquee behavior="scroll" direction="left" scrollamount="8"
 			style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
-			🎰 Los rangos Vitrix te diferencia entre los demas jugadores sigue jugando para aumentar niveles💰
+			{{ __('general.dashboard.option2') }}
 		</marquee>
 
 		<div class="col-md-12 text-center">
-			<h1 class="text-light gamers">Rangos Vitrix </h1>
+			<h1 class="text-light gamers">{{ __('general.dashboard.option3') }} </h1>
 		</div>
 		<div class="row ">
 			<div class="col-3 col-md-3 ">
@@ -47,12 +47,11 @@
 		<div class="col-md-4">
 			<div class="card neon-purple miembros" style="background-color: #ffffff00;">
 				<div class="card-body text-center ">
-					<h5 class="card-title gamers texturizado-warning">SALDO IBOX</h5>
+					<h5 class="card-title gamers texturizado-warning">{{ __('general.dashboard.option4') }}</h5>
 					<h5 class="card-title gamers texturizado-primary">
 						${{number_format(auth()->user()->balance_card->balance, 2) }}</h5>
-					<p class="card-text text-light">Recuerda que debes tener saldo IBOX para retirar tus
-						rentabilidades</p>
-					<a href="{{route('wave.ibox')}}" class="btn my-1  bg-azul-secundario">Comprar Membresia</a>
+					<p class="card-text text-light">{{ __('general.dashboard.option5') }}</p>
+					<a href="{{route('wave.ibox')}}" class="btn my-1  bg-azul-secundario">{{ __('general.dashboard.option6') }}</a>
 				</div>
 			</div>
 		</div>
@@ -98,7 +97,7 @@
 		</div>
 		<marquee behavior="scroll" direction="left" scrollamount="8"
 			style="color: #cf00b4; font-size: 1.5em; font-weight: bold;" class="bg-rosa neon-shadow  ">
-			🎰 Todos los juegos te recompensan, así que entre más personas invites, mayor será tu premio.💰
+			{{ __('general.dashboard.option7') }}
 		</marquee>
 		<div class="row justify-content-center pt-3 neon-shadow">
 
@@ -141,16 +140,16 @@
 
 					<p class="text-white invisible mt-0 text-base text-center text-gray-600 transition-none duration-700 ease-out delay-300 transform translate-y-12 opacity-0 md:text-center  sm:mt-2 md:mt-0 sm:text-base lg:text-lg xl:text-xl"
 						data-replace='{ "transition-none": "transition-all", "invisible": "visible", "translate-y-12": "translate-y-0", "scale-110": "scale-100", "opacity-0": "opacity-100" }'>
-						Las sencillas pero emocionantes competencias hacen que cualquier <b
-							class="text-warning">jugador</b> pueda participar y llevarse el gran premio <b
-							class="text-warning">ganador</b>!</p>
+						{{ __('general.dashboard.option8') }}<b
+							class="text-warning">{{ __('general.dashboard.option9') }}</b>{{ __('general.dashboard.option10') }} <b
+							class="text-warning">{{ __('general.dashboard.option11') }}</b>!</p>
 
 
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-12 text-center">
-					<a class="btn bg-azul-variante m-4 p-4" href="{{route('wave.esports')}}">APOSTAR</a>
+					<a class="btn bg-azul-variante m-4 p-4" href="{{route('wave.esports')}}">{{ __('general.dashboard.option12') }}</a>
 				</div>
 			</div>
 

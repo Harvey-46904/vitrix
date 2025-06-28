@@ -9,7 +9,7 @@
 			<div class="col-md-6 neon-shadow">
 				<div class="row">
 					<div class="col-md-12 bg-fondo-azul">
-						<h1 class="display-4 text-light">Depositar</h1>
+						<h1 class="display-4 text-light">{{ __('general.deposito.option1') }}</h1>
 					</div>
 				</div>
 				<div class="row my-3 py-3">
@@ -18,37 +18,35 @@
 					</div>
 					<div class="col-md-10 d-flex align-items-center col-9">
 						<img src="{{ asset('vitrix/img/Polygon.png') }}" class="not-prose icono me-2" alt="...">
-						<span>Trabajamos en la blockchain de Polygon, por lo tanto la red de <b>USDT es ERC20</b></span>
+						<span>{{ __('general.deposito.option2') }}<b>{{ __('general.deposito.option3') }}</b></span>
 					</div>
 				</div>
 				<div class="row bg-rosa-transparente py-2 mx-2">
 					<div class="col-md-2  col-3"><img src="{{asset('vitrix/img/regalo.png') }}" class="icono not-prose"
 							alt="..."></div>
-					<div class="col-md-10 align-self-center col-9 "> En Vitrix todo deposito cuenta y esto ayuda a tus
-						aliados en cada
-						pago que realizes</div>
+					<div class="col-md-10 align-self-center col-9 "> {{ __('general.deposito.option4') }}</div>
 				</div>
 				<div class="row">
-					<div class="col-md-12 text-end ">Estado:<b class="text-danger" id="status"> Desconectado</b></div>
+					<div class="col-md-12 text-end ">{{ __('general.deposito.option5') }}<b class="text-danger" id="status"> {{ __('general.deposito.option6') }}</b></div>
 					<div class="col-md-12">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">Usuario</span>
+								<span class="input-group-text" id="basic-addon1">{{ __('general.deposito.option7') }}</span>
 							</div>
 							<input type="text" class="form-control" placeholder="Username" aria-label="Username"
 								aria-describedby="basic-addon1" disabled value="{{$user->name}}">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">Billetera</span>
+								<span class="input-group-text" id="basic-addon1">{{ __('general.deposito.option8') }}</span>
 							</div>
 							<input type="text" id="walletAddress" class="form-control" placeholder="Username"
 								aria-label="Username" aria-describedby="basic-addon1" disabled
-								value="Billetera No conectada">
+								value="{{ __('general.deposito.option14') }}">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="basic-addon1">Recarga</span>
+								<span class="input-group-text" id="basic-addon1">{{ __('general.deposito.option9') }}</span>
 							</div>
 							<input type="text" class="form-control" placeholder="Username" aria-label="Username"
 								aria-describedby="basic-addon1" value="{{$action}}" disabled>
@@ -64,8 +62,8 @@
 					@switch($action)
 					@case('deposito')
 					<div class="col-md-12">
-						<p class="text-rosa"> Montos Disponibles</p>
-						<h4 class="text-light">Seleccione una opción:</h4>
+						<p class="text-rosa"> {{ __('general.deposito.option10') }}</p>
+						<h4 class="text-light">{{ __('general.deposito.option11') }}</h4>
 
 						<!-- Opciones de respuesta (radio buttons) -->
 						<div class="form-check">
@@ -102,13 +100,13 @@
 
 						<!-- Caja de texto adicional -->
 						<div class="form-group mt-3">
-							<label for="opcionExtra">Monto Diferente:</label>
+							<label for="opcionExtra">{{ __('general.deposito.option12') }}</label>
 							<input type="number" class="form-control" id="opcionExtra" name="respuesta_extra"
 								placeholder="Digita tu monto" min="1" oninput="disableRadios(); checkMinValue(this)">
 						</div>
 
 						<!-- Botón de enviar -->
-						<button onclick="validador('{{$action}}')" type="submit" class="btn btn-primary">Pagar</button>
+						<button onclick="validador('{{$action}}')" type="submit" class="btn btn-primary">{{ __('general.deposito.option13') }}</button>
 
 
 
@@ -210,8 +208,8 @@
 							</div>
 							<div class="col-md-10 col-10">
 								<button id="Metamaskbutton" class="btn btn-outline-light btn-lg btn-block ">
-
-									Conectar Metamask
+							{{ __('general.deposito.option15') }}
+									
 								</button>
 							</div>
 						</div>
@@ -227,8 +225,8 @@
 							<div class="col-md-10 col-10">
 								<button id="btnMetamaskMobile" class="btn btn-outline-light btn-lg btn-block "
 									data-user="{{$hash}}" data-action="{{$action}}" data-id="{{$id}}">
-
-									Abrir Metamask Movil
+						{{ __('general.deposito.option16') }}
+									
 								</button>
 							</div>
 						</div>
@@ -243,25 +241,21 @@
 
 					<div class="col-md-12">
 						<div class="alert alert-danger d-none" id="walleterror" role="alert">
-							<strong>Algo inesperado ha ocurrido.</strong> Intente los siguientes pasos:
+							<strong>{{ __('general.deposito.error.option1') }}</strong> {{ __('general.deposito.error.option2') }}
 							<ul class="mt-2" style="list-style-type: disc; color: black;">
-								<li>Compruebe que tiene instalada la aplicación <strong>metamask</strong> en su
-									navegador o móvil.</li>
-								<li>Verifique que ha iniciado sesión en su billetera.</li>
-								<li>Borre la caché de su navegador.</li>
-								<li>Pruebe accediendo desde una ventana de incógnito.</li>
+								<li>{{ __('general.deposito.error.option3') }}<strong>metamask</strong> {{ __('general.deposito.error.option4') }}</li>
+								<li>{{ __('general.deposito.error.option5') }}</li>
+								<li>{{ __('general.deposito.error.option6') }}</li>
+								<li>{{ __('general.deposito.error.option7') }}</li>
 							</ul>
-							<p class="mt-3"><strong>Si el problema persiste, póngase en contacto con nosotros.</strong>
+							<p class="mt-3"><strong>{{ __('general.deposito.error.option8') }}</strong>
 							</p>
 						</div>
 					</div>
 
 				</div>
 				<div class="row">
-					<div class="col-md-12">Envía únicamente USDT a esta dirección de contrato. su dinero se
-						depositarán automáticamente después de 6 confirmaciones de red. Las direcciones de contratos
-						inteligentes no son compatibles (contáctanos).
-						Minimum Deposit: 0.000001 USDT.</div>
+					<div class="col-md-12">{{ __('general.deposito.option17') }}</div>
 				</div>
 			</div>
 		</div>

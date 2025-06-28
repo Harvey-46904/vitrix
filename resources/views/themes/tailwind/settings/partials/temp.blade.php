@@ -21,7 +21,7 @@
     <div class="row justify-content-center">
         <div class="row">
             <div class="col-md-12">
-                <a class="btn btn-success" href="{{ route('wave.paquetes.personal') }}">MIS_INVERSIONES</a>
+                <a class="btn btn-success" href="{{ route('wave.paquetes.personal') }}">{{ __('general.inversion.option1') }}</a>
             </div>
         </div>
         <div class="col-md-12">
@@ -46,18 +46,18 @@
                                             </div>
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item display-4">$ {{ $product->precio_base }} </li>
-                                                <li class="list-group-item">Rentabilidad <br>{{ $product->porcentaje_rentabilidad }} %</li>
-                                                <li class="list-group-item">Duración<br>{{ $product->duracion_meses }} Meses</li>
+                                                <li class="list-group-item">{{ __('general.inversion.option2') }} <br>{{ $product->porcentaje_rentabilidad }} %</li>
+                                                <li class="list-group-item">{{ __('general.inversion.option3') }}<br>{{ $product->duracion_meses }} {{ __('general.inversion.option4') }}</li>
                                             </ul>
                                             <div class="card-body">
-                                                <a class="card-link btn  btn-primary text-light" onClick="calcular({{$product}})">🧮 CALCULADORA</a>
+                                                <a class="card-link btn  btn-primary text-light" onClick="calcular({{$product}})">{{ __('general.inversion.option5') }}</a>
                                                 <a 
                                                 data-balances={{route('cashbalanceInversionBalance', ['id' => $product->id]) }}
                                                 data-url="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}"
                                                 data-efectivo="{{ auth()->user()->balance_general->balance ?? 0 }}"
                                                 data-precio="{{ $product->precio_base }}"
                                                 data-id="{{$product->id}}"
-                                                class="card-link btn btn-success compra_validacion text-light">🏷️ SER SOCIO</a>
+                                                class="card-link btn btn-success compra_validacion text-light">{{ __('general.inversion.option6') }}</a>
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +84,7 @@
 function showChartWithSwal(numMonths, percentageGain,p) {
     // Crear el modal de SweetAlert con el canvas donde irá el gráfico
     Swal.fire({
-        title: 'Evolución de ganancias-Paquete '+p.nombre,
+        title:  '{{ __('general.inversion.option7') }}'+p.nombre,
         html: '<canvas id="myChart" width="400" height="200"></canvas>', // Lienzo para Chart.js
         showConfirmButton: false,  // Quita el botón de confirmación para hacerlo automático
         willOpen: () => {
@@ -100,7 +100,7 @@ function showChartWithSwal(numMonths, percentageGain,p) {
 
             // Llenar los datos de los meses y las ganancias
             for (let i = 1; i <= numMonths; i++) {
-                labels.push(`Mes ${i}`); // Etiqueta del mes
+                labels.push(`{{ __('general.inversion.option8') }} ${i}`); // Etiqueta del mes
                 baseGain += monthlyGain; // Aumentar la ganancia
                 data.push(baseGain); // Añadir la ganancia al array
             }
@@ -111,7 +111,7 @@ function showChartWithSwal(numMonths, percentageGain,p) {
                 data: {
                     labels: labels, // Meses
                     datasets: [{
-                        label: 'Rentabilidad '+p.porcentaje_rentabilidad+'%',
+                        label: '{{ __('general.inversion.option9') }}'+p.porcentaje_rentabilidad+'%',
                         data: data, // Datos de ganancias
                         borderColor: 'rgba(75, 192, 192, 1)', // Color de la línea
                         borderWidth: 2,
@@ -141,3 +141,16 @@ function calcular(p){
 //
 </script>
 
+	<script>
+    window.trans = {
+        realizar_compra: "{{ __('general.compras.option1') }}",
+        saldo_insuficiente: "{{ __('general.compras.option2') }}",
+        saldo_disponible: "{{ __('general.compras.option3') }}",
+        no_saldo: "{{ __('general.compras.option4') }}",
+		cancelar: "{{ __('general.compras.cancelar') }}",
+		comprar: "{{ __('general.compras.comprar') }}",
+		proceso: "{{ __('general.compras.option5') }}",
+		espera: "{{ __('general.compras.option6') }}"
+
+    };
+</script>

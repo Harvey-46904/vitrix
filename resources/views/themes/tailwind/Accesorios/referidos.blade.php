@@ -4,58 +4,56 @@
 <div class="container my-5 bg-gris neon-shadow py-3">
   <div class="row">
     <div class="col-md-12 text-center mb-4">
-      <h1 class="display-4 gamers texturizado-warning">🤝 Programa de Recompensas por Referidos</h1>
-      <p class="lead">Gana compartiendo. Crece junto a tu comunidad.</p>
+      <h1 class="display-4 gamers texturizado-warning">{{ __('general.info.recompensas.titulo1') }}</h1>
+      <p class="lead">{{ __('general.info.recompensas.subtitulo1') }}</p>
     </div>
   </div>
 
   <div class="row">
     <div class="col-md-12">
-      <h2>Impulsa Vitrix y gana en el proceso</h2>
-      <p>En Vitrix, premiamos a quienes impulsan el crecimiento de nuestra comunidad. A través de un programa de referidos sólido y transparente, puedes generar ingresos tanto por inversiones recomendadas como por la participación activa en los juegos. Todo de forma automatizada y respaldada por tecnología blockchain.</p>
+      <h2>{{ __('general.info.recompensas.titulo2') }}</h2>
+      <p>{{ __('general.info.recompensas.descripcion1') }}</p>
     </div>
   </div>
 
   <div class="row mt-5">
     <div class="col-md-12">
-      <h2>💼 Recompensas por Nuevas Inversiones</h2>
-      <p>Comparte Vitrix, invita inversionistas y gana a largo plazo. Cada vez que una persona invierte en Vitrix gracias a tu recomendación, tú y tu estructura de referidos reciben una recompensa proporcional. Este sistema funciona en 5 niveles de profundidad:</p>
+      <h2>{{ __('general.info.recompensas.titulo3') }}</h2>
+      <p>{{ __('general.info.recompensas.descripcion2') }}</p>
       <ul>
-        <li><strong>🔸 Bono directo (Nivel 1):</strong> 10%</li>
-        <li><strong>🔸 Nivel 2:</strong> 7%</li>
-        <li><strong>🔸 Nivel 3:</strong> 5%</li>
-        <li><strong>🔸 Nivel 4:</strong> 2%</li>
-        <li><strong>🔸 Nivel 5:</strong> 1%</li>
+        <li><strong>🔸 {{ __('general.info.recompensas.nivel1') }}</strong></li>
+        <li><strong>🔸 {{ __('general.info.recompensas.nivel2') }}</strong></li>
+        <li><strong>🔸 {{ __('general.info.recompensas.nivel3') }}</strong></li>
+        <li><strong>🔸 {{ __('general.info.recompensas.nivel4') }}</strong></li>
+        <li><strong>🔸 {{ __('general.info.recompensas.nivel5') }}</strong></li>
       </ul>
-      <p><strong>💡 Sistema sostenible:</strong> Los bonos pagados se equilibran gracias al flujo de ingresos generado por la plataforma, lo que permite una amortización natural de las recompensas.</p>
+      <p><strong>{{ __('general.info.recompensas.descripcion3_titulo') }}</strong> {{ __('general.info.recompensas.descripcion3_texto') }}</p>
     </div>
   </div>
 
   <div class="row mt-5">
     <div class="col-md-12">
-      <h2>🎮 Recompensas por Participación en Juegos</h2>
-      <p>Gana cada vez que tu equipo disfruta jugando. El 10% de todo lo recaudado por la actividad dentro de los juegos se destina a recompensar a quienes ayudaron a construir la comunidad. Esta comisión se distribuye en 5 niveles, de forma proporcional:</p>
+      <h2>{{ __('general.info.recompensas.titulo4') }}</h2>
+      <p>{{ __('general.info.recompensas.descripcion4') }}</p>
       <ul>
-        <li><strong>🔹 Bono directo (Nivel 1):</strong> 3.5%</li>
-        <li><strong>🔹 Nivel 2:</strong> 2.5%</li>
-        <li><strong>🔹 Nivel 3:</strong> 2%</li>
-        <li><strong>🔹 Nivel 4:</strong> 1%</li>
-        <li><strong>🔹 Nivel 5:</strong> 1%</li>
+        <li><strong>🔹 {{ __('general.info.recompensas.juego1') }}</strong></li>
+        <li><strong>🔹 {{ __('general.info.recompensas.juego2') }}</strong></li>
+        <li><strong>🔹 {{ __('general.info.recompensas.juego3') }}</strong></li>
+        <li><strong>🔹 {{ __('general.info.recompensas.juego4') }}</strong></li>
+        <li><strong>🔹 {{ __('general.info.recompensas.juego5') }}</strong></li>
       </ul>
-      <p><strong>🧠 Cada jugada cuenta:</strong> Las acciones dentro de tu estructura de recomendación se convierten en ingresos para ti, mientras la plataforma continúa creciendo de forma orgánica.</p>
+      <p><strong>{{ __('general.info.recompensas.descripcion5_titulo') }}</strong> {{ __('general.info.recompensas.descripcion5_texto') }}</p>
     </div>
   </div>
 
   <div class="row mt-5">
     <div class="col-md-12">
-      <h2>🔐 Un sistema diseñado para durar</h2>
+      <h2>{{ __('general.info.recompensas.titulo5') }}</h2>
       <ul>
-        <li><strong>💰 Sostenibilidad garantizada:</strong> Las recompensas por inversión se equilibran con el rendimiento operativo diario.</li>
-        <li><strong>🌟 Comparte, invita y gana:</strong> Solo comparte tu experiencia, invita a otros a jugar e invertir, y deja que el ecosistema trabaje para ti.</li>
+        <li><strong>💰 {{ __('general.info.recompensas.final1') }}</strong></li>
+        <li><strong>🌟 {{ __('general.info.recompensas.final2') }}</strong></li>
       </ul>
     </div>
   </div>
-
-  
 </div>
 @endsection

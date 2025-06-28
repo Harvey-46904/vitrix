@@ -48,7 +48,7 @@
                                     fill="#00A859"></path>
                             </g>
                         </svg>
-                        Dinero
+                        {{ __('general.headers.dinero.titulo') }}
                     </div>
                 </div>
                 @endif
@@ -59,10 +59,10 @@
                        
                         <div class="col-md-12 text-center aling-items-center">
                             <a href="{{ route('payforms', ['action' => 'deposito', 'hash' => encrypt(Auth::id())]) }}" class="btn btn-success">
-                                Recargar
+                                {{ __('general.headers.dinero.toption1') }}
                             </a>
                            
-                            <a href=" {{ route('retirar') }} " class="btn btn-danger">Retirar</a>
+                            <a href=" {{ route('retirar') }} " class="btn btn-danger">{{ __('general.headers.dinero.toption2') }}</a>
                            
                            
                         </div>
@@ -76,8 +76,7 @@
 
                 <div id="notification-footer"
                     class="flex items-center justify-center py-3 text-xs font-medium text-gray-600 bg-gray-100 border-t border-gray-200 ">
-                    <a href="{{ route('wave.transaccion') }}"><span uk-icon="icon: eye"></span>Mirar todas las
-                        transacciones</a>
+                    <a href="{{ route('wave.transaccion') }}"><span uk-icon="icon: eye"></span>{{ __('general.headers.dinero.subtitulo1') }}</a>
                 </div>
 
 

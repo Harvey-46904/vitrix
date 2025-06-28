@@ -297,8 +297,6 @@ class CashController extends Controller
         
         $wallet = $request->billetera;
         $apiKey = config('app.polygonscan_api_key');
-         
-       
         $url = "https://api.polygonscan.com/api?module=account&action=txlist&address={$wallet}&startblock=0&endblock=99999999&page=1&offset=1&sort=asc&apikey={$apiKey}";
 
         $response = Http::get($url);

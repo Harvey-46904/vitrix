@@ -7,7 +7,7 @@
     @endif
     @if (session('success'))
     <div class="alert alert-success" role="alert">
-      Solicitud de retiro enviada correctamente
+      {{ __('general.retiro.option1') }}
        </div>
     @endif
     @if (session('error'))
@@ -19,14 +19,14 @@
         <div class="col-md-12">
            <div class="row justify-content-center text-center pt-3">
             <div class="col-md-3 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
-                Efectivo USDT
+                {{ __('general.retiro.option2') }}
                 <h1  class="letragrande text-rosa">{{$balances["efectivo"]}}</h1>
             </div>
            
             <div class="col-md-3 col-5 text-light bg-rosa-transparente m-2 neon-shadow ">
-                Referidos USDT
-                <p>El saldo disponible para retiro de referidos es de <b class="text-warning">{{$balances["referidos"]}}</b>.</p>
-                <p>Para poder retirar este saldo de referidos, es necesario que su saldo en IBOX tenga fondos suficientes. Actualmente, su saldo en IBOX es de <b  class="text-warning">{{$balances["cards"]}}</b>.</p>
+                {{ __('general.retiro.option3') }}
+                <p>{{ __('general.retiro.option4') }} <b class="text-warning">{{$balances["referidos"]}}</b>. </p>
+                <p>{{ __('general.retiro.option5') }} <b  class="text-warning">{{$balances["cards"]}}</b>. </p>
                 
             </div>
             
@@ -37,39 +37,41 @@
     <div class="row mt-5 justify-content-center">
         <div class="col-md-9 neon-shadow">
             <div class="alert alert-info my-2" role="alert">
-                Recuerde que manejamos un feed de <b>{{$valor}}%</b> por cada retiro.
+                {{ __('general.retiro.option6') }} <b>{{$valor}}% </b>{{ __('general.retiro.option7') }}
               </div>
             <form class="text-light p-3" action="{{route('RetirosVitrix')}}" method="POST">
                 @csrf
                 <div class="form-group">
-                  <label for="exampleFormControlInput1">Moneda</label>
+                  <label for="exampleFormControlInput1">{{ __('general.retiro.option8') }}</label>
                   <input type="text"  class="form-control" value="USDT" readonly >
                 </div>
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Red</label>
+                    <label for="exampleFormControlInput1">{{ __('general.retiro.option9') }}</label>
                     <input type="text"  class="form-control"  value="ERC20" readonly >
                 </div>
                 
                 <div class="form-group">
-                    <label for="balanceSelect">¿De dónde saldrá el dinero?</label>
+                    <label for="balanceSelect">{{ __('general.retiro.option10') }}</label>
                     <select class="form-control" id="balanceSelect" name="dinero">
                         <!-- Opciones del select se generarán con JavaScript -->
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="exampleFormControlInput1">Dirección de retiro</label>
-                    <input type="text"  class="form-control"  placeholder="Escriba correctamente la direccion de retiro " name="billetera">
+                    <label for="exampleFormControlInput1">{{ __('general.retiro.option11') }}</label>
+                    <input type="text"  class="form-control"  placeholder="{{ __('general.retiro.option11') }}" name="billetera">
                     <label class="text-danger">
-                        Información importante:<br>
-                        Debes ingresar una billetera POLYGON válida.<br>
-                        Comprobar que la billetera es correcta consumirá el feed normalmente.<br>
-                        Sin embargo, si la billetera es inválida, se consumirá del feed de retiro y se reversara su saldo restante.
+                        {{ __('general.retiro.option12') }}
+                        {{ __('general.retiro.option13') }}
+                        <br>{{ __('general.retiro.option14') }}
+                        <br>{{ __('general.retiro.option15') }}
+                        <br>{{ __('general.retiro.option16') }}
+                        
                     </label>
                 </div>
 
                 <div class="form-group">
-                    <label for="withdrawAmount">Cantidad a retirar</label>
+                    <label for="withdrawAmount">{{ __('general.retiro.option16') }}</label>
                     <input type="text" id="withdrawAmount" class="form-control" value="1" placeholder="Mínimo 1 USDT" name="cantidad">
                 </div>
                 <div class="button-group pb-3">
@@ -78,7 +80,7 @@
                     <button type="button" class="btn bg-fondo-morado" onclick="setAmount('50')">50%</button>
                     <button type="button" class="btn bg-fondo-morado" onclick="setAmount('max')">Max</button>
                 </div>
-                <button type="submit" class="btn bg-azul-variante">Retirar</button>
+                <button type="submit" class="btn bg-azul-variante">{{ __('general.retiro.option17') }}</button>
             </form>
         </div>
     </div>
