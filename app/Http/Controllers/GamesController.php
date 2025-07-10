@@ -104,6 +104,7 @@ class GamesController extends Controller
                 ->lockForUpdate() // 🔒 Aquí bloqueas solo esas filas
                 ->get();
 
+            $this->cashService->AddMoneyBalance($sala->point4, $sala->precio_sala, "Ganador Speed Stakes");
             /*DB::table('salas')
                 ->where('id', $request->id_sala)
                 ->update(['estado' => 'option2']);*/
