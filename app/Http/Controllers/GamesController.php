@@ -87,6 +87,7 @@ class GamesController extends Controller
 
     public function CarsFinishGame(Request $request)
     {
+        //return response(["data"=>$request->all()]);
         $sala = Sala::find($request->id_sala);
 
         $name_sala = strtolower(str_replace(' ', '_', $sala->nombre_sala));
@@ -99,15 +100,22 @@ class GamesController extends Controller
         }
 
         DB::transaction(function () use ($request, $sala) {
+
+            $id_user=$request->id_user;
+
+            if($sala->point4==null){
+                $sala->point4=$id_user;
+                $sala->save();
+            }
             $apuestas = Apuestascar::where('sala_id', $request->id_sala)
                 ->where('estado', 'pendiente')
                 ->lockForUpdate() // 🔒 Aquí bloqueas solo esas filas
                 ->get();
 
             $this->cashService->AddMoneyBalance($sala->point4, $sala->precio_sala, "Ganador Speed Stakes");
-            /*DB::table('salas')
+            DB::table('salas')
                 ->where('id', $request->id_sala)
-                ->update(['estado' => 'option2']);*/
+                ->update(['estado' => 'option2']);
             // Simula un proceso largo (bloqueo activo)
             // sleep(10);
             foreach ($apuestas as $apuesta) {
@@ -362,7 +370,8 @@ class GamesController extends Controller
         }
 
         if ($evento_finalizado) {
-            return view('Unity.SalaGame', compact("eventosala", "evento_finalizado"));
+             $cerrar_apuestas=true;
+            return view('Unity.SalaGame', compact("eventosala", "evento_finalizado","cerrar_apuestas"));
         }
         if ($cerrar_apuestas) {
             return view('Unity.SalaGame', compact("eventosala", "cerrar_apuestas", "evento_finalizado"));

@@ -23,7 +23,7 @@
         $fechaDB = Carbon::parse($eventosala->fecha_juego); // Suponiendo que $sala->fecha es el dato de la BD
         @endphp
 
-        @if ($evento_finalizado)
+        @if ($evento_finalizado && 1==2)
         <div class="row bg-dark p-4">
             <div class="col-md-12">
                 <h1 class="display-1 text-light"> EVENTO FINALIZADO</h1>
