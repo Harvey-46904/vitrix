@@ -87,40 +87,67 @@ class GamesController extends Controller
 
     public function CarsFinishGame(Request $request)
     {
-        //return response(["data"=>$request->all()]);
-        $sala = Sala::find($request->id_sala);
+        // Verifica token antes de iniciar la transacción
+        $salaSinLock = Sala::find($request->id_sala);
 
-        $name_sala = strtolower(str_replace(' ', '_', $sala->nombre_sala));
+        if (! $salaSinLock) {
+            return response(["data" => "sala no encontrada"], 404);
+        }
 
-        $preparar = $sala->id . "&" . $name_sala;
+        $name_sala = strtolower(str_replace(' ', '_', $salaSinLock->nombre_sala));
+
+        $preparar = $salaSinLock->id . "&" . $name_sala;
         $hash     = md5($preparar);
 
         if ($hash != $request->token_sala) {
             return response(["data" => "error de tokenizado"]);
         }
 
-        DB::transaction(function () use ($request, $sala) {
+        DB::transaction(function () use ($request) {
 
-            $id_user=$request->id_user;
+            // Ahora sí bloqueamos la sala dentro de la transacción
+            $sala = Sala::where('id', $request->id_sala)
+                ->lockForUpdate()
+                ->first();
 
-            if($sala->point4==null){
-                $sala->point4=$id_user;
+            if (! $sala) {
+                throw new \Exception("Sala no encontrada durante la transacción");
+            }
+
+            $id_user = $request->id_user;
+
+            if ($sala->point4 == null) {
+                $sala->point4 = $id_user;
                 $sala->save();
             }
+
             $apuestas = Apuestascar::where('sala_id', $request->id_sala)
                 ->where('estado', 'pendiente')
-                ->lockForUpdate() // 🔒 Aquí bloqueas solo esas filas
+                ->lockForUpdate()
                 ->get();
 
-            $this->cashService->AddMoneyBalance($sala->point4, $sala->precio_sala, "Ganador Speed Stakes");
-            DB::table('salas')
-                ->where('id', $request->id_sala)
-                ->update(['estado' => 'option2']);
-            // Simula un proceso largo (bloqueo activo)
-            // sleep(10);
+            // Validar estado de pago del ganador
+            if ($sala->paywin != 1) {
+                $this->cashService->AddMoneyBalance(
+                    $sala->point4,
+                    $sala->precio_sala,
+                    "Ganador Speed Stakes"
+                );
+                $sala->paywin = 1;
+                $sala->save();
+            }
+
+            // Actualizar estado de la sala
+            $sala->estado = 'option2';
+            $sala->save();
+
             foreach ($apuestas as $apuesta) {
                 if ($apuesta->jugador == $sala->point4) {
-                    $this->cashService->AddMoneyBalance($apuesta->jugador_apostador, $apuesta->posible_ganancia, "Vitrix Cars");
+                    $this->cashService->AddMoneyBalance(
+                        $apuesta->jugador_apostador,
+                        $apuesta->posible_ganancia,
+                        "Vitrix Cars"
+                    );
                     $apuesta->estado = 'ganadora';
                 } else {
                     $apuesta->estado = 'perdida';
@@ -370,8 +397,8 @@ class GamesController extends Controller
         }
 
         if ($evento_finalizado) {
-             $cerrar_apuestas=true;
-            return view('Unity.SalaGame', compact("eventosala", "evento_finalizado","cerrar_apuestas"));
+            $cerrar_apuestas = true;
+            return view('Unity.SalaGame', compact("eventosala", "evento_finalizado", "cerrar_apuestas"));
         }
         if ($cerrar_apuestas) {
             return view('Unity.SalaGame', compact("eventosala", "cerrar_apuestas", "evento_finalizado"));
@@ -572,30 +599,26 @@ class GamesController extends Controller
 
     public function ApuestasSeperadas($id)
     {
-        $sala=DB::table("salas")->select("nombre_sala")->where("id",$id)->first();
+        $sala     = DB::table("salas")->select("nombre_sala")->where("id", $id)->first();
         $apuestas = DB::table('apuestascars')
             ->join('users', 'apuestascars.jugador', '=', 'users.id')
-           
+
             ->select(
-              
-              
-              
+
                 'users.username',
                 DB::raw('SUM(apuestascars.posible_ganancia) as total_ganancia'),
                 DB::raw('SUM(apuestascars.monto) as monto')
             )
             ->where('apuestascars.sala_id', $id)
             ->groupBy(
-              
-              
+
                 'users.username'
             )
             ->get();
 
         //return response(["sala" => $apuestas]);
-       
-      
-        return view("vendor.voyager.apuestas.index", compact("sala",'apuestas'));
+
+        return view("vendor.voyager.apuestas.index", compact("sala", 'apuestas'));
     }
 
     public function eventsala($id_sala, Request $request)
@@ -635,19 +658,19 @@ class GamesController extends Controller
     }
 
     public function prueba_sala()
-{
-    $sala = Sala::with([
-        'point1',
-        'point2',
-        'point3',
-        'point4',
-    ])->find(34);
+    {
+        $sala = Sala::with([
+            'point1',
+            'point2',
+            'point3',
+            'point4',
+        ])->find(34);
 
-    return response([
-        'point1_id' => $sala->point1, // esto será el ID
-        'relation_loaded' => $sala->relationLoaded('point1'), // debe ser true
-        'user_data' => $sala->getRelationValue('point1'),
-        'username' => optional($sala->getRelationValue('point1'))->username, // o nameuser si ese es el nombre real
-    ]);
-}
+        return response([
+            'point1_id'       => $sala->point1,                   // esto será el ID
+            'relation_loaded' => $sala->relationLoaded('point1'), // debe ser true
+            'user_data'       => $sala->getRelationValue('point1'),
+            'username'        => optional($sala->getRelationValue('point1'))->username, // o nameuser si ese es el nombre real
+        ]);
+    }
 }
