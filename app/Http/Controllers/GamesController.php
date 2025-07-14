@@ -228,7 +228,7 @@ class GamesController extends Controller
         if ($frpActual > 98) {
             $multiplicadorMax = 1.5; // Si el FRP es alto, reducimos el multiplicador
         } elseif ($frpActual < 95) {
-            $multiplicadorMax = 3.0; // Si el FRP es bajo, permitimos multiplicadores más altos
+            $multiplicadorMax = 1.8; // Si el FRP es bajo, permitimos multiplicadores más altos
         }
 
         // Generar un multiplicador aleatorio en el rango ajustado
