@@ -144,8 +144,8 @@ function calcular(p){
 	<script>
     window.trans = {
         realizar_compra: "{{ __('general.compras.option1') }}",
-        saldo_insuficiente: "{{ __('general.compras.option2') }}",
-        saldo_disponible: "{{ __('general.compras.option3') }}",
+        saldo_insuficiente: "{{ __('general.compras.option3') }}",
+        saldo_disponible: "{{ __('general.compras.option2') }}",
         no_saldo: "{{ __('general.compras.option4') }}",
 		cancelar: "{{ __('general.compras.cancelar') }}",
 		comprar: "{{ __('general.compras.comprar') }}",
