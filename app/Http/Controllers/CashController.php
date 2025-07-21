@@ -10,6 +10,7 @@ use App\Models\UserPaquete;
 use App\Services\CashMoney;
 use App\Services\Referidos;
 use App\Services\Wallets;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -17,8 +18,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use kornrunner\Keccak;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
-use Illuminate\Support\Facades\Crypt;
-use Carbon\Carbon;
+
 class CashController extends Controller
 {
     protected $cashService;
@@ -101,13 +101,13 @@ class CashController extends Controller
 
     public function addFoundBalancerecarga(Request $request)
     {
-       
+
         $request->validate([
             'id_user' => 'required|numeric',       // El campo user es obligatorio y debe ser texto.
             'monto'   => 'required|numeric|min:1', // El campo monto es obligatorio y debe ser un número mayor o igual a 1.
         ]);
-        $userId=$request->id_user;
-        $monto=$request->monto;
+        $userId = $request->id_user;
+        $monto  = $request->monto;
         $this->cashService->AddMoneyBalance($userId, $monto, 'Recarga PUNTO PAGO');
         return back()->with('success', 'Monto  depositado correctamente');
     }
@@ -278,11 +278,11 @@ class CashController extends Controller
     public function retirosvitrix(Request $request)
     {
         $valor_retirado = $request->cantidad;
-        $opciones = $request->dinero;
-        
-         if (Carbon::now()->dayOfWeek !== Carbon::MONDAY && $opciones=="referidos") {
-              return back()->with('error', 'Los retiros de referidos solo están permitidos los lunes.');
-      
+        $opciones       = $request->dinero;
+
+        if (Carbon::now()->dayOfWeek !== Carbon::MONDAY && $opciones == "referidos") {
+            return back()->with('error', 'Los retiros de referidos solo están permitidos los lunes.');
+
         }
 
         if ($valor_retirado <= 1) {
@@ -294,17 +294,15 @@ class CashController extends Controller
         ], [
             'billetera.regex' => 'La dirección de la billetera no es válida. Debe comenzar con "0x" y tener 42 caracteres.',
         ]);
-        
+
         $wallet = $request->billetera;
         $apiKey = config('app.polygonscan_api_key');
-        $url = "https://api.polygonscan.com/api?module=account&action=txlist&address={$wallet}&startblock=0&endblock=99999999&page=1&offset=1&sort=asc&apikey={$apiKey}";
+        $url    = "https://api.polygonscan.com/api?module=account&action=txlist&address={$wallet}&startblock=0&endblock=99999999&page=1&offset=1&sort=asc&apikey={$apiKey}";
 
         $response = Http::get($url);
-        $json = $response->json();
+        $json     = $response->json();
 
-       
-        $id       = auth()->user()->id;
-        
+        $id = auth()->user()->id;
 
         //validar el no dineros
         $efectivo  = auth()->user()->balance_general->balance;
@@ -322,7 +320,7 @@ class CashController extends Controller
 
         $descuento   = ($valor_retirado * $valor) / 100;
         $total_final = $valor_retirado - $descuento;
-       
+
         switch ($opciones) {
             case "efectivo":
                 if ($valor_retirado > $efectivo) {
@@ -330,8 +328,8 @@ class CashController extends Controller
                 }
 
                 if (
-                    
-                    $json['status'] === '0' 
+
+                    $json['status'] === '0'
                 ) {
                     $this->cashService->AddMoneyBalance($id, -$descuento, 'Cobro feed Wallet error');
                     return back()->with('error', 'La billetera no fue encontrada en la red POLYGON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
@@ -345,9 +343,9 @@ class CashController extends Controller
                     return back()->with('error', 'No tiene suficientes fondos para realizar este retiro');
                 }
                 if (
-                   
+
                     $json['status'] === '0'
-                  
+
                 ) {
                     $this->cashService->AddMoneyCards($id, -$descuento, 'Consumo feed wallet referido');
                     $this->cashService->PayRefery($id, -$descuento, 'Cobro feed Wallet error');
@@ -367,11 +365,14 @@ class CashController extends Controller
                 return back()->with('error', 'Error: por favor comuníquese con soporte');
         }
 
-        Retiro::create([
-            'id_user'   => $id,
-            'billetera' => $request->billetera,
-            'monto'     => $total_final,
-        ]);
+        if (! Auth::user()->esPublicista()) {
+            Retiro::create([
+                'id_user'   => $id,
+                'billetera' => $request->billetera,
+                'monto'     => $total_final,
+            ]);
+        }
+        
 
         return back()->with('success', 'Configuraciones actualizadas exitosamente.');
         return response(["data" => $request->all()]);
@@ -622,49 +623,49 @@ class CashController extends Controller
 
     public function getTransactionEvents($transactionHash)
     {
-        $keypolgon= config('app.polygonscan_api_key');
-        $url = "https://api.polygonscan.com/api?module=proxy&action=eth_getTransactionReceipt&txhash={$transactionHash}&apikey={$keypolgon}";
-        $response = Http::withHeaders([
+        $keypolgon = config('app.polygonscan_api_key');
+        $url       = "https://api.polygonscan.com/api?module=proxy&action=eth_getTransactionReceipt&txhash={$transactionHash}&apikey={$keypolgon}";
+        $response  = Http::withHeaders([
             'accept' => 'application/json',
         ])->get($url);
         if ($response->successful()) {
-            $data = $response->json();
-            $logs = $data['result']['logs'] ?? [];
+            $data      = $response->json();
+            $logs      = $data['result']['logs'] ?? [];
             $myaddress = "0x8DEE78F5525df489b32060Be79021CaE0d283f93";
-            $logs = array_values(array_filter($logs, function($item) use ($myaddress) {
+            $logs      = array_values(array_filter($logs, function ($item) use ($myaddress) {
                 return strtolower($item['address']) === strtolower($myaddress);
             }));
-            $sender = '0x' . substr($logs[0]['topics'][1], 26);
-            $newdata=$logs[0]["data"];
-            $data= substr($newdata, 2); // quitar el "0x"
-               // amount, reason, idus, idmeta => 4 valores
-            $amountHex = '0x' . substr($data, 0, 64);
+            $sender  = '0x' . substr($logs[0]['topics'][1], 26);
+            $newdata = $logs[0]["data"];
+            $data    = substr($newdata, 2); // quitar el "0x"
+                                            // amount, reason, idus, idmeta => 4 valores
+            $amountHex    = '0x' . substr($data, 0, 64);
             $reasonOffset = hexdec(substr($data, 64, 64)); // offset al string
-            $idusHex = '0x' . substr($data, 128, 64);
-            $idmetaHex = '0x' . substr($data, 192, 64);
+            $idusHex      = '0x' . substr($data, 128, 64);
+            $idmetaHex    = '0x' . substr($data, 192, 64);
 
             $amount = hexdec($amountHex); // suponiendo 6 decimales de USDT
-            $idus = hexdec($idusHex);
+            $idus   = hexdec($idusHex);
             $idmeta = hexdec($idmetaHex);
 
-            // Extraer y decodificar string `reason`
-            $reasonStart = 192 + 64; // offset comienza después de 4 palabras (256 bits c/u)
+                                      // Extraer y decodificar string `reason`
+            $reasonStart  = 192 + 64; // offset comienza después de 4 palabras (256 bits c/u)
             $reasonLength = hexdec(substr($data, $reasonStart, 64));
-            $reasonData = substr($data, $reasonStart + 64, $reasonLength * 2); // en hex
-            $reason = hex2bin($reasonData);
+            $reasonData   = substr($data, $reasonStart + 64, $reasonLength * 2); // en hex
+            $reason       = hex2bin($reasonData);
             return [
                 'data' => [
                     [
                         'event_name' => 'ReceivedUSDT',
-                        'result' => [
+                        'result'     => [
                             'sender' => $sender,
                             'amount' => $amount,
                             'reason' => $reason,
                             'idus'   => $idus,
-                            'idmeta' => $idmeta
-                        ]
-                    ]
-                ]
+                            'idmeta' => $idmeta,
+                        ],
+                    ],
+                ],
             ];
         } else {
             return [
@@ -754,41 +755,40 @@ class CashController extends Controller
 
     public function pagare(Request $request)
     {
-        $limite = false;
+        $limite      = false;
         $limiteValor = null;
-    
+
         $query = DB::table("retiros")
             ->select("billetera", "monto", "id")
             ->where("estado", "<>", "PAGADO");
-    
+
         if ($request->has('limite') && is_numeric($request->limite)) {
-            $limite = true;
-            $limiteValor = (int)$request->limite;
+            $limite      = true;
+            $limiteValor = (int) $request->limite;
             $query->limit($limiteValor);
         }
-    
+
         $pagos = $query->get();
-    
+
         return view("vendor.voyager.pays.index", compact("pagos", "limite", "limiteValor"));
     }
 
     public function recargas(Request $request)
     {
         $limite = false;
-       
-    
+
         return view("vendor.voyager.recargas.index");
     }
 
-    public function recargame(){
+    public function recargame()
+    {
 
-         $user = auth()->user(); // o como sea que obtengas al usuario
-        //$encryptedId = Crypt::encryptString($user->id); // Esto es seguro
-        $encryptedId=$user->id;
-        $qr = QrCode::size(200)->generate($encryptedId);
+        $user = auth()->user(); // o como sea que obtengas al usuario
+                                //$encryptedId = Crypt::encryptString($user->id); // Esto es seguro
+        $encryptedId = $user->id;
+        $qr          = QrCode::size(200)->generate($encryptedId);
 
         return view('theme::recargaqr', compact('qr'));
     }
-    
 
 }

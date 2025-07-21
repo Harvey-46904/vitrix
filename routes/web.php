@@ -56,6 +56,7 @@ Route::get('roomi','GamesController@createRoom')->name("room");
 Route::get('pruebitas',"GamesController@prueba_sala");
 
 
+
 Route::get('/lang/{lang}', function ($lang) {
     session(['lang' => $lang]);
     app()->setLocale($lang);

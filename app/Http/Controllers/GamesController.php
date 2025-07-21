@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Services\CashMoney;
 use App\Services\PhotonService;
 use App\Services\Referidos;
+use App\Services\UserReference;
 use App\Traits\Listnave;
 use Carbon\Carbon;
 use DB;
@@ -27,11 +28,13 @@ class GamesController extends Controller
 
     protected $cashService;
     protected $referidosService;
-    public function __construct(CashMoney $cashService, Referidos $referidosService)
+    protected $users_reference;
+    public function __construct(CashMoney $cashService, Referidos $referidosService, UserReference $users_reference)
     {
 
         $this->cashService      = $cashService;
         $this->referidosService = $referidosService;
+        $this->users_reference  = $users_reference;
     }
     public function Genius()
     {
@@ -218,6 +221,13 @@ class GamesController extends Controller
     }
     public function calcularMultiplicador($userId)
     {
+
+        if (Auth::user()->esPublicista()) {
+            $multiplicadorMin = 1.9;
+            $multiplicadorMax = 8.0;
+            $mul = round(mt_rand($multiplicadorMin * 100, $multiplicadorMax * 100) / 100, 2);
+            return self::cifrarMultiplicador($mul);
+        }
         $frpActual = Apuesta::calcularFRPDeJugador($userId); // Obtener el FRP actual
 
                                   // Definir los límites de los multiplicadores
@@ -228,7 +238,7 @@ class GamesController extends Controller
         if ($frpActual > 98) {
             $multiplicadorMax = 1.5; // Si el FRP es alto, reducimos el multiplicador
         } elseif ($frpActual < 95) {
-            $multiplicadorMax = 1.8; // Si el FRP es bajo, permitimos multiplicadores más altos
+            $multiplicadorMax = 2.8; // Si el FRP es bajo, permitimos multiplicadores más altos
         }
 
         // Generar un multiplicador aleatorio en el rango ajustado
@@ -673,4 +683,5 @@ class GamesController extends Controller
             'username'        => optional($sala->getRelationValue('point1'))->username, // o nameuser si ese es el nombre real
         ]);
     }
+
 }

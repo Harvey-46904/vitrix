@@ -1,15 +1,15 @@
 <?php
-
 namespace App\Models;
-
-use Illuminate\Notifications\Notifiable;
-use Wave\User as Authenticatable;
-use DB;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 use App\Models\UserBalance;
 use App\Models\UserBono;
 use App\Models\UserInversion;
+use DB;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
+use TCG\Voyager\Models\Role;
+use Wave\User as Authenticatable;
+
 class User extends Authenticatable
 {
     use Notifiable;
@@ -48,7 +48,15 @@ class User extends Authenticatable
         'trial_ends_at' => 'datetime',
     ];
 
+    public function misroles()
+    {
+        return $this->roles()->pluck('name')->toArray();
+    }
 
+    public function esPublicista()
+    {
+        return in_array('publicista', $this->misroles());
+    }
 
     public function referidos($userId)
     {
@@ -58,14 +66,15 @@ class User extends Authenticatable
             ->select('referred_user_id')
             ->get();
     }
-    public function referido():HasMany{
-             return $this->hasMany(Referido::class, 'user_id', 'id');
+    public function referido(): HasMany
+    {
+        return $this->hasMany(Referido::class, 'user_id', 'id');
     }
     public function referidosEnTresNiveles($userId, $niveles)
     {
-        $resultados = [];
+        $resultados  = [];
         $actualNivel = [$userId];
-        $totales=0;
+        $totales     = 0;
         for ($i = 1; $i <= $niveles; $i++) {
             // Obtener referidos del nivel actual
             $referidos = \DB::table('referidos')
@@ -75,7 +84,7 @@ class User extends Authenticatable
 
             // Guardar el nivel actual de referidos en el array de resultados
             $resultados["nivel_$i"] = $referidos;
-            $totales +=  count($referidos);
+            $totales += count($referidos);
             // Si no hay más referidos en el nivel actual, romper el bucle
             if (empty($referidos)) {
                 break;
@@ -87,14 +96,13 @@ class User extends Authenticatable
 
         return $resultados = [
             'referidos' => $resultados,
-            'conteo' => $totales,
+            'conteo'    => $totales,
         ];
-     
-    
+
     }
     public function referidoPrincipalHaciaArriba($userId, $niveles)
     {
-        $resultados = [];
+        $resultados   = [];
         $actualUserId = $userId;
 
         for ($i = 1; $i <= $niveles; $i++) {
@@ -118,7 +126,6 @@ class User extends Authenticatable
         return $resultados;
     }
 
-
     public function balance_general()
     {
         return $this->hasOne(UserBalance::class);
@@ -139,6 +146,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserCard::class);
     }
-    
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'user_roles');
+    }
 
 }
