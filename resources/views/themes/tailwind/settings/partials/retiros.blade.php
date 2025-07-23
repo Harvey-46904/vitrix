@@ -47,7 +47,7 @@
                 </div>
                 <div class="form-group">
                     <label for="exampleFormControlInput1">{{ __('general.retiro.option9') }}</label>
-                    <input type="text"  class="form-control"  value="ERC20" readonly >
+                    <input type="text"  class="form-control"  value="POLYGON" readonly >
                 </div>
                 
                 <div class="form-group">
