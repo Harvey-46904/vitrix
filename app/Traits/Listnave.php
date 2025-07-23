@@ -15,7 +15,7 @@ trait Listnave
         $ultimo_evento=$this->ultimo_evento();
         $precio=$ultimo_evento->precio;
         $comision=$ultimo_evento->comision;
-        $naveeventos = Naveevento::with(['user:id,name'])
+        $naveeventos = Naveevento::with(['user:id,name,username'])
         ->where("id_evento", $ultimo_evento->id)
         ->get();
      
@@ -27,7 +27,7 @@ trait Listnave
     // Ordenar en PHP después de descifrar
     $naveeventos = $naveeventos->sortByDesc(function ($evento) {
         return (int) $evento->puntuacion; // Asegurar que es un número
-    })->values()->take(5); // Reindexar el array
+    })->values()->take(10); // Reindexar el array
         //return response(["hola"=>$naveeventos]);
     
         $nave=[

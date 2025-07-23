@@ -181,7 +181,7 @@
                         @foreach ($eventos["lista"] as $item)
                         <tr>
                             <th scope="row">{{ $loop->iteration }}</th>
-                            <td>{{$item->user->name}}</td>
+                            <td>{{$item->user->username}}</td>
                             <td> <i class="fas fa-clock"></i>{{$item->tiempo}}</td>
                             <td> <i class="fas fa-star"></i>{{$item->puntuacion}}</td>
                         </tr>
