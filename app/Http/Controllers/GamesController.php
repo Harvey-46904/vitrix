@@ -231,14 +231,14 @@ class GamesController extends Controller
         $frpActual = Apuesta::calcularFRPDeJugador($userId); // Obtener el FRP actual
 
                                   // Definir los límites de los multiplicadores
-        $multiplicadorMin = 1.01; // Mínimo (evita valores demasiado bajos)
-        $multiplicadorMax = 3.0;  // Máximo (controla pagos altos)
+        $multiplicadorMin = 1.6; // Mínimo (evita valores demasiado bajos)
+        $multiplicadorMax = 2.0;  // Máximo (controla pagos altos)
 
         // Ajustar el multiplicador según el FRP
         if ($frpActual > 98) {
-            $multiplicadorMax = 1.5; // Si el FRP es alto, reducimos el multiplicador
+            $multiplicadorMax = 2.5; // Si el FRP es alto, reducimos el multiplicador
         } elseif ($frpActual < 95) {
-            $multiplicadorMax = 2.8; // Si el FRP es bajo, permitimos multiplicadores más altos
+            $multiplicadorMax = 4.5; // Si el FRP es bajo, permitimos multiplicadores más altos
         }
 
         // Generar un multiplicador aleatorio en el rango ajustado
