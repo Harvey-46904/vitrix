@@ -129,16 +129,21 @@
     <script src="{{ asset('js/app.js') }}"></script>
 
     <script>
-        @if(auth()->check())
-            window.Echo.private(`balances.{{ auth()->user()->id }}`) // Reemplazamos USER_ID con el id del usuario autenticado
-            .listen('.BalanceUpdated', (data) => {
-    
-                document.getElementById("balance_efectivo").innerText = `$${parseFloat(data.balance.replace(/[^0-9.-]+/g, '')).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-            });
-        @else
-           
-            console.log('Usuario no autenticado');
-        @endif
+   document.addEventListener('DOMContentLoaded', function () {
+    @if(auth()->check())
+        if (window.Echo) {
+            window.Echo.private(`balances.{{ auth()->user()->id }}`)
+                .listen('.BalanceUpdated', (data) => {
+                    console.log('entro');
+                    document.getElementById("balance_efectivo").innerText = `$${parseFloat(data.balance.replace(/[^0-9.-]+/g, '')).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                });
+        } else {
+            console.error('Echo no está definido aún');
+        }
+    @else
+        console.log('Usuario no autenticado');
+    @endif
+});
     </script>
 
 
