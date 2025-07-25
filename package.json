@@ -7,13 +7,13 @@
     "@tronweb3/walletconnect-tron": "^3.0.0",
     "dotenv": "^16.4.5",
     "ethers": "^6.14.1",
-    "laravel-echo": "^1.17.0",
-    "pusher-js": "^8.4.0-rc2",
     "tronweb": "^6.0.0"
   },
   "type": "module",
   "devDependencies": {
-    "laravel-mix": "^6.0.49"
+    "laravel-echo": "^1.19.0",
+    "laravel-mix": "^6.0.49",
+    "pusher-js": "^8.4.0"
   },
   "scripts": {
     "dev": "npm run development",

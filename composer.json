@@ -11,7 +11,6 @@
         "php": "^8.1",
         "ext-exif": "*",
         "ext-gd": "*",
-        "beyondcode/laravel-websockets": "^1.14",
         "devdojo/app": "0.11.0",
         "devdojo/themes": "0.0.7",
         "guzzlehttp/guzzle": "^7.2",

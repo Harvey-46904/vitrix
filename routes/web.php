@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use TCG\Voyager\Facades\Voyager;
 use Wave\Facades\Wave;
+use App\Events\MensajeAdmin;
+
+Route::get('/emitir', function () {
+    broadcast(new MensajeAdmin('Hola desde Laravel Reverb!'));
+    return 'Mensaje enviado';
+});
+
 
 // Authentication routes
 Auth::routes();

@@ -45,6 +45,16 @@ class GamesController extends Controller
         return response(["data"=>"esperalo pronto"]); */
         return view('Unity.GeniusV', compact("token"));
     }
+
+      public function Velas()
+    {
+        $token = self::getToken();
+        /* return view('Unity.unity-game',compact("token"));
+         return view('Unity.espectativa');
+       
+        return response(["data"=>"esperalo pronto"]); */
+        return view('Unity.velas', compact("token"));
+    }
     public function Navial()
     {
         $evento = $this->ultimo_evento();

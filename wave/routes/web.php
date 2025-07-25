@@ -126,6 +126,8 @@ Route::group(['middleware' => ['auth']], function(){
   Route::get('/juego', "GamesController@Genius")->name("unity-game");
 
   Route::get('/genius', "GamesController@Genius")->name("genius");
+  Route::get('/velas', "GamesController@Velas")->name("Velas");
+  
   Route::get('/navial', "GamesController@Navial")->name("navial");
   Route::get('cars/{id}', "GamesController@Cars")->name("cars");
   Route::get('/get-token', "GamesController@getToken")->name("GetToken");

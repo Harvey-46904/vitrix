@@ -3,14 +3,22 @@ import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
 
-window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: 'vitrixcasino',
-    wsHost: window.location.hostname,
-    wsPort: 6001,
-    wssPort: 6001,
-    forceTLS: false,
-    disableStats: true,
+const echo = new Echo({
+    broadcaster: 'reverb',
+    key: process.env.MIX_REVERB_APP_KEY,
+    cluster: process.env.MIX_REVERB_APP_CLUSTER,
+    wsHost: process.env.MIX_REVERB_HOST,
+    wsPort: process.env.MIX_REVERB_PORT,
+    wssPort: process.env.MIX_REVERB_PORT,
+    forceTLS: (process.env.MIX_REVERB_SCHEME ?? 'https') === 'https',
     enabledTransports: ['ws', 'wss'],
-    cluster: 'mt1',
 });
+
+echo.channel('chat')
+    .listen('.nuevo-mensaje', (e) => {
+        console.log('Evento recibido:', e.mensaje);
+    });
+
+export default echo;
+
+
