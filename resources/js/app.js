@@ -2,7 +2,7 @@ import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
 
 window.Pusher = Pusher;
-
+/*
 const echo = new Echo({
   broadcaster: 'reverb',
   key: process.env.MIX_REVERB_APP_KEY,
@@ -12,6 +12,17 @@ const echo = new Echo({
   forceTLS: (process.env.MIX_REVERB_SCHEME ?? 'https') === 'https',
   path: process.env.MIX_REVERB_PATH,     // `/app`
   enabledTransports: ['ws', 'wss'],
+});*/
+
+const echo = new Echo({
+    broadcaster: 'reverb',
+    key: 'yqm2nb6artaghbaqs7mx',
+    wsHost: 'vitrix.io',
+    wsPort: 443,
+    wssPort: 443,
+    forceTLS: true,
+    enabledTransports: ['ws', 'wss'],
+    path: '/reverb',
 });
 
 echo.channel('chat')
