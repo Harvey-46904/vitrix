@@ -1,3 +1,6 @@
+/public/js/*
+/public/css/*
+/public/build/*
 /node_modules
 /public/hot
 /public/storage
