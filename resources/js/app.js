@@ -11,6 +11,7 @@ const echo = new Echo({
     wsPort: process.env.MIX_REVERB_PORT,
     wssPort: process.env.MIX_REVERB_PORT,
     forceTLS: (process.env.MIX_REVERB_SCHEME ?? 'https') === 'https',
+    path: process.env.MIX_REVERB_PATH,
     enabledTransports: ['ws', 'wss'],
 });
 
