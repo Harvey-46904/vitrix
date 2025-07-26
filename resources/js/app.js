@@ -10,8 +10,9 @@ const echo = new Echo({
     wsHost: process.env.MIX_REVERB_HOST,
     wsPort: process.env.MIX_REVERB_PORT,
     wssPort: process.env.MIX_REVERB_PORT,
-    forceTLS: (process.env.MIX_REVERB_SCHEME ?? 'https') === 'https',
-    enabledTransports: ['ws', 'wss'],
+    forceTLS: false,
+    disableStats: true,
+    enabledTransports: ['ws'],
 });
 
 echo.channel('chat')
