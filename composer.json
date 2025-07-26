@@ -79,11 +79,5 @@
         "allow-plugins": {
             "pestphp/pest-plugin": true
         }
-    },
-    "repositories": {
-        "hooks": {
-            "type": "composer",
-            "url": "https://larapack.io"
-        }
     }
 }

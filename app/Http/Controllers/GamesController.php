@@ -242,7 +242,7 @@ class GamesController extends Controller
 
                                   // Definir los límites de los multiplicadores
         $multiplicadorMin = 1.6; // Mínimo (evita valores demasiado bajos)
-        $multiplicadorMax = 2.0;  // Máximo (controla pagos altos)
+        $multiplicadorMax = 3.0;  // Máximo (controla pagos altos)
 
         // Ajustar el multiplicador según el FRP
         if ($frpActual > 98) {
