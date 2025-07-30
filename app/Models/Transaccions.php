@@ -9,7 +9,7 @@ class Transaccions extends Model
 {
     protected $table = 'user_transaccion';
     use HasFactory;
-    protected $fillable = ['user_id', 'amount','type','balance_after'];
+    protected $fillable = ['user_id', 'amount','type','balance_after','optional'];
 
     public function user()
     {

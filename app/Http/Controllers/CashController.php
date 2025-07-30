@@ -334,8 +334,9 @@ class CashController extends Controller
                     $this->cashService->AddMoneyBalance($id, -$descuento, 'Cobro feed Wallet error');
                     return back()->with('error', 'La billetera no fue encontrada en la red POLYGON. Verifica que esté correctamente escrita. (Este proceso ha consumido su feed)');
                 }
-
-                $this->cashService->AddMoneyBalance($id, -$valor_retirado, 'Solicitud de retiro Balance');
+                
+              $this->cashService->AddMoneyBalance($id, -$valor_retirado, 'Solicitud de retiro Balance',$wallet);
+               
                 break;
 
             case "referidos":
@@ -354,7 +355,7 @@ class CashController extends Controller
 
                 if ($referidos <= $cards) {
                     $this->cashService->AddMoneyCards($id, -$valor_retirado, 'Consumo Ibox retiro referido');
-                    $this->cashService->PayRefery($id, -$valor_retirado, 'Solicitud de retiro Referido');
+                    $this->cashService->PayRefery($id, -$valor_retirado, 'Solicitud de retiro Referido',$wallet);
                 } else {
                     return back()->with('error', 'No posee suficientes IBOX para realizar este retiro de referidos. Por favor recargue.');
                 }
@@ -383,7 +384,7 @@ class CashController extends Controller
         $id = auth()->user()->id;
 
         $transacciones = DB::table("user_transaccion")
-            ->select('id', 'user_id', 'amount', 'type', 'created_at')
+            ->select('id', 'user_id', 'amount', 'type', 'created_at',"optional")
             ->where('user_id', auth()->id())
             ->orderBy('created_at', 'desc')
             ->get()
@@ -391,7 +392,7 @@ class CashController extends Controller
             ->map(function ($group) {
                 return $group->take(5);
             });
-
+           // return response(["data"=>$transacciones]);
         return view('theme::notifications.Transacciones', compact('transacciones'));
     }
     public function generateQRs()

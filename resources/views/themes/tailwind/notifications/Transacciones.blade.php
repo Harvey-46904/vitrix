@@ -29,68 +29,89 @@
 		{{ __('general.headers.dinero.option6') }}
 	</h1>
 	<div class="uk-align-center">
-		<div class="bg-white rounded-md border border-gray-100 my-4"
-			role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+		<div class="bg-white rounded-md border border-gray-100 my-4" role="menu" aria-orientation="vertical"
+			aria-labelledby="options-menu">
 			@if (!$transacciones->isNotEmpty())
-			<div id="notifications-none" class=" bg-gray-150 flex items-center justify-center h-24 w-full text-gray-600 font-medium">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path></svg>
-                {{ __('general.headers.dinero.option7') }}
-            </div>
+			<div id="notifications-none"
+				class=" bg-gray-150 flex items-center justify-center h-24 w-full text-gray-600 font-medium">
+				<svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+						d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4">
+					</path>
+				</svg>
+				{{ __('general.headers.dinero.option7') }}
+			</div>
 			@else
 			<div class="relative">
 
 				<div id="botonera" class="d-flex flex-wrap gap-2 mb-3">
 					@foreach ($transacciones as $tipo => $items)
-						<button class="btn btn-secondary m-1" onclick="filtrar('{{ $tipo }}', this)">
-							{{ $tipo }}
-						</button>
+					<button class="btn btn-secondary m-1" onclick="filtrar('{{ $tipo }}', this)">
+						{{ $tipo }}
+					</button>
 					@endforeach
 				</div>
-				
+
 				<table class="table table-striped">
 					<thead>
 						<tr>
 							<th>#</th>
+
 							<th>{{ __('general.headers.dinero.option8') }}</th>
 							<th>{{ __('general.headers.dinero.option9') }}</th>
+							<th id="wallet" style="display:none;">Wallet</th>
 							<th>{{ __('general.headers.dinero.option10') }}</th>
 						</tr>
 					</thead>
 					<tbody id="tabla-transacciones">
 						@foreach ($transacciones as $tipo => $items)
-							@foreach ($items as $index => $item)
-								<tr class="fila-{{ $tipo }}">
-									<th>{{ $index + 1 }}</th>
-									<td>{{ $tipo }}</td>
-									<td>{{ $item->amount }}</td>
-									<td>{{ $item->created_at }}</td>
-								</tr>
-							@endforeach
+						@foreach ($items as $index => $item)
+						<tr class="fila-{{ $tipo }}">
+							<th>{{ $index + 1 }}</th>
+							<td>{{ $tipo }}</td>
+							<td>{{ $item->amount }}</td>
+							<td>{{ $item->created_at }}</td>
+						</tr>
+						@endforeach
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 			@endif
-			
 
-			
+
+
 		</div>
 	</div>
 
 </div>
 <script>
-    function filtrar(tipo, boton) {
+	function filtrar(tipo, boton) {
     let tbody = document.querySelector('tbody');
     tbody.innerHTML = ''; // Limpiar la tabla antes de insertar los nuevos datos
 
     if (transacciones[tipo]) { // Verificar si el tipo existe en el objeto
+let walletHeader = document.getElementById('wallet');
+let mostrarWallet = transacciones[tipo].some(item => item.optional);
+
+if (walletHeader) {
+    walletHeader.style.display = mostrarWallet ? '' : 'none';
+}
+
+
         transacciones[tipo].forEach((item, index) => {
-            let row = `<tr>
-                <th scope="row">${index + 1}</th>
-                <td>${item.type}</td>
-                <td>${item.amount}</td>
-                <td>${item.created_at}</td>
-            </tr>`;
+let optionalCell = item.optional 
+    ? `<td>${item.optional.trim() !== '' ? item.optional : 'No información'}</td>` 
+    : ``;
+
+    let row = `<tr>
+        <th scope="row">${index + 1}</th>
+        <td>${item.type}</td>
+        <td>${item.amount}</td>
+        ${optionalCell}
+        <td>${item.created_at}</td>
+    </tr>`;
             tbody.innerHTML += row; // Insertar fila en la tabla
         });
     } else {

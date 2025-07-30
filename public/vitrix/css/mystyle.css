@@ -521,3 +521,8 @@ body {
     background-position: center;
     min-height: 100vh;
 }
+
+.prose :where(strong):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+    color: #d2be02 !important;
+    font-weight: 600 !important;
+}
